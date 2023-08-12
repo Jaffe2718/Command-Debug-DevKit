@@ -1,0 +1,6 @@
+/.gradle/
+/.idea/
+/fabric/.gradle/
+/fabric/build/
+/fabric/run/
+/ide-debug-tool/build/

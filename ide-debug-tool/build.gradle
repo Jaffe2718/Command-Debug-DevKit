@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+}
+
+group = 'me.jaffe2718'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'me.jaffe2718.sckinj.IdeDebugTool'
+        )
+    }
+    from(rootDir.toPath().toString() + "/LICENSE") {
+        rename { "${it}_${project.archivesBaseName}"}
+    }
+}

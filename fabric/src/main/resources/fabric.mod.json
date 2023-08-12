@@ -1,0 +1,27 @@
+{
+    "schemaVersion": 1,
+    "id": "sckinj",
+    "version": "${version}",
+    "name": "Socket Injection Debugger",
+    "description": "This is a mod that provides a method to execute and debug Minecraft commands by external programs.",
+    "authors": [
+        "Jaffe2718"
+    ],
+    "contact": {
+        "homepage": "https://github.com/Jaffe2718",
+        "sources": "https://github.com/Jaffe2718/Socket-Injection-Debugger",
+        "issues": "https://github.com/Jaffe2718/Socket-Injection-Debugger/issues"
+    },
+    "license": "MIT",
+    "icon": "assets/sckinj/icon.png",
+    "environment": "client",
+    "entrypoints": {
+        "main": ["me.jaffe2718.sckinj.SocketInjector"],
+        "client": ["me.jaffe2718.sckinj.client.SocketInjectorClient"]
+    },
+    "depends": {
+        "fabricloader": ">=${loader_version}",
+        "fabric": "*",
+        "minecraft": "${minecraft_version}"
+    }
+}
