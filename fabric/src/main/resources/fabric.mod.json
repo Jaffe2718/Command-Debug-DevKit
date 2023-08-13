@@ -9,8 +9,8 @@
     ],
     "contact": {
         "homepage": "https://github.com/Jaffe2718",
-        "sources": "https://github.com/Jaffe2718/Socket-Injection-Debugger",
-        "issues": "https://github.com/Jaffe2718/Socket-Injection-Debugger/issues"
+        "issues": "https://github.com/Jaffe2718/Socket-Injection-Debugger/issues",
+        "sources": "https://github.com/Jaffe2718/Socket-Injection-Debugger"
     },
     "license": "MIT",
     "icon": "assets/sckinj/icon.png",
@@ -19,6 +19,9 @@
         "main": ["me.jaffe2718.sckinj.SocketInjector"],
         "client": ["me.jaffe2718.sckinj.client.SocketInjectorClient"]
     },
+    "mixins": [
+        "sckinj.mixins.json"
+    ],
     "depends": {
         "fabricloader": ">=${loader_version}",
         "fabric": "*",

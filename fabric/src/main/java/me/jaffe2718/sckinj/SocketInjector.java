@@ -18,7 +18,15 @@ public class SocketInjector implements ModInitializer {
      */
     public static Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    public static ServerSocket serverSocket = null;
+    /**
+     * The server socket used to listen for commands and execute them.
+     * */
+    public static ServerSocket executeCmdSocket = null;
+
+    /**
+     * The server socket used to listen for commands and send suggestions.
+     * */
+    public static ServerSocket suggestCmdSocket = null;
 
     /**
      * Runs the mod initializer.
@@ -27,8 +35,9 @@ public class SocketInjector implements ModInitializer {
     public void onInitialize() {
         LOGGER.info("Initializing SocketInjector...");
         try {
-            serverSocket = new ServerSocket(0);
-            LOGGER.info("Server socket created on localhost:" + serverSocket.getLocalPort());
+            executeCmdSocket = new ServerSocket(0);
+            suggestCmdSocket = new ServerSocket(0);
+            LOGGER.info("Server socket created on localhost:" + executeCmdSocket.getLocalPort());
         } catch (Exception e) {
             LOGGER.error("Failed to create server socket: " + e.getMessage());
         }

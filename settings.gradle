@@ -9,9 +9,7 @@ pluginManagement {
     }
 }
 
-include('example:java:socket-client')
 include('fabric')
-include('ide-debug-tool')
 
 rootProject.name = 'Socket-Injection-Debugger'
 
