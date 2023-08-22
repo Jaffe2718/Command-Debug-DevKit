@@ -1,11 +1,9 @@
 package me.jaffe2718.devkit.lang.psi;
 
-import com.intellij.lang.Language;
 import com.intellij.psi.tree.IElementType;
 import me.jaffe2718.devkit.lang.McFunctionLanguage;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class McFunctionTokenType extends IElementType {
     /**

@@ -1,7 +1,6 @@
 package me.jaffe2718.devkit.lang.psi;
 
 import com.intellij.extapi.psi.PsiFileBase;
-import com.intellij.lang.Language;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.FileViewProvider;
 import me.jaffe2718.devkit.filetype.McFunctionFileType;
