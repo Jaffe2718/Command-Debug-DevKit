@@ -1,0 +1,37 @@
+{
+    parserClass="me.jaffe2718.devkit.lang.parser.McFunctionParser"
+  parserUtilClass="me.jaffe2718.devkit.lang.parser.McFunctionParserUtil"
+
+    extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+    psiClassPrefix="McFunction"
+    psiImplClassSuffix="Impl"
+    psiPackage="me.jaffe2718.devkit.lang.psi"
+    psiImplPackage="me.jaffe2718.devkit.lang.psi.impl"
+
+    elementTypeHolderClass="me.jaffe2718.devkit.lang.psi.McFunctionTypes"
+    elementTypeClass="me.jaffe2718.devkit.lang.psi.McFunctionElementType"
+    tokenTypeClass="me.jaffe2718.devkit.lang.psi.McFunctionTokenType"
+
+}
+
+mcFunctionFile ::= item_*
+
+private item_ ::= (COMMAND|COMMENT|CRLF)
+
+COMMAND ::= (COMMAND_NAME ARGUMENT*)
+ARGUMENT ::= (NBT|STRING|NUMBER|REF|IDENTIFIER)
+REF ::= SELECTOR ("["TAG ARGUMENT {"," TAG ARGUMENT}* "]")?
+IDENTIFIER ::= NAMESPACE? ELEMENT NBT?
+
+NBT_PAIR ::= (NAMESPACE NBT_VALUE) | (STRING ":" NBT_VALUE)
+NBT_VALUE ::= (STRING|NUMBER|ELEMENT|NBT)
+NBT ::= "{" NBT_PAIR {"," NBT_PAIR}* "}" | EMPTY_NBT
+SYMBS_SET ::= ("{" | "[" | "(" | "}" | "]" | ")" | "," | ":" | "=" | "^" | "~" | "@")
+/*
+STRING "string"
+NUMBER 123 ~123 123.456 ~123.456 ^123.456 ^~123.456
+REF @a @e @p @r @s
+IDENTIFIER namespace:element element
+NBT {nbt}
+*/

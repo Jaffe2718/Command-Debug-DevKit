@@ -1,8 +1,8 @@
-package me.jaffe2718.sckinj.event;
+package me.jaffe2718.cmdkit.event;
 
-import me.jaffe2718.sckinj.SocketInjector;
-import me.jaffe2718.sckinj.client.SocketInjectorClient;
-import me.jaffe2718.sckinj.mixins.ChatScreenMixin;
+import me.jaffe2718.cmdkit.CommandDebugDevKit;
+import me.jaffe2718.cmdkit.client.CommandDebugDevKitClient;
+import me.jaffe2718.cmdkit.mixins.ChatScreenMixin;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 import net.minecraft.client.MinecraftClient;
@@ -48,12 +48,12 @@ public abstract class EventHandler {
     private static final Thread acceptExecuteSocketThread = new Thread(() -> {
         while (true) {
             try {
-                Socket clientSocket = SocketInjector.executeCmdSocket.accept();
+                Socket clientSocket = CommandDebugDevKit.executeCmdSocket.accept();
                 clientExecuteSockets.add(clientSocket);
                 buildClientSocketThread(clientSocket, true).start();
-                SocketInjector.LOGGER.info("Client socket accepted on localhost:" + clientSocket.getLocalPort());
+                CommandDebugDevKit.LOGGER.info("Client socket accepted on localhost:" + clientSocket.getLocalPort());
             } catch (IOException e) {
-                SocketInjector.LOGGER.error("Failed to accept client socket: " + e.getMessage());
+                CommandDebugDevKit.LOGGER.error("Failed to accept client socket: " + e.getMessage());
             }
         }
     });
@@ -71,12 +71,12 @@ public abstract class EventHandler {
     private static final Thread acceptSuggestSocketThread = new Thread(() -> {
         while (true) {
             try {
-                Socket clientSocket = SocketInjector.suggestCmdSocket.accept();
+                Socket clientSocket = CommandDebugDevKit.suggestCmdSocket.accept();
                 clientSuggestSockets.add(clientSocket);
                 buildClientSocketThread(clientSocket, false).start();
-                SocketInjector.LOGGER.info("Client socket accepted on localhost:" + clientSocket.getLocalPort());
+                CommandDebugDevKit.LOGGER.info("Client socket accepted on localhost:" + clientSocket.getLocalPort());
             } catch (IOException e) {
-                SocketInjector.LOGGER.error("Failed to accept client socket: " + e.getMessage());
+                CommandDebugDevKit.LOGGER.error("Failed to accept client socket: " + e.getMessage());
             }
         }
     });
@@ -90,13 +90,13 @@ public abstract class EventHandler {
             for (Socket clientSocket : clientExecuteSockets) {
                 if (clientSocket.isClosed() || !clientSocket.isConnected()) {
                     clientExecuteSockets.remove(clientSocket);
-                    SocketInjector.LOGGER.info("Client socket removed on localhost:" + clientSocket.getLocalPort());
+                    CommandDebugDevKit.LOGGER.info("Client socket removed on localhost:" + clientSocket.getLocalPort());
                 }
             }
             for (Socket clientSocket : clientSuggestSockets) {
                 if (clientSocket.isClosed() || !clientSocket.isConnected()) {
                     clientSuggestSockets.remove(clientSocket);
-                    SocketInjector.LOGGER.info("Client socket removed on localhost:" + clientSocket.getLocalPort());
+                    CommandDebugDevKit.LOGGER.info("Client socket removed on localhost:" + clientSocket.getLocalPort());
                 }
             }
         }
@@ -136,7 +136,7 @@ public abstract class EventHandler {
                         MinecraftClient.getInstance().player.networkHandler.sendChatCommand(cmd);
                     } else {  // get suggestion by read and send suggestion back
                         String cmd = br.readLine();  // get raw command temporarily
-                        List<String> suggestions = SocketInjectorClient.getCommandSuggestions(cmd);
+                        List<String> suggestions = CommandDebugDevKitClient.getCommandSuggestions(cmd);
                         PrintWriter pw = new PrintWriter(clientSocket.getOutputStream(), true);
                         for (String s : suggestions) {
                             pw.println(s);
@@ -201,12 +201,12 @@ public abstract class EventHandler {
         if (client.player == null) {
             shown = false;
         } else if (!shown) {
-            client.player.sendMessage(Text.of("§a§l[Socket Injection Debugger] §r§aThe Socket Server is running"), false);
+            client.player.sendMessage(Text.of("§a§l[Command Debug Service] §r§aThe Socket Server is running"), false);
             client.player.sendMessage(Text.of("§6For Command Execution"), false);
-            client.player.sendMessage(Text.of("  §6localhost:" + SocketInjector.executeCmdSocket.getLocalPort()), false);
+            client.player.sendMessage(Text.of("  §6localhost:" + CommandDebugDevKit.executeCmdSocket.getLocalPort()), false);
             // purple
             client.player.sendMessage(Text.of("§dFor Command Suggestion Service"), false);
-            client.player.sendMessage(Text.of("  §dlocalhost:" + SocketInjector.suggestCmdSocket.getLocalPort()), false);
+            client.player.sendMessage(Text.of("  §dlocalhost:" + CommandDebugDevKit.suggestCmdSocket.getLocalPort()), false);
             client.player.sendMessage(Text.of("Connect to this server with a socket client to send commands to the server or get command suggestions."), false);
             client.player.sendMessage(Text.of("§c§lWARNING: §r§cDo not share this host and port with untrusted clients!"), false);
             shown = true;

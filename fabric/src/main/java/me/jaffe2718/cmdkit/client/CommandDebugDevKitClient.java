@@ -1,9 +1,9 @@
-package me.jaffe2718.sckinj.client;
+package me.jaffe2718.cmdkit.client;
 
 import com.mojang.brigadier.suggestion.Suggestion;
 import com.mojang.brigadier.suggestion.Suggestions;
-import me.jaffe2718.sckinj.event.EventHandler;
-import me.jaffe2718.sckinj.mixins.ChatInputSuggestorMixin;
+import me.jaffe2718.cmdkit.event.EventHandler;
+import me.jaffe2718.cmdkit.mixins.ChatInputSuggestorMixin;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Environment(EnvType.CLIENT)
-public class SocketInjectorClient implements ClientModInitializer {
+public class CommandDebugDevKitClient implements ClientModInitializer {
 
     /**
      * Runs the mod initializer on the client environment.
@@ -28,7 +28,7 @@ public class SocketInjectorClient implements ClientModInitializer {
      * Get the command suggestions for the input
      * In this thread, MinecraftClient.getInstance().setScreen() can not be used,
      * this will cause the game to crash, java.lang.IllegalStateException: Rendersystem called from wrong thread
-     * So just set EventHandler.lastCommand = input, and in {@link me.jaffe2718.sckinj.event.EventHandler} will switch the screen
+     * So just set EventHandler.lastCommand = input, and in {@link me.jaffe2718.cmdkit.event.EventHandler} will switch the screen
      * */
     @Contract(pure = true)
     public static @NotNull List<String> getCommandSuggestions(@NotNull String input) {

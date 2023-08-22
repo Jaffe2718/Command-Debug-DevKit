@@ -1,0 +1,79 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>me.jaffe2718.devkit</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>Minecraft Command DevKit</name>
+    <version>1.0.0</version>
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="qqyttwqeei@163.com" url="https://www.yourcompany.com">Jaffe2718</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description>
+        <![CDATA[
+            <html>
+                <head>
+                    <style>
+                        h1 {
+                            font-size: 1.5em;
+                            font-weight: bold;
+                        }
+                        p {
+                            font-size: 1em;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>Minecraft Command Devkit for Socket Injection Debugger</h1>
+                    <p>
+                        This plugin is used to debug and edit *.mcfunction with the Socket Injection Debugger mod of Minecraft command.
+                    </p>
+                </body>
+            </html>
+        ]]>
+    </description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <completion.contributor
+                language="McFunction"
+                implementationClass="me.jaffe2718.devkit.lang.completion.McFunctionCompletionContributor"
+        />
+        <fileEditorProvider
+                implementation="me.jaffe2718.devkit.editor.McFunctionFileEditorProvider"
+        />
+        <fileType
+                name="Minecraft Function"
+                implementationClass="me.jaffe2718.devkit.filetype.McFunctionFileType"
+                fieldName="INSTANCE"
+                language="McFunction"
+                extensions="mcfunction"
+        />
+        <lang.parserDefinition
+                language="McFunction"
+                implementationClass="me.jaffe2718.devkit.lang.McFunctionParserDefinition"
+        />
+        <lang.syntaxHighlighterFactory
+                language="McFunction"
+                implementationClass="me.jaffe2718.devkit.lang.syntax.McFunctionSyntaxHighlighterFactory"
+        />
+        <lang.commenter
+                language="McFunction"
+                implementationClass="me.jaffe2718.devkit.lang.McFunctionCommenter"
+        />
+        <typedHandler
+                implementation="me.jaffe2718.devkit.lang.completion.McFunctionCompleteAutoPopupHandler"
+                order="first, before completionAutoPopup"
+        />
+    </extensions>
+
+</idea-plugin>

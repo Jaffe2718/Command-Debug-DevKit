@@ -1,4 +1,4 @@
-package me.jaffe2718.sckinj;
+package me.jaffe2718.cmdkit;
 
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
@@ -6,12 +6,12 @@ import org.slf4j.LoggerFactory;
 
 import java.net.ServerSocket;
 
-public class SocketInjector implements ModInitializer {
+public class CommandDebugDevKit implements ModInitializer {
 
     /**
      * The mod ID.
      */
-    public static final String MOD_ID = "sckinj";
+    public static final String MOD_ID = "cmdkit";
 
     /**
      * The mod logger.
@@ -33,7 +33,7 @@ public class SocketInjector implements ModInitializer {
      */
     @Override
     public void onInitialize() {
-        LOGGER.info("Initializing SocketInjector...");
+        LOGGER.info("Initializing CommandDebugDevKit...");
         try {
             executeCmdSocket = new ServerSocket(0);
             suggestCmdSocket = new ServerSocket(0);

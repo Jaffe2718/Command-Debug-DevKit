@@ -1,4 +1,4 @@
-package me.jaffe2718.sckinj.mixins;
+package me.jaffe2718.cmdkit.mixins;
 
 import net.minecraft.client.gui.screen.ChatInputSuggestor;
 import net.minecraft.client.gui.screen.ChatScreen;

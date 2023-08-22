@@ -3,7 +3,6 @@ plugins {
 }
 
 group = 'me.jaffe2718'
-version = project.mod_version
 
 repositories {
     mavenCentral()

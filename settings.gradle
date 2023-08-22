@@ -10,6 +10,7 @@ pluginManagement {
 }
 
 include('fabric')
+include('ide-plugin')
 
-rootProject.name = 'Socket-Injection-Debugger'
+rootProject.name = 'Command-Debug-DevKit'
 

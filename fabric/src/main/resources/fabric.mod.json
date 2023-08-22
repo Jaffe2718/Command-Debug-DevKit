@@ -1,9 +1,9 @@
 {
     "schemaVersion": 1,
-    "id": "sckinj",
+    "id": "cmdkit",
     "version": "${version}",
-    "name": "Socket Injection Debugger",
-    "description": "This is a mod that provides a method to execute and debug Minecraft commands by external programs.",
+    "name": "Command Debug Service",
+    "description": "This is a mod that provides a method to execute and debug Minecraft commands by external programs. It is used to be a command debug connect kit between Minecraft and external programs.",
     "authors": [
         "Jaffe2718"
     ],
@@ -13,14 +13,14 @@
         "sources": "https://github.com/Jaffe2718/Socket-Injection-Debugger"
     },
     "license": "MIT",
-    "icon": "assets/sckinj/icon.png",
+    "icon": "assets/cmdkit/icon.png",
     "environment": "client",
     "entrypoints": {
-        "main": ["me.jaffe2718.sckinj.SocketInjector"],
-        "client": ["me.jaffe2718.sckinj.client.SocketInjectorClient"]
+        "main": ["me.jaffe2718.cmdkit.CommandDebugDevKit"],
+        "client": ["me.jaffe2718.cmdkit.client.CommandDebugDevKitClient"]
     },
     "mixins": [
-        "sckinj.mixins.json"
+        "cmdkit.mixins.json"
     ],
     "depends": {
         "fabricloader": ">=${loader_version}",
