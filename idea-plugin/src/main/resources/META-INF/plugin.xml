@@ -8,7 +8,7 @@
     <name>Minecraft Command DevKit</name>
     <version>1.0.0</version>
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="qqyttwqeei@163.com" url="https://www.yourcompany.com">Jaffe2718</vendor>
+    <vendor email="qqyttwqeei@163.com" url="https://github.com/Jaffe2718">Jaffe2718</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
