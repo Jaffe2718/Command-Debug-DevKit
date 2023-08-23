@@ -1,4 +1,4 @@
-# Socket Injection Debugger
+# Command Debug DevKit
 
 ![Stars](https://img.shields.io/github/stars/Jaffe2718/Socket-Injection-Debugger?style=flat-square)
 ![Forks](https://img.shields.io/github/forks/Jaffe2718/Socket-Injection-Debugger?style=flat-square)

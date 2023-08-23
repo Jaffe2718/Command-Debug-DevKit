@@ -1,5 +1,9 @@
 package me.jaffe2718.devkit.action;
 
+import com.intellij.icons.ExpUiIcons;
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationType;
+import com.intellij.notification.Notifications;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataContext;
@@ -22,7 +26,7 @@ public class ExecuteWithoutLogAction extends AnAction {
     public ExecuteWithoutLogAction(McFunctionFileEditor target) {
         super("Execute Without Log",
                 "Send the commands in current file to the Minecraft instance to execute without logging.",
-                com.intellij.icons.AllIcons.Actions.Execute);
+                ExpUiIcons.Toolwindow.Run);
         this.targetEditor = target;
     }
 
@@ -82,7 +86,15 @@ public class ExecuteWithoutLogAction extends AnAction {
                     if (line.isEmpty()) continue;
                     Objects.requireNonNull(pw).println(line);
                 }
-                ApplicationManager.getApplication().invokeLater(() -> Messages.showInfoMessage("Commands sent to Minecraft.", "Success"));
+                ApplicationManager.getApplication().invokeLater(() ->
+                        Notifications.Bus.notify(
+                                new Notification("me.jaffe2718.devkit.notification",
+                                        "Minecraft Command DevKit",
+                                        "Commands sent to Minecraft successfully!",
+                                        NotificationType.INFORMATION)
+                        )
+                );
+                //ApplicationManager.getApplication().invokeLater(() -> Messages.showInfoMessage("Commands sent to Minecraft.", "Success"));
             } catch (Exception ignored) {}
         });
     }

@@ -1,9 +1,13 @@
 package me.jaffe2718.devkit.action;
 
 import com.intellij.icons.ExpUiIcons;
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationType;
+import com.intellij.notification.Notifications;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.Key;
@@ -58,8 +62,18 @@ public class ConnectCompletionAction extends AnAction {
             );
             editor.putUserData(k_completionList, new ArrayList<>());
             this.targetEditor.buildCompletionListenerThread().start();
+            ApplicationManager.getApplication().invokeLater(() -> {
+                Notifications.Bus.notify(
+                        new Notification(
+                                "me.jaffe2718.devkit.notification",
+                                "Minecraft Command DevKit",
+                                "Successfully connected to the Minecraft instance code completion service at " + hostPort + ".",
+                                NotificationType.INFORMATION
+                        )
+                );
+            });
         } catch (AssertionError ignored) {} catch (Exception ignored) {
-            Messages.showErrorDialog("Failed to connect to the Minecraft instance.", "Error");
+            Messages.showErrorDialog("Failed to connect to the Minecraft instance.", "Connection Failed");
         }
     }
 }

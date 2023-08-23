@@ -10,7 +10,8 @@ pluginManagement {
 }
 
 include('fabric')
-include('ide-plugin')
+include('idea-plugin')
+include('ide-debug-tool')
 
 rootProject.name = 'Command-Debug-DevKit'
 

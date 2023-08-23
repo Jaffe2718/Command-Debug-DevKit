@@ -48,8 +48,13 @@
                 language="McFunction"
                 implementationClass="me.jaffe2718.devkit.lang.completion.McFunctionCompletionContributor"
         />
+        <typedHandler
+                implementation="me.jaffe2718.devkit.lang.completion.McFunctionCompleteAutoPopupHandler"
+                order="first, before completionAutoPopup"
+        />
         <fileEditorProvider
                 implementation="me.jaffe2718.devkit.editor.McFunctionFileEditorProvider"
+                order="first"
         />
         <fileType
                 name="Minecraft Function"
@@ -70,10 +75,7 @@
                 language="McFunction"
                 implementationClass="me.jaffe2718.devkit.lang.McFunctionCommenter"
         />
-        <typedHandler
-                implementation="me.jaffe2718.devkit.lang.completion.McFunctionCompleteAutoPopupHandler"
-                order="first, before completionAutoPopup"
-        />
+        <notificationGroup displayType="BALLOON" id="me.jaffe2718.devkit.notification" />
     </extensions>
     <actions>
         <action class="me.jaffe2718.devkit.action.NewMcFunctionFileAction">

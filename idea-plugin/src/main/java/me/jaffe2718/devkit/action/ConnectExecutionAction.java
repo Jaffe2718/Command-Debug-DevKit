@@ -1,9 +1,13 @@
 package me.jaffe2718.devkit.action;
 
 import com.intellij.icons.ExpUiIcons;
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationType;
+import com.intellij.notification.Notifications;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.Key;
@@ -58,9 +62,18 @@ public class ConnectExecutionAction extends AnAction {
             PrintWriter executionPrintWriter = new PrintWriter(executionSocket.getOutputStream(), true);
             editor.putUserData(k_executionSocket, executionSocket);
             editor.putUserData(k_executionPrintWriter, executionPrintWriter);
-        } catch (AssertionError a) {
-            Messages.showErrorDialog("Could not connect to Minecraft instance: invalid host or port.", "Socket Connection Error");
-        } catch (Exception ignored) {
+            ApplicationManager.getApplication().invokeLater(() -> {
+                Notifications.Bus.notify(
+                        new Notification(
+                                "me.jaffe2718.devkit.notification",
+                                "Minecraft Command DevKit",
+                                "Successfully connected to the Minecraft instance command execution service at " + hostPort + ".",
+                                NotificationType.INFORMATION
+                        )
+                );
+            });
+        } catch (AssertionError ignore) {} catch (Exception ignored) {
+            Messages.showErrorDialog("Could not connect to Minecraft instance: invalid host or port.", "Connection Failed");
         }
     }
 }
