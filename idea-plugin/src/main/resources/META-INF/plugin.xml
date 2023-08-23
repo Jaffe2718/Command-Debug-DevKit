@@ -6,7 +6,7 @@
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
     <name>Minecraft Command DevKit</name>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="qqyttwqeei@163.com" url="https://github.com/Jaffe2718">Jaffe2718</vendor>
 

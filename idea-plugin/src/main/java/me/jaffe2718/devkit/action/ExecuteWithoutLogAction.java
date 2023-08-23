@@ -85,6 +85,7 @@ public class ExecuteWithoutLogAction extends AnAction {
                 for (String line: lines) {
                     if (line.isEmpty()) continue;
                     Objects.requireNonNull(pw).println(line);
+                    Thread.sleep(10);
                 }
                 ApplicationManager.getApplication().invokeLater(() ->
                         Notifications.Bus.notify(
