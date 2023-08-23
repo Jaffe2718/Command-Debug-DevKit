@@ -28,9 +28,15 @@
                     </style>
                 </head>
                 <body>
-                    <h1>Minecraft Command Devkit for Socket Injection Debugger</h1>
+                    <h1>Minecraft Command Devkit</h1>
                     <p>
-                        This plugin is used to debug and edit *.mcfunction with the Socket Injection Debugger mod of Minecraft command.
+                        This plugin is used to debug and edit *.mcfunction with the Minecraft mod Command Debug Service.
+                    </p>
+                    <p>
+                        <a href="https://github.com/Jaffe2718/Command-Debug-DevKit">Source Code</a>
+                    </p>
+                    <p>
+                        <a href="https://github.com/Jaffe2718/Command-Debug-DevKit/issues">Issue Tracker</a>
                     </p>
                 </body>
             </html>
