@@ -49,7 +49,6 @@ public class ExecuteAction extends AnAction {
             // check if ide-debug-tool-<version>.jar is present
             for (File jarfile : Objects.requireNonNull(libs.listFiles())) {
                 if (jarfile.getName().startsWith("ide-debug-tool-") && jarfile.getName().endsWith(".jar")) {
-                    // TODO: if so, execute it and return
                     executeInIDE(jarfile);
                     return;  // exit the method
                 }
