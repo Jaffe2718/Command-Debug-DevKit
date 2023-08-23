@@ -1,9 +1,9 @@
 # Command Debug DevKit
 
-![Stars](https://img.shields.io/github/stars/Jaffe2718/Socket-Injection-Debugger?style=flat-square)
-![Forks](https://img.shields.io/github/forks/Jaffe2718/Socket-Injection-Debugger?style=flat-square)
-![Issues](https://img.shields.io/github/issues/Jaffe2718/Socket-Injection-Debugger?style=flat-square)
-![Licence](https://img.shields.io/github/license/Jaffe2718/Socket-Injection-Debugger?style=flat-square)
+![Stars](https://img.shields.io/github/stars/Jaffe2718/Command-Debug-DevKit?style=flat-square)
+![Forks](https://img.shields.io/github/forks/Jaffe2718/Command-Debug-DevKit?style=flat-square)
+![Issues](https://img.shields.io/github/issues/Jaffe2718/Command-Debug-DevKit?style=flat-square)
+![Licence](https://img.shields.io/github/license/Jaffe2718/Command-Debug-DevKit?style=flat-square)
 
 by Jaffe2718
 
