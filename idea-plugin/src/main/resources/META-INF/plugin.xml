@@ -65,10 +65,7 @@
                 implementation="me.jaffe2718.devkit.lang.completion.McFunctionCompleteAutoPopupHandler"
                 order="first, before completionAutoPopup"
         />
-        <fileEditorProvider
-                implementation="me.jaffe2718.devkit.editor.McFunctionFileEditorProvider"
-                order="first"
-        />
+        <fileEditorProvider implementation="me.jaffe2718.devkit.editor.McFunctionFileEditorProvider"/>
         <fileType
                 name="Minecraft Function"
                 implementationClass="me.jaffe2718.devkit.filetype.McFunctionFileType"
