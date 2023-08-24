@@ -13,6 +13,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class McFunctionCompletionProvider extends CompletionProvider<CompletionParameters> {
     @Override
@@ -31,7 +33,27 @@ public class McFunctionCompletionProvider extends CompletionProvider<CompletionP
     }
 
     private @NotNull LookupElementBuilder createLookupElement(@NotNull CompletionParameters parameters, @NotNull String completion) {
-        if (parameters.getPosition().getNode().getElementType().equals(McFunctionTypes.ELEMENT) &&
+        if (completion.contains(" ")) {  // position is the element
+            return LookupElementBuilder.create(completion)
+                    .withIcon(ExpUiIcons.Nodes.Parameter)
+                    .withInsertHandler((context, item) -> {
+                        // get the string of context from beginning to the cursor
+                        String text = context.getDocument().getText().substring(0, context.getTailOffset() - completion.length());
+                        System.out.println(text);
+                        Pattern pos = Pattern.compile("((~?-?\\d+)|~)[ ]?$");
+                        for (int i=0; i<3; i++) {
+                            Matcher matcher = pos.matcher(text);
+                            if (matcher.find()) {
+                                // System.out.println(matcher.group());
+                                context.getDocument().deleteString(matcher.start(), matcher.end());
+                                text = text.substring(0, matcher.start());
+                            } else {
+                                break;
+                            }
+                        }
+                        //context.getDocument().insertString(context.getTailOffset(), completion);
+                    });
+        } else if (parameters.getPosition().getNode().getElementType().equals(McFunctionTypes.ELEMENT) &&
                 parameters.getPosition().getParent().getNode().getElementType().equals(McFunctionTypes.IDENTIFIER)) {
             // replace the whole identifier, current position is the element, the parent is the identifier(namespace:element)
             LookupElementBuilder builder = LookupElementBuilder.create(completion).withInsertHandler((context, item) ->

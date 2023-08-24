@@ -9,6 +9,7 @@ import me.jaffe2718.devkit.action.ConnectCompletionAction;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.PrintWriter;
+import java.util.Objects;
 
 public class McFunctionCompleteAutoPopupHandler extends TypedHandlerDelegate {
 
@@ -18,6 +19,7 @@ public class McFunctionCompleteAutoPopupHandler extends TypedHandlerDelegate {
                                           @NotNull Project project,
                                           @NotNull Editor editor,
                                           @NotNull PsiFile file) {
+        Objects.requireNonNull(editor.getUserData(ConnectCompletionAction.k_completionList)).clear();
         if (CHAR_SET.contains(String.valueOf(charTyped))) {
             try {
                 PrintWriter pw = editor.getUserData(ConnectCompletionAction.k_completionPrintWriter);
@@ -32,6 +34,17 @@ public class McFunctionCompleteAutoPopupHandler extends TypedHandlerDelegate {
             AutoPopupController.getInstance(project).scheduleAutoPopup(editor);
             return Result.STOP;
         }
+//        else if (charTyped == ' ') {
+//            try {
+//                PrintWriter pw = editor.getUserData(ConnectCompletionAction.k_completionPrintWriter);
+//                String lineText = editor.getDocument().getText().substring(
+//                        editor.getCaretModel().getVisualLineStart(),
+//                        editor.getCaretModel().getOffset()
+//                ) + charTyped;
+//                assert pw != null;
+//                pw.println(lineText);
+//            } catch (Exception|AssertionError ignored) {}
+//        }
         return super.checkAutoPopup(charTyped, project, editor, file);
     }
 
