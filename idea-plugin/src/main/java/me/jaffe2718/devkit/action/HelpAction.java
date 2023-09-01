@@ -19,12 +19,11 @@ public class HelpAction extends AnAction {
      * <p>
      * It is called on the UI thread with all data in the provided {@link DataContext} instance.
      *
-     * @param e
+     * @param e the event which occurred (passed to {@link AnAction#update(AnActionEvent)}).
      * @see #beforeActionPerformedUpdate(AnActionEvent)
      */
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
-        // TODO: Open the help documentation website by default browser `https://github.com/Jaffe2718/Command-Debug-DevKit#command-debug-devkit`
         try {
             java.awt.Desktop.getDesktop().browse(java.net.URI.create("https://github.com/Jaffe2718/Command-Debug-DevKit#command-debug-devkit"));
         } catch (IOException ex) {
