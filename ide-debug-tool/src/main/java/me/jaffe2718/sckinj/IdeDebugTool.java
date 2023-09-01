@@ -96,12 +96,9 @@ public class IdeDebugTool {
         String[] lines;
         try {
             lines = new String(java.nio.file.Files.readAllBytes(java.nio.file.Paths.get(fileName))).split("\n");
-            // try to remove the comments which start with "#" and trim the lines, and remove "/" at the beginning of each line
+            // try to remove the comments which start with "#" and trim the lines
             for (int i = 0; i < lines.length; i++) {
                 lines[i] = lines[i].split("#")[0].trim();
-                if (lines[i].startsWith("/")) {
-                    lines[i] = lines[i].substring(1);
-                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
