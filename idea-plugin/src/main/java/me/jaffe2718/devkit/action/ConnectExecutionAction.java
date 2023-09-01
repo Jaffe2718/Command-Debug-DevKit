@@ -1,6 +1,6 @@
 package me.jaffe2718.devkit.action;
 
-import com.intellij.icons.ExpUiIcons;
+import com.intellij.icons.AllIcons;
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationType;
 import com.intellij.notification.Notifications;
@@ -28,7 +28,7 @@ public class ConnectExecutionAction extends AnAction {
     public ConnectExecutionAction(McFunctionFileEditor target) {
         super("Connect to Execution Service",
                 "Enter the host and port of the command execution service socket to connect to.",
-                ExpUiIcons.Actions.MoveToButton);
+                AllIcons.Actions.MoveToButton);
         this.targetEditor = target;
     }
 

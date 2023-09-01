@@ -1,6 +1,6 @@
 package me.jaffe2718.devkit.action;
 
-import com.intellij.icons.ExpUiIcons;
+import com.intellij.icons.AllIcons;
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationType;
 import com.intellij.notification.Notifications;
@@ -30,7 +30,7 @@ public class ConnectCompletionAction extends AnAction {
     public ConnectCompletionAction(McFunctionFileEditor target) {
         super("Connect to Completion Service",
                 "Enter the host and port of the code completion service socket to connect to.",
-                ExpUiIcons.Nodes.Plugin);
+                AllIcons.Nodes.Plugin);
         this.targetEditor = target;
     }
 
