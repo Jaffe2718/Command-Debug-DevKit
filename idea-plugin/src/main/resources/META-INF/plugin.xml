@@ -8,37 +8,44 @@
         <![CDATA[
             <html>
                 <head>
-                    <style>
-                        li {
-                            list-style-type: decimal;
-                        }
-                    </style>
                 </head>
                 <body>
                     <h1>Minecraft Command Devkit</h1>
-                    <h2>Introduction</h2>
-                    <p>
-                        This plugin is used to debug and edit *.mcfunction with the Minecraft mod Command Debug Service.
-                    </p>
-                    <h2>Usage</h2>
-                    <p style="margin-left: 20px">
-                        <li>Install the plugin and mod.</li>
-                        <li>Run the game and join a world, then the mod will open a socket server on a random port and show it to you in the chat, there are two socket servers, one is for executing commands, the other is for getting the suggestions of completing commands.</li>
-                        <li>Start your IDE and open the Minecraft Function file.</li>
-                        <li>Connect to the command execution socket server and the command completion socket server in your IDE's editor.</li>
-                        <li>Then you can edit the Minecraft Function file and debug it.</li>
-                        <li>You can also execute commands in the game and get the result in your IDE's editor.</li>
-                    </p>
-                    <h2>Links</h2>
-                    <p>
-                        <a href="https://github.com/Jaffe2718/Command-Debug-DevKit">Source Code</a>
-                    </p>
-                    <p>
-                        <a href="https://github.com/Jaffe2718/Command-Debug-DevKit/issues">Issue Tracker</a>
-                    </p>
-                    <p>
-                        To download the latest version of the plugin and mod, please visit the <a href="https://github.com/Jaffe2718/Command-Debug-DevKit/releases">release page</a> or <a href="https://modrinth.com/mod/command-debug-service">Modrinth</a>.
-                    </p>
+                    <br>
+                    <div>
+                        <h2>Introduction</h2>
+                        <p>
+                            This plugin is used to debug and edit *.mcfunction files with the Minecraft mod named <a href="https://modrinth.com/mod/command-debug-service">Command Debug Service</a>.
+                        </p>
+                    </div>
+                    <br>
+                    <div>
+                        <h2>Usage</h2>
+                        <li style="list-style-type: decimal">
+                            Install both the <a href="https://plugins.jetbrains.com/plugin/22587-minecraft-command-devkit">plugin</a> and the <a href="https://modrinth.com/mod/command-debug-service">mod</a>.
+                        </li>
+                        <li style="list-style-type: decimal">
+                            Run the game and join a world, then the mod will open socket servers
+                            on random ports and show them to you in the chat field, there are two socket servers,
+                             one is for executing commands, the other is for getting the suggestions of completing commands.
+                        </li>
+                        <li style="list-style-type: decimal">Start your IDE and open the Minecraft Function file.</li>
+                        <li style="list-style-type: decimal">Connect to the command execution socket server and the command completion socket server in your IDE's editor.</li>
+                        <li style="list-style-type: decimal">Then you can edit the Minecraft Function file and debug it.</li>
+                    </div>
+                    <br>
+                    <div>
+                        <h2>Links</h2>
+                        <p>
+                            <a href="https://github.com/Jaffe2718/Command-Debug-DevKit">Source Code</a>
+                        </p>
+                        <p>
+                            <a href="https://github.com/Jaffe2718/Command-Debug-DevKit/issues">Issue Tracker</a>
+                        </p>
+                        <p>
+                            To download the latest version of the plugin and mod, please visit the <a href="https://github.com/Jaffe2718/Command-Debug-DevKit/releases">release page</a> or <a href="https://modrinth.com/mod/command-debug-service">Modrinth</a>.
+                        </p>
+                    </div>
                 </body>
             </html>
         ]]>
