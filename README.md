@@ -18,19 +18,21 @@ This project is written for debugging Minecraft. In this project, there are serv
 
 ### Fabric Mod
 1. Install Minecraft Fabric Loader and Fabric API for your Minecraft version.
-2. Download the mod from [release page](https://github.com/Jaffe2718/Command-Debug-DevKit/releases).
+2. Download the mod from [release page](https://github.com/Jaffe2718/Command-Debug-DevKit/releases) or [Modrinth](https://modrinth.com/mod/command-debug-service).
 3. Put the mod into your `mods` folder.
 
 ### IDE Debug Tool
 The tool is a `jar` file, you can just download and you can use it without any installation steps.
 
 ### Idea Plugin
-1. Download the tool from [release page](https://github.com/Jaffe2718/Command-Debug-DevKit/releases), choose the version suitable for the mod.
-2. Install the plugin in your IDEA: click `File` -> `Settings` -> `Plugins` -> `⚙️` -> `Install Plugin from Disk...` -> choose the downloaded file.
+1. Download the tool from [release page](https://github.com/Jaffe2718/Command-Debug-DevKit/releases) or [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/22587-minecraft-command-devkit), choose the version suitable for the mod.
+2. Install the plugin in your IDEA: click `File` -> `Settings` -> `Plugins` -> `⚙️` -> `Install Plugin from Disk...` -> choose the downloaded file, or install it directly from JetBrains Marketplace inside IDE.
 
+### Quilt Mod
+`// TODO: Add support for Quilt Mod`
 
 ## Usage
-1. Start your Minecraft game and join a world. The mod will create two socket server and show the host and port information in the game chat.
+1. Start your Minecraft game and join or create a world. The mod will create two socket server and show the host and port information in the game chat.
 2. Start your IDE, create or open a project.
 3. Create or open a file with suffix `.mcfunction`.
 4. Connect to these two socket servers by entering the host and port which shown in the game chat. Then you can use the code completion and code execution service.

@@ -1,0 +1,12 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "me.jaffe2718.cmdkit.mixins",
+    "client": [
+        "CommandSuggestorMixin",
+        "ChatScreenMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

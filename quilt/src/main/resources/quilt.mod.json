@@ -1,0 +1,53 @@
+{
+    "schema_version": 1,
+    "quilt_loader": {
+        "group": "me.jaffe2718",
+        "id": "cmdkit",
+        "version": "${mod_version}",
+        "metadata": {
+            "name": "Command Debug Service",
+            "description": "This is a mod that provides a method to execute and debug Minecraft commands by external programs. It is used to be a command debug connect kit between Minecraft and external programs.",
+            "contributors": {
+                "Jaffe2718": "Owner"
+            },
+            "contact": {
+                "homepage": "https://github.com/Jaffe2718",
+                "issues": "https://github.com/Jaffe2718/Command-Debug-DevKit/issues",
+                "sources": "https://github.com/Jaffe2718/Command-Debug-DevKit"
+            },
+            "license": {
+                "name": "MIT License",
+                "id": "MIT",
+                "url": "https://github.com/Jaffe2718/Command-Debug-DevKit/blob/2.x/LICENSE",
+                "description": "A permissive license that is short and to the point. It lets people do anything with your code with proper attribution and without warranty."
+            },
+            "icon": "assets/cmdkit/icon.png"
+        },
+        "intermediate_mappings": "net.fabricmc:intermediary",
+        "entrypoints": {
+            "client_init": [
+                "me.jaffe2718.cmdkit.client.CommandDebugDevKitClient"
+            ],
+            "init": [
+                "me.jaffe2718.cmdkit.CommandDebugDevKit"
+            ]
+        },
+        "depends": [
+            {
+                "id": "quilt_loader",
+                "versions": ">=0.19.1"
+            },
+            {
+                "id": "quilted_fabric_api",
+                "versions": ">=7.0.2"
+            },
+            {
+                "id": "minecraft",
+                "versions": {
+                    "all": ["${minecraft_version}"]
+                }
+            }
+        ]
+    },
+    "mixin": ["cmdkit.mixins.json"]
+}
