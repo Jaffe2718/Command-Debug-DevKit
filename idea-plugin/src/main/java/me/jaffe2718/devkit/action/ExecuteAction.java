@@ -63,8 +63,8 @@ public class ExecuteAction extends AnAction {
         try (OutputStream outputStream = new FileOutputStream(
                 Path.of(System.getenv("HOMEPATH"),
                         ".mcfuncdev",
-                        "ide-debug-tool-1.1.0.jar").toFile())) {
-            InputStream inputStream = ExecuteAction.class.getResourceAsStream("/tool/ide-debug-tool-1.1.0.jar");
+                        "ide-debug-tool-1.1.1.jar").toFile())) {
+            InputStream inputStream = ExecuteAction.class.getResourceAsStream("/tool/ide-debug-tool-1.1.1.jar");
             assert inputStream != null;
             byte[] buffer = new byte[1024];
             int bytesRead;
@@ -76,7 +76,7 @@ public class ExecuteAction extends AnAction {
         } catch (Exception ignored) {}
         executeInIDE(Path.of(System.getenv("HOMEPATH"),
                 ".mcfuncdev",
-                "ide-debug-tool-1.1.0.jar").toFile());
+                "ide-debug-tool-1.1.1.jar").toFile());
     }
 
     /** try to build a idea Jar Application Configuration and run it
