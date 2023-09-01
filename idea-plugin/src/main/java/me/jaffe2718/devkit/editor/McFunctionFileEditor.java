@@ -44,11 +44,13 @@ public class McFunctionFileEditor extends AdvancedTextEditor {
 
     private ActionGroup createActionGroup() {
         List<AnAction> actions = new ArrayList<>();
-        actions.add(new ConnectCompletionAction(this));
         actions.add(new ConnectExecutionAction(this));
+        actions.add(new ConnectCompletionAction(this));
         actions.add(new Separator());
         actions.add(new ExecuteWithoutLogAction(this));
         actions.add(new ExecuteAction(this));
+        actions.add(new Separator());
+        actions.add(new HelpAction());
         return new DefaultActionGroup(actions);
     }
 
