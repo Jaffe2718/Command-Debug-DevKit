@@ -1,22 +1,18 @@
-<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
     <id>me.jaffe2718.devkit</id>
 
-    <!-- Public plugin name should be written in Title Case.
-         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
     <name>Minecraft Command DevKit</name>
-    <version>1.0.1</version>
-    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <version>1.0.2</version>
     <vendor email="qqyttwqeei@163.com" url="https://github.com/Jaffe2718">Jaffe2718</vendor>
-<!--    <idea-version since-build="202.0" until-build="202.*"/>-->
-    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
-         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
-         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description>
         <![CDATA[
             <html>
                 <head>
+                    <style>
+                        li {
+                            list-style-type: decimal;
+                        }
+                    </style>
                 </head>
                 <body>
                     <h1>Minecraft Command Devkit</h1>
@@ -25,15 +21,13 @@
                         This plugin is used to debug and edit *.mcfunction with the Minecraft mod Command Debug Service.
                     </p>
                     <h2>Usage</h2>
-                    <p>
-                        <ol>
-                            <li>Install the plugin and mod.</li>
-                            <li>Run the game and join a world, then the mod will open a socket server on a random port and show it to you in the chat, there are two socket servers, one is for executing commands, the other is for getting the suggestions of completing commands.</li>
-                            <li>Start your IDE and open the Minecraft Function file.</li>
-                            <li>Connect to the command execution socket server and the command completion socket server in your IDE's editor.</li>
-                            <li>Then you can edit the Minecraft Function file and debug it.</li>
-                            <li>You can also execute commands in the game and get the result in your IDE's editor.</li>
-                        </ol>
+                    <p style="margin-left: 20px">
+                        <li>Install the plugin and mod.</li>
+                        <li>Run the game and join a world, then the mod will open a socket server on a random port and show it to you in the chat, there are two socket servers, one is for executing commands, the other is for getting the suggestions of completing commands.</li>
+                        <li>Start your IDE and open the Minecraft Function file.</li>
+                        <li>Connect to the command execution socket server and the command completion socket server in your IDE's editor.</li>
+                        <li>Then you can edit the Minecraft Function file and debug it.</li>
+                        <li>You can also execute commands in the game and get the result in your IDE's editor.</li>
                     </p>
                     <h2>Links</h2>
                     <p>
@@ -43,19 +37,13 @@
                         <a href="https://github.com/Jaffe2718/Command-Debug-DevKit/issues">Issue Tracker</a>
                     </p>
                     <p>
-                        To download the latest version of the plugin and mod, please visit the <a href="https://github.com/Jaffe2718/Command-Debug-DevKit/releases">release page</a>.
+                        To download the latest version of the plugin and mod, please visit the <a href="https://github.com/Jaffe2718/Command-Debug-DevKit/releases">release page</a> or <a href="https://modrinth.com/mod/command-debug-service">Modrinth</a>.
                     </p>
                 </body>
             </html>
         ]]>
     </description>
-
-    <!-- Product and plugin compatibility requirements.
-         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
-
-    <!-- Extension points defined by the plugin.
-         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
         <completion.contributor
                 language="McFunction"
@@ -65,7 +53,6 @@
                 implementation="me.jaffe2718.devkit.lang.completion.McFunctionCompleteAutoPopupHandler"
                 order="first, before completionAutoPopup"
         />
-        <fileEditorProvider implementation="me.jaffe2718.devkit.editor.McFunctionFileEditorProvider"/>
         <fileType
                 name="Minecraft Function"
                 implementationClass="me.jaffe2718.devkit.filetype.McFunctionFileType"
@@ -86,6 +73,7 @@
                 implementationClass="me.jaffe2718.devkit.lang.McFunctionCommenter"
         />
         <notificationGroup displayType="BALLOON" id="me.jaffe2718.devkit.notification" />
+        <fileEditorProvider implementation="me.jaffe2718.devkit.editor.McFunctionFileEditorProvider" order="last"/>
     </extensions>
     <actions>
         <action class="me.jaffe2718.devkit.action.NewMcFunctionFileAction">
