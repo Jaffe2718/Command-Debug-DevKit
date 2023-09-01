@@ -9,8 +9,8 @@
     ],
     "contact": {
         "homepage": "https://github.com/Jaffe2718",
-        "issues": "https://github.com/Jaffe2718/Socket-Injection-Debugger/issues",
-        "sources": "https://github.com/Jaffe2718/Socket-Injection-Debugger"
+        "issues": "https://github.com/Jaffe2718/Command-Debug-DevKit/issues",
+        "sources": "https://github.com/Jaffe2718/Command-Debug-DevKit"
     },
     "license": "MIT",
     "icon": "assets/cmdkit/icon.png",
@@ -23,7 +23,7 @@
         "cmdkit.mixins.json"
     ],
     "depends": {
-        "fabricloader": ">=${loader_version}",
+        "fabricloader": ">=0.14.16",
         "fabric": "*",
         "minecraft": "${minecraft_version}"
     }
