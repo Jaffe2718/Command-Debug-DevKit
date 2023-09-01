@@ -28,7 +28,7 @@ public abstract class EventHandler {
     /**
      * The last command that the player input in the chat screen.
      */
-    public static String lastInput = "";
+    public static volatile String lastInput = "";
 
     /**
      * The flag that indicates whether the socket injector info has been shown.
@@ -130,12 +130,11 @@ public abstract class EventHandler {
                 try {
                     assert MinecraftClient.getInstance().player != null;
                     BufferedReader br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                    String cmd = br.readLine().replace("\n", "");
                     if (execute) {
-                        String cmd = br.readLine().replace("\n", "").replace("\r", "").replace("§", "");
                         assert !cmd.isBlank();
                         MinecraftClient.getInstance().player.networkHandler.sendChatCommand(cmd);
                     } else {  // get suggestion by read and send suggestion back
-                        String cmd = br.readLine();  // get raw command temporarily
                         List<String> suggestions = CommandDebugDevKitClient.getCommandSuggestions(cmd);
                         PrintWriter pw = new PrintWriter(clientSocket.getOutputStream(), true);
                         for (String s : suggestions) {
