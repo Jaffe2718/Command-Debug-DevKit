@@ -23,7 +23,8 @@ This project is written for debugging Minecraft commands. In this project, there
 3. Put the mod into your `mods` folder.
 
 ### IDE Debug Tool
-The tool is a `jar` file, you can just download and you can use it without any installation steps.
+* The tool is a `jar` file, you can just download and you can use it without any installation steps.
+* For more information, please see [IDE Debug Tool](ide-debug-tool/README.md).
 
 ### Idea Plugin
 1. Download the tool from [release page](https://github.com/Jaffe2718/Command-Debug-DevKit/releases) or [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/22587-minecraft-command-devkit), choose the version suitable for the mod.
@@ -39,7 +40,10 @@ The tool is a `jar` file, you can just download and you can use it without any i
 2. Start your IDE, create or open a project.
 3. Create or open a file with suffix `.mcfunction`.
 4. Connect to these two socket servers by entering the host and port which shown in the game chat. Then you can use the code completion and code execution service.
-5. You can also use the command line tool to connect to the socket server and execute the code.
+5. You can also start the interactive console by starting the tool from `Tools -> Minecraft Command Console`
+   or by pressing `Ctrl + Alt + M` (or `Command + Alt + M` on Mac),
+   then you can send single line commands to the game and get the feedback one by one.
+6. You can also use the command line tool to connect to the socket server and execute the code.
 
 
 ## Warning
