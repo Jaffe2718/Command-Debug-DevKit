@@ -6,3 +6,6 @@
 /ide-debug-tool/build/
 /lib/
 /idea-plugin/build/
+/quilt/run/
+/quilt/build/
+/quilt/.gradle/
