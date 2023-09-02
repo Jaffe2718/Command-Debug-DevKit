@@ -38,7 +38,7 @@ This project is written for debugging Minecraft commands. In this project, there
 1. Download the tool from [release page](https://github.com/Jaffe2718/Command-Debug-DevKit/releases) or [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/22587-minecraft-command-devkit), choose the version suitable for the mod.
 2. Install the plugin in your IDEA: click `File` -> `Settings` -> `Plugins` -> `⚙️` -> `Install Plugin from Disk...` -> choose the downloaded file, or install it directly from JetBrains Marketplace inside IDE.
 
-<iframe width="245px" height="48px" src="https://plugins.jetbrains.com/embeddable/install/22587"></iframe>
+<iframe style="align: center" width="245px" height="48px" src="https://plugins.jetbrains.com/embeddable/install/22587"></iframe>
 
 
 ## Usage
