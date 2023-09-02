@@ -6,7 +6,6 @@
 ![Issues](https://img.shields.io/github/issues/Jaffe2718/Command-Debug-DevKit?style=flat-square)
 ![Licence](https://img.shields.io/github/license/Jaffe2718/Command-Debug-DevKit?style=flat-square)
 
-
 by Jaffe2718
 
 ## Introduction
@@ -18,7 +17,12 @@ This project is written for debugging Minecraft commands. In this project, there
 
 ## Setup
 
-### Fabric Mod
+### Mods
+![follows](https://img.shields.io/modrinth/followers/command-debug-service)
+![latestVersion](https://img.shields.io/modrinth/v/command-debug-service)
+![mcVersion](https://img.shields.io/modrinth/game-versions/command-debug-service)
+![modDownloads](https://img.shields.io/modrinth/dt/command-debug-service)
+#### Fabric/Quilt Mod
 1. Install Minecraft with `Fabric Loader` and `Fabric API` for your Minecraft version.
 2. Download the mod from [release page](https://github.com/Jaffe2718/Command-Debug-DevKit/releases) or [Modrinth](https://modrinth.com/mod/command-debug-service).
 3. Put the mod into your `mods` folder.
@@ -28,13 +32,14 @@ This project is written for debugging Minecraft commands. In this project, there
 * For more information, please see [IDE Debug Tool](ide-debug-tool/README.md).
 
 ### Idea Plugin
+![Version](https://img.shields.io/jetbrains/plugin/v/me.jaffe2718.devkit)
+![Downloads](https://img.shields.io/jetbrains/plugin/d/me.jaffe2718.devkit)
+![Plugin](https://img.shields.io/jetbrains/plugin/r/rating/me.jaffe2718.devkit)
 1. Download the tool from [release page](https://github.com/Jaffe2718/Command-Debug-DevKit/releases) or [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/22587-minecraft-command-devkit), choose the version suitable for the mod.
 2. Install the plugin in your IDEA: click `File` -> `Settings` -> `Plugins` -> `⚙️` -> `Install Plugin from Disk...` -> choose the downloaded file, or install it directly from JetBrains Marketplace inside IDE.
 
-### Quilt Mod
-1. Install Minecraft with `Quilt Loader` and `Quilted Fabric API (QFAPI) and Quilt Standard Libraries (QSL)` for your Minecraft version.
-2. Download the mod from [release page](https://github.com/Jaffe2718/Command-Debug-DevKit/releases) or [Modrinth](https://modrinth.com/mod/command-debug-service).
-3. Put the mod into your `mods` folder.
+<iframe width="384px" height="319px" src="https://plugins.jetbrains.com/embeddable/card/22587"></iframe>
+
 
 ## Usage
 1. Start your Minecraft game and join or create a world. The mod will create two socket server and show the host and port information in the game chat.
