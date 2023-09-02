@@ -49,7 +49,7 @@ This project is written for debugging Minecraft commands. In this project, there
 ## Warning
 When you use this mod, you should be careful.
 Because it can execute any command.
-Do not send the host and port to any untusted program to avoid being attacked.
+Do not send the host and port to any untrusted program to avoid being attacked.
 Do not install this mod on your multiplayer server to avoid being attacked by DDOS or other attacks.
 
 ## License
