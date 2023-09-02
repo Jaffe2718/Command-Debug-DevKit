@@ -17,7 +17,7 @@ This project is written for debugging Minecraft. In this project, there are serv
 ## Setup
 
 ### Fabric Mod
-1. Install Minecraft Fabric Loader and Fabric API for your Minecraft version.
+1. Install Minecraft with `Fabric Loader` and `Fabric API` for your Minecraft version.
 2. Download the mod from [release page](https://github.com/Jaffe2718/Command-Debug-DevKit/releases) or [Modrinth](https://modrinth.com/mod/command-debug-service).
 3. Put the mod into your `mods` folder.
 
@@ -29,7 +29,9 @@ The tool is a `jar` file, you can just download and you can use it without any i
 2. Install the plugin in your IDEA: click `File` -> `Settings` -> `Plugins` -> `⚙️` -> `Install Plugin from Disk...` -> choose the downloaded file, or install it directly from JetBrains Marketplace inside IDE.
 
 ### Quilt Mod
-`// TODO: Add support for Quilt Mod`
+1. Install Minecraft with `Quilt Loader` and `Quilted Fabric API (QFAPI) and Quilt Standard Libraries (QSL)` for your Minecraft version.
+2. Download the mod from [release page](https://github.com/Jaffe2718/Command-Debug-DevKit/releases) or [Modrinth](https://modrinth.com/mod/command-debug-service).
+3. Put the mod into your `mods` folder.
 
 ## Usage
 1. Start your Minecraft game and join or create a world. The mod will create two socket server and show the host and port information in the game chat.
@@ -51,7 +53,12 @@ You can use this project for any purpose for free.
 See the [LICENSE](LICENSE) file for details.
 
 ## Update and Cooperation
-Currently, this project is still in development. If you have any idea or suggestion, please open an issue or pull request.
-And the plugin is only for IntelliJ Platform IDEs, if you want to use other IDEs such as Eclipse and VSCode, you can create a plugin for it and pull request to this project.
-What's more, the mod is only for fabric currently, you can rewrite it for forge or other mod loaders and pull request to this project.
+Currently, this project is still in development. 
+If you have any idea or suggestion,
+please open an issue or pull request.
+And the plugin is only for `IntelliJ Platform IDEs`, 
+if you want to use other IDEs such as `Eclipse` and `VS Code`,
+you can create a plugin for it and pull request to this project.
+What's more, the mod is only for `Fabric` and `Quilt` currently,
+you can rewrite it for `Forge` or other mod loaders and pull request to this project.
 I will be very grateful if you can help me to improve this project.
