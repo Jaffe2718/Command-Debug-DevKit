@@ -2,7 +2,7 @@
     <id>me.jaffe2718.devkit</id>
 
     <name>Minecraft Command DevKit</name>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <vendor email="qqyttwqeei@163.com" url="https://github.com/Jaffe2718">Jaffe2718</vendor>
     <description>
         <![CDATA[
@@ -32,6 +32,11 @@
                         <li style="list-style-type: decimal">Start your IDE and open the Minecraft Function file.</li>
                         <li style="list-style-type: decimal">Connect to the command execution socket server and the command completion socket server in your IDE's editor.</li>
                         <li style="list-style-type: decimal">Then you can edit the Minecraft Function file and debug it.</li>
+                        <li style="list-style-type: decimal">
+                            You can also start the interactive console by starting the tool from <b>Tools -> Minecraft Command Console</b>
+                            or by pressing <b>Ctrl + Alt + M</b> (or <b>Command + Alt + M</b> on Mac),
+                            then you can send single line commands to the game and get the feedback one by one.
+                        </li>
                     </div>
                     <br>
                     <div>
@@ -85,6 +90,12 @@
     <actions>
         <action class="me.jaffe2718.devkit.action.NewMcFunctionFileAction">
             <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFromTemplate"/>
+        </action>
+        <action class="me.jaffe2718.devkit.action.McCommandConsoleAction">
+            <keyboard-shortcut keymap="$default"  first-keystroke="control alt M" replace-all="true"/>
+            <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta alt M" replace-all="true"/>
+            <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="meta alt M" replace-all="true"/>
+            <add-to-group group-id="ToolsMenu"/>
         </action>
     </actions>
 </idea-plugin>
