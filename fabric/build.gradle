@@ -67,6 +67,10 @@ jar {
     }
 }
 
+remapJar {
+    archiveClassifier.set(project.minecraft_version + "-fabric")
+}
+
 // configure the maven publication
 publishing {
     publications {

@@ -22,6 +22,10 @@ jar {
     }
 }
 
+remapJar {
+    archiveClassifier.set(project.minecraft_version + "-quilt")
+}
+
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "org.quiltmc:quilt-mappings:${project.minecraft_version}+build.${project.quilt_mappings}:intermediary-v2"
