@@ -23,6 +23,8 @@ import java.nio.file.Path;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static me.jaffe2718.devkit.McFunctionIcons.TOOL_NAME;
+
 public class ExecuteAction extends AnAction {
 
     private final McFunctionFileEditor targetEditor;
@@ -43,28 +45,52 @@ public class ExecuteAction extends AnAction {
      */
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
-        // check if %HOMEPATH%\.mcfuncdev\ is present
+        this.executeInIDE(this.extractTool());
+    }
+
+    /** try to run the tool jar in the IDE
+     * @param toolJar the tool jar file
+     * */
+    private void executeInIDE(File toolJar) {
+        try {
+            AtomicReference<Socket> execSocket = new AtomicReference<>(targetEditor.getEditor().getUserData(ConnectExecutionAction.k_executionSocket));
+            Project project = targetEditor.getEditor().getProject();
+            String mcfunc = targetEditor.getFile().getPath();
+            assert execSocket.get() != null && execSocket.get().isConnected() && project != null;
+            String hostPort = execSocket.get().getInetAddress().getHostAddress() + ":" + execSocket.get().getPort();
+            GeneralCommandLine commandLine = new GeneralCommandLine("java", "-jar", toolJar.getAbsolutePath(), hostPort, mcfunc);
+            OSProcessHandler processHandler = ProcessHandlerFactory.getInstance().createColoredProcessHandler(commandLine);
+            ProcessTerminatedListener.attach(processHandler);
+            // add the process handler to the task manager
+            new RunContentExecutor(project, processHandler)
+                    .withTitle(mcfunc)
+                    .withActivateToolWindow(true)
+                    .run();
+        } catch (AssertionError ignore) {
+            Messages.showWarningDialog("Please connect to the Minecraft execution service socket first.", "Not Connected");
+        } catch (Exception ignored) {}
+    }
+
+    private File extractTool() {
         File libs = Path.of(System.getenv("HOMEPATH"), ".mcfuncdev").toFile();
         if (libs.exists() && libs.isDirectory()) {
             // check if ide-debug-tool-<version>.jar is present
             for (File jarfile : Objects.requireNonNull(libs.listFiles())) {
                 if (jarfile.getName().startsWith("ide-debug-tool-") && jarfile.getName().endsWith(".jar")) {
-                    executeInIDE(jarfile);
-                    return;  // exit the method
+                    return jarfile;
                 }
             }
             // if not, download it from github
         } else {
             // if not, create it
-            File file = Path.of(System.getenv("HOMEPATH"), ".mcfuncdev").toFile();
-            assert file.mkdir();
+            assert libs.mkdir();
         }
-        // if not exist, extract it resource/tool/<all files> to %HOMEPATH%\.mcfuncdev\
+        // if not exist, extract it from resource to %HOMEPATH%\.mcfuncdev\
         try (OutputStream outputStream = new FileOutputStream(
                 Path.of(System.getenv("HOMEPATH"),
                         ".mcfuncdev",
-                        "ide-debug-tool-1.1.1.jar").toFile())) {
-            InputStream inputStream = ExecuteAction.class.getResourceAsStream("/tool/ide-debug-tool-1.1.1.jar");
+                        TOOL_NAME).toFile())) {
+            InputStream inputStream = ExecuteAction.class.getResourceAsStream("/tool/" + TOOL_NAME);
             assert inputStream != null;
             byte[] buffer = new byte[1024];
             int bytesRead;
@@ -74,36 +100,8 @@ public class ExecuteAction extends AnAction {
             inputStream.close();
             outputStream.flush();
         } catch (Exception ignored) {}
-        executeInIDE(Path.of(System.getenv("HOMEPATH"),
+        return Path.of(System.getenv("HOMEPATH"),
                 ".mcfuncdev",
-                "ide-debug-tool-1.1.1.jar").toFile());
-    }
-
-    /** try to build a idea Jar Application Configuration and run it
-     * Name: is the file name of the mcfunction file
-     * Path to Jar: is the path to the tool jar
-     * Program arguments: {hostPort} {mcfunc}
-     *
-     * @param toolJar the tool jar file
-     * */
-    private void executeInIDE(File toolJar) {
-        try {
-            AtomicReference<Socket> execSocket = new AtomicReference<>(targetEditor.getEditor().getUserData(ConnectExecutionAction.k_executionSocket));
-            Project project = targetEditor.getEditor().getProject();
-            String mcfunc = targetEditor.getFile().getPath();
-            // String taskName = targetEditor.getFile().getName();
-            assert execSocket.get() != null && execSocket.get().isConnected() && project != null;
-            String hostPort = execSocket.get().getInetAddress().getHostAddress() + ":" + execSocket.get().getPort();
-            GeneralCommandLine commandLine = new GeneralCommandLine("java", "-jar", toolJar.getAbsolutePath(), hostPort, mcfunc);
-            OSProcessHandler processHandler = ProcessHandlerFactory.getInstance().createColoredProcessHandler(commandLine);
-            ProcessTerminatedListener.attach(processHandler);
-            // add the process handler to the task manager
-            RunContentExecutor executor = new RunContentExecutor(project, processHandler)
-                    .withTitle(mcfunc)
-                    .withActivateToolWindow(true);
-            executor.run();
-        } catch (AssertionError ignore) {
-            Messages.showWarningDialog("Please connect to the Minecraft execution service socket first.", "Not Connected");
-        } catch (Exception ignored) {}
+                TOOL_NAME).toFile();
     }
 }
