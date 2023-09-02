@@ -9,10 +9,11 @@
 by Jaffe2718
 
 ## Introduction
-This project is written for debugging Minecraft. In this project, there are serveral subprojects:
+This project is written for debugging Minecraft commands. In this project, there are serveral subprojects:
 - `fabric`: The mod for fabric, used to be a connection kit for IDE. It can create two socket server to provide code completion and code execution service.
 - `ide-debug-tool`: This is a command line tool which can connect to the socket server opened by the mod. It can send code to the server and get the result. It can be a debug tool for IDE or a command line tool to execute *.mcfunction file directly.
 - `idea-plugin`: This is a plugin for IntelliJ IDEA. It can connect to the socket server opened by the mod. It provides code completion and code execution service for IDE. The plugin contains a compiled `ide-debug-tool` so you don't need to install it manually.
+- `quilt`: The mod for quilt, used to be a connection kit for IDE. It can create two socket server to provide code completion and code execution service.
 
 ## Setup
 
