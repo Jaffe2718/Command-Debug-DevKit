@@ -1,0 +1,55 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.22'
+    id 'org.jetbrains.intellij' version '1.14.1'
+}
+
+group = 'me.jaffe2718'
+version = rootProject.version
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/gen'
+        }
+    }
+}
+
+intellij {
+    version = '2023.2'
+    type = 'IC'
+    plugins = [] as List
+}
+
+tasks {
+
+    tasks.findAll { it instanceof JavaCompile } .each {
+        it.sourceCompatibility = '17'
+        it.targetCompatibility = '17'
+    }
+
+    tasks.findAll { it instanceof KotlinCompile } .each {
+        it.kotlinOptions.jvmTarget = '17'
+    }
+
+    patchPluginXml {
+        sinceBuild = '232.0'
+        untilBuild = '232.*'
+    }
+
+    signPlugin {
+        certificateChain = System.getenv('CERTIFICATE_CHAIN')
+        privateKey = System.getenv('PRIVATE_KEY')
+        password = System.getenv('PRIVATE_KEY_PASSWORD')
+    }
+
+    publishPlugin {
+        token = System.getenv('PUBLISH_TOKEN')
+    }
+}
