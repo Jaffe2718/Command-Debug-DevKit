@@ -30,9 +30,9 @@ public class IdeDebugTool {
      */
     private static void showUsageAndExit() {
         System.out.println("Usage: java -jar ide-debug-tool-[version].jar [host:port] [file]");
-        System.out.println("    no arguments    show usage and exit");
-        System.out.println("    host:port    connect to \"host:port\" and enter interactive mode");
-        System.out.println("    host:port file    connect to \"host:port\" and execute the file as Minecraft commands and exit");
+        System.out.println("\tno arguments\tshow usage and exit");
+        System.out.println("\thost:port\tconnect to \"host:port\" and enter interactive mode");
+        System.out.println("\thost:port file\tconnect to \"host:port\" and execute the file as Minecraft commands and exit");
         System.exit(0);
     }
 
@@ -47,6 +47,7 @@ public class IdeDebugTool {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        System.out.println("Connected to " + hostPort);
         // start a thread to Listen to the socket and print the messages from the socket
         Thread listener = new Thread(() -> {
             try {
@@ -68,12 +69,14 @@ public class IdeDebugTool {
                 java.io.PrintWriter writer = new java.io.PrintWriter(socket.getOutputStream(), true);
                 java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
                 while (socket.isConnected()) {
+                    Thread.sleep(35);
+                    System.out.print(">/");
                     String msg = reader.readLine();
                     if (msg != null) {
                         writer.println(msg);
                     }
                 }
-            } catch (IOException e) {
+            } catch (IOException|InterruptedException e) {
                 throw new RuntimeException(e);
             }
         });
