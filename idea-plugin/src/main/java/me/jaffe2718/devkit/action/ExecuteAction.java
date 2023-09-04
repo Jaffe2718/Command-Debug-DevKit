@@ -72,7 +72,7 @@ public class ExecuteAction extends AnAction {
     }
 
     private File extractTool() {
-        File libs = Path.of(System.getenv("HOMEPATH"), ".mcfuncdev").toFile();
+        File libs = Path.of(System.getenv("HOMEPATH"), ".mcfuncdev").toAbsolutePath().toFile();
         if (libs.exists() && libs.isDirectory()) {
             // check if ide-debug-tool-<version>.jar is present
             for (File jarfile : Objects.requireNonNull(libs.listFiles())) {
@@ -80,16 +80,14 @@ public class ExecuteAction extends AnAction {
                     return jarfile;
                 }
             }
-            // if not, download it from github
-        } else {
-            // if not, create it
+        } else {  // if not exist, create it
             assert libs.mkdir();
         }
         // if not exist, extract it from resource to %HOMEPATH%\.mcfuncdev\
         try (OutputStream outputStream = new FileOutputStream(
                 Path.of(System.getenv("HOMEPATH"),
                         ".mcfuncdev",
-                        TOOL_NAME).toFile())) {
+                        TOOL_NAME).toAbsolutePath().toFile())) {
             InputStream inputStream = ExecuteAction.class.getResourceAsStream("/tool/" + TOOL_NAME);
             assert inputStream != null;
             byte[] buffer = new byte[1024];
@@ -102,6 +100,6 @@ public class ExecuteAction extends AnAction {
         } catch (Exception ignored) {}
         return Path.of(System.getenv("HOMEPATH"),
                 ".mcfuncdev",
-                TOOL_NAME).toFile();
+                TOOL_NAME).toAbsolutePath().toFile();
     }
 }
