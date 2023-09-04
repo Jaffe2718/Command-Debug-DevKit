@@ -24,7 +24,7 @@ This project is written for debugging Minecraft commands. In this project, there
 ![modDownloads](https://img.shields.io/modrinth/dt/command-debug-service)
 <br>
 <a href="https://modrinth.com/mod/command-debug-service">
-<img src="https://img.shields.io/badge/Command%20Debug%20service-000000.svg?style=for-the-badge&logo=modrinth&label=Modrinth&labelColor=000000&color=000000" alt="Command Debug Service"/>
+<img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3.1.2/assets/cozy/available/modrinth_vector.svg" alt="Command Debug Service"/>
 </a>
 #### Fabric/Quilt Mod
 1. Install Minecraft with`Fabric/Quilt Loader` and 
@@ -44,27 +44,23 @@ or [![Quilted Fabric API](https://img.shields.io/badge/Quilted%20Fabric%20API-00
 ![Plugin](https://img.shields.io/jetbrains/plugin/r/rating/me.jaffe2718.devkit)
 <br>
 <a href="https://plugins.jetbrains.com/plugin/22587-minecraft-command-devkit">
-   <img src="https://img.shields.io/badge/Get_from_Marketplace-000000.svg?style=for-the-badge&logo=jetbrains&logoColor=000000&labelColor=orange&color=000000" alt="Minecraft Command DevKit"/>
+   <img src="https://img.shields.io/badge/Get_from_Marketplace-000000.svg?style=for-the-badge&logo=jetbrains&logoColor=000000&labelColor=FFFFFF&color=000000" alt="Minecraft Command DevKit"/>
 </a>
-1. Download the tool from [![release-page](https://img.shields.io/badge/GitHub%20Releases-000000.svg?logo=github)](https://github.com/Jaffe2718/Command-Debug-DevKit/releases) or [![JetBrains Marketplace](https://img.shields.io/badge/JetBrains_Marketplace-000000?logo=jetbrains&logoColor=EE7010&labelColor=black)](https://plugins.jetbrains.com/plugin/22587-minecraft-command-devkit), choose the version suitable for the mod.
+1. Download the tool from [![release-page](https://img.shields.io/badge/GitHub%20Releases-000000.svg?logo=github)](https://github.com/Jaffe2718/Command-Debug-DevKit/releases) or [![JetBrains Marketplace](https://img.shields.io/badge/JetBrains_Marketplace-000000?logo=jetbrains&logoColor=black&labelColor=FFFFFF)](https://plugins.jetbrains.com/plugin/22587-minecraft-command-devkit), choose the version suitable for the mod.
 2. Install the plugin in your IDEA: click `File` -> `Settings` -> `Plugins` -> `⚙️` -> `Install Plugin from Disk...` -> choose the downloaded file, or install it directly from JetBrains Marketplace inside IDE.
 
 
 ## Usage
 1. Start your Minecraft game and join or create a world. The mod will create two socket server and show the host and port information in the game chat.
 
-   <br>
-
 2. Start your IDE, create or open a project.
-
-   <br>
 
 3. Create or open a file with suffix `.mcfunction`.
    <details>
       <summary>edit *.mcfunction file</summary>
       <img src=".doc/i0.png" alt="edit *.mcfunction file"/>
    </details>
-   <br>
+   
 4. Connect to these two socket servers by entering the host and port which shown in the game chat. Then you can use the code completion and code execution service.
    <details>
      <summary>connect to socket server</summary>
@@ -78,10 +74,11 @@ or [![Quilted Fabric API](https://img.shields.io/badge/Quilted%20Fabric%20API-00
       <summary>code execution</summary>
       <img src=".doc/i3.png" alt="code execution"/>
    </details>
-   <br>
+
 5. You can also start the interactive console by starting the tool from `Tools -> Minecraft Command Console`
    or by pressing `Ctrl + Alt + M` (or `Command + Alt + M` on Mac),
    then you can send single line commands to the game and get the feedback one by one.
+
 6. You can also use the command line tool to connect to the socket server and execute the code.
 
 
