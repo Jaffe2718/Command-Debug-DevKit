@@ -23,6 +23,10 @@ public class McFunctionVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitNbtList(@NotNull McFunctionNbtList o) {
+    visitPsiElement(o);
+  }
+
   public void visitNbtPair(@NotNull McFunctionNbtPair o) {
     visitPsiElement(o);
   }

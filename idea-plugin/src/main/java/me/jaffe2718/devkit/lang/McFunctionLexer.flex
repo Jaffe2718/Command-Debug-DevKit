@@ -41,6 +41,7 @@ STRING_DATA=\"[^\"]*\"
 }
 */
 EMPTY_NBT_DATA=\{\}
+EMPTY_LIST_DATA=\[\]
 
 %state WAITING_VALUE
 
@@ -49,6 +50,7 @@ EMPTY_NBT_DATA=\{\}
 
     ^{ELE_START}{ELE_CHAR}*                            { return COMMAND_NAME;}
     {EMPTY_NBT_DATA}                                   { return EMPTY_NBT; }
+    {EMPTY_LIST_DATA}                                  { return EMPTY_LIST; }
     {NUMBER_LIKE}                                      { return NUMBER; }
     {TAG_NAME}                                         { return TAG; }
     {NAMESPACE}                                        { return NAMESPACE; }

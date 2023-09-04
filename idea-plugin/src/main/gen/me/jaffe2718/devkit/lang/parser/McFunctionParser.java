@@ -150,6 +150,53 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // "[" NBT ("," NBT)* "]" | EMPTY_LIST
+  public static boolean NBT_LIST(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "NBT_LIST")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, NBT_LIST, "<nbt list>");
+    r = NBT_LIST_0(b, l + 1);
+    if (!r) r = consumeToken(b, EMPTY_LIST);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // "[" NBT ("," NBT)* "]"
+  private static boolean NBT_LIST_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "NBT_LIST_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, "[");
+    r = r && NBT(b, l + 1);
+    r = r && NBT_LIST_0_2(b, l + 1);
+    r = r && consumeToken(b, "]");
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // ("," NBT)*
+  private static boolean NBT_LIST_0_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "NBT_LIST_0_2")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!NBT_LIST_0_2_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "NBT_LIST_0_2", c)) break;
+    }
+    return true;
+  }
+
+  // "," NBT
+  private static boolean NBT_LIST_0_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "NBT_LIST_0_2_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ",");
+    r = r && NBT(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // (NAMESPACE NBT_VALUE) | (STRING ":" NBT_VALUE)
   public static boolean NBT_PAIR(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "NBT_PAIR")) return false;
@@ -186,7 +233,7 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // STRING|NUMBER|ELEMENT|NBT
+  // STRING|NUMBER|ELEMENT|NBT|NBT_LIST
   public static boolean NBT_VALUE(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "NBT_VALUE")) return false;
     boolean r;
@@ -195,6 +242,7 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, NUMBER);
     if (!r) r = consumeToken(b, ELEMENT);
     if (!r) r = NBT(b, l + 1);
+    if (!r) r = NBT_LIST(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }

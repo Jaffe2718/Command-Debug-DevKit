@@ -12,6 +12,7 @@ public interface McFunctionTypes {
   IElementType COMMAND = new McFunctionElementType("COMMAND");
   IElementType IDENTIFIER = new McFunctionElementType("IDENTIFIER");
   IElementType NBT = new McFunctionElementType("NBT");
+  IElementType NBT_LIST = new McFunctionElementType("NBT_LIST");
   IElementType NBT_PAIR = new McFunctionElementType("NBT_PAIR");
   IElementType NBT_VALUE = new McFunctionElementType("NBT_VALUE");
   IElementType REF = new McFunctionElementType("REF");
@@ -21,6 +22,7 @@ public interface McFunctionTypes {
   IElementType COMMENT = new McFunctionTokenType("COMMENT");
   IElementType CRLF = new McFunctionTokenType("CRLF");
   IElementType ELEMENT = new McFunctionTokenType("ELEMENT");
+  IElementType EMPTY_LIST = new McFunctionTokenType("EMPTY_LIST");
   IElementType EMPTY_NBT = new McFunctionTokenType("EMPTY_NBT");
   IElementType NAMESPACE = new McFunctionTokenType("NAMESPACE");
   IElementType NUMBER = new McFunctionTokenType("NUMBER");
@@ -42,6 +44,9 @@ public interface McFunctionTypes {
       }
       else if (type == NBT) {
         return new McFunctionNbtImpl(node);
+      }
+      else if (type == NBT_LIST) {
+        return new McFunctionNbtListImpl(node);
       }
       else if (type == NBT_PAIR) {
         return new McFunctionNbtPairImpl(node);

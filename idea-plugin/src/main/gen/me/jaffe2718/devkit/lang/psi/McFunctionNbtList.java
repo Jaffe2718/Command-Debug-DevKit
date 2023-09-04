@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface McFunctionNbtValue extends PsiElement {
+public interface McFunctionNbtList extends PsiElement {
 
-  @Nullable
-  McFunctionNbt getNbt();
-
-  @Nullable
-  McFunctionNbtList getNbtList();
+  @NotNull
+  List<McFunctionNbt> getNbtList();
 
 }

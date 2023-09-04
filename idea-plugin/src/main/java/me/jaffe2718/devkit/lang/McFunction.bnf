@@ -25,7 +25,8 @@ REF ::= SELECTOR ("["TAG ARGUMENT {"," TAG ARGUMENT}* "]")?
 IDENTIFIER ::= NAMESPACE? ELEMENT NBT?
 
 NBT_PAIR ::= (NAMESPACE NBT_VALUE) | (STRING ":" NBT_VALUE)
-NBT_VALUE ::= (STRING|NUMBER|ELEMENT|NBT)
+NBT_LIST ::= "[" NBT ("," NBT)* "]" | EMPTY_LIST
+NBT_VALUE ::= (STRING|NUMBER|ELEMENT|NBT|NBT_LIST)
 NBT ::= "{" NBT_PAIR {"," NBT_PAIR}* "}" | EMPTY_NBT
 SYMBS_SET ::= ("{" | "[" | "(" | "}" | "]" | ")" | "," | ":" | "=" | "^" | "~" | "@")
 /*
