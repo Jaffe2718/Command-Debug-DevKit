@@ -1,0 +1,17 @@
+<svg width="245" height="48" xmlns="http://www.w3.org/2000/svg" role="img">
+    <mask id="m0">
+        <rect x="0" y="0" width="245" height="48" fill="black"/>
+        <circle cx="24" cy="24" r="24" fill="white"/>
+        <rect x="24" y="0" width="197" height="48" fill="white"/>
+        <circle cx="221" cy="24" r="24" fill="white"/>
+    </mask>
+    <g transform="translate(0, 0)" mask="url(#m0)">
+        <rect x="0" y="0" width="245" height="48" fill="black"/>
+        <polygon points="149,48 245,48 245,0 197,0" fill="#FC770D"/>
+        <polygon points="197,48 245,48 245,24" fill="#FB342C"/>
+        <polygon points="189,0 245,28 245,0" fill="#F42257"/>
+    </g>
+    <text x="48" y="24" fill="white" font-family="Arial"
+          font-size="16" alignment-baseline="central"
+          >Get from Marketplace</text>
+</svg>
