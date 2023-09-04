@@ -79,7 +79,7 @@ or [![Quilted Fabric API](https://img.shields.io/badge/Quilted%20Fabric%20API-00
    or by pressing `Ctrl + Alt + M` (or `Command + Alt + M` on Mac),
    then you can send single line commands to the game and get the feedback one by one.
    <details>
-      <summary>press Ctrl+Alt+M create interactive console</summary>
+      <summary>press Ctrl+Alt+M to create interactive console</summary>
       <img src=".doc/i4.png" alt="interactive console"/>
    </details>
    <details>
@@ -99,6 +99,106 @@ When you use this mod, you should be careful.
 Because it can execute any command.
 Do not send the host and port to any untrusted program to avoid being attacked.
 Do not install this mod on your multiplayer server to avoid being attacked by DDOS or other attacks.
+
+## Development 🔧
+
+### Overview
+This is the document for developers. 
+We will introduce how to develop external tools to work with this mod.
+Programing language is not limited, you can use any language you like,
+the only thing you need to do is make your tool has the ability to connect to the socket server and interact with it.
+
+### Concepts
+- For 2.x version, the mod will create two socket servers, one for code completion and one for code execution, whatever the mod is for `Fabric` or `Quilt`.
+
+    |     Server      |     Type      |                  Description                  |             Accepted Message              |   Returned Message   |
+    |:---------------:|:-------------:|:---------------------------------------------:|:-----------------------------------------:|:--------------------:|
+    | Code Completion | Socket Server |        The server for code completion         | single line command or unfinished command | multiple line result |
+    | Code Execution  | Socket Server | The server for command execution in Minecraft |            single line command            | execution feedbacks  |
+- Tips: the message sent is a single line of text, you should add `\n` at the end of the message or auto flush the buffer to send the message to the server.
+
+### Example
+In order to help you to understand how to develop external tools to work with this mod, we provide some examples for you.
+To make it easier to understand, we will use `Python` as the programing language in the examples to realize
+getting the code completion and executing the command in Minecraft.
+
+#### Code Completion
+
+- In this use case, we will show you how to use the code completion service.
+
+   ```python
+   # code_completion.py
+   import socket
+   
+   s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+   s.connect(('localhost', int(input('port: '))))
+   
+   # send a message to the server
+   s.send(b'give @s diamond\n')
+   
+   # receive the result from the server and print them line by line
+   while True:
+      data = s.recv(1024)
+      if not data:
+         break
+      print(data.decode('utf-8'))
+   s.close()
+   ```
+
+  if your code is at `path/to/your/code_completion.py`, you can run it by `python path/to/your/code.py` in your terminal.
+  Then you will get the result like this:
+
+   ```console
+   $ python "path/to/your/code_completion.py"
+   port: <enter the port shown in the game chat>
+   minecraft:deepslate_diamond_ore
+   minecraft:diamond
+   minecraft:diamond_axe
+   minecraft:diamond_block
+   minecraft:diamond_boots
+   minecraft:diamond_chestplate
+   minecraft:diamond_helmet
+   minecraft:diamond_hoe
+   minecraft:diamond_horse_armor
+   minecraft:diamond_leggings
+   minecraft:diamond_ore
+   minecraft:diamond_pickaxe
+   minecraft:diamond_shovel
+   minecraft:diamond_sword
+   ```
+
+#### Code Execution
+
+- In this use case, we will show you how to use the code execution service.
+
+   ```python
+   # code_execution.py
+   import socket
+   
+   s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+   s.connect(('localhost', int(input('port: '))))
+   
+   # send a message to the server
+   s.send(b'give @s diamond\n')
+   
+   # receive the result from the server and print them line by line
+   
+   data = s.recv(4096)
+   print(data.decode('utf-8'))
+   
+   s.close()
+   ```
+
+  If your code is at `path/to/your/code_execution.py`, you can run it by `python path/to/your/code.py` in your terminal.
+  Then you will get the result like this:
+
+   ```console
+   $ python "path/to/your/code_execution.py"
+   port: <enter the port shown in the game chat>
+   Gave 1 [Diamond] to <your name>
+   ```
+  And you will get a diamond in your inventory in the game.
+  
 
 ## License 📜
 [![Licence](https://img.shields.io/github/license/Jaffe2718/Command-Debug-DevKit?style=for-the-badge)](LICENSE)<br>
