@@ -10,7 +10,9 @@ public interface McFunctionTypes {
 
   IElementType ARGUMENT = new McFunctionElementType("ARGUMENT");
   IElementType COMMAND = new McFunctionElementType("COMMAND");
+  IElementType COMPLEX_ELE = new McFunctionElementType("COMPLEX_ELE");
   IElementType IDENTIFIER = new McFunctionElementType("IDENTIFIER");
+  IElementType IDENTIFIER_DOMAIN = new McFunctionElementType("IDENTIFIER_DOMAIN");
   IElementType NBT = new McFunctionElementType("NBT");
   IElementType NBT_LIST = new McFunctionElementType("NBT_LIST");
   IElementType NBT_PAIR = new McFunctionElementType("NBT_PAIR");
@@ -29,6 +31,7 @@ public interface McFunctionTypes {
   IElementType SELECTOR = new McFunctionTokenType("SELECTOR");
   IElementType STRING = new McFunctionTokenType("STRING");
   IElementType TAG = new McFunctionTokenType("TAG");
+  IElementType UUID = new McFunctionTokenType("UUID");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {
@@ -39,8 +42,14 @@ public interface McFunctionTypes {
       else if (type == COMMAND) {
         return new McFunctionCommandImpl(node);
       }
+      else if (type == COMPLEX_ELE) {
+        return new McFunctionComplexEleImpl(node);
+      }
       else if (type == IDENTIFIER) {
         return new McFunctionIdentifierImpl(node);
+      }
+      else if (type == IDENTIFIER_DOMAIN) {
+        return new McFunctionIdentifierDomainImpl(node);
       }
       else if (type == NBT) {
         return new McFunctionNbtImpl(node);

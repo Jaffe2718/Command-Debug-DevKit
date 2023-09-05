@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface McFunctionIdentifier extends PsiElement {
 
   @Nullable
+  McFunctionComplexEle getComplexEle();
+
+  @Nullable
   McFunctionNbt getNbt();
 
 }

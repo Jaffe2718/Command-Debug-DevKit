@@ -5,15 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface McFunctionNbtValue extends PsiElement {
+public interface McFunctionIdentifierDomain extends PsiElement {
 
-  @Nullable
-  McFunctionComplexEle getComplexEle();
-
-  @Nullable
-  McFunctionNbt getNbt();
-
-  @Nullable
-  McFunctionNbtList getNbtList();
+  @NotNull
+  McFunctionIdentifier getIdentifier();
 
 }

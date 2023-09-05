@@ -36,16 +36,20 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // NBT|STRING|NUMBER|REF|IDENTIFIER
+  // REF|IDENTIFIER_DOMAIN|IDENTIFIER|NBT|COMPLEX_ELE|UUID|STRING|NUMBER|ELEMENT
   public static boolean ARGUMENT(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ARGUMENT")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, ARGUMENT, "<argument>");
-    r = NBT(b, l + 1);
+    r = REF(b, l + 1);
+    if (!r) r = IDENTIFIER_DOMAIN(b, l + 1);
+    if (!r) r = IDENTIFIER(b, l + 1);
+    if (!r) r = NBT(b, l + 1);
+    if (!r) r = COMPLEX_ELE(b, l + 1);
+    if (!r) r = consumeToken(b, UUID);
     if (!r) r = consumeToken(b, STRING);
     if (!r) r = consumeToken(b, NUMBER);
-    if (!r) r = REF(b, l + 1);
-    if (!r) r = IDENTIFIER(b, l + 1);
+    if (!r) r = consumeToken(b, ELEMENT);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -75,24 +79,74 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // NAMESPACE? ELEMENT NBT?
-  public static boolean IDENTIFIER(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "IDENTIFIER")) return false;
-    if (!nextTokenIs(b, "<identifier>", ELEMENT, NAMESPACE)) return false;
+  // (ELEMENT|UUID) ("." ELEMENT)+
+  public static boolean COMPLEX_ELE(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "COMPLEX_ELE")) return false;
+    if (!nextTokenIs(b, "<complex ele>", ELEMENT, UUID)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, IDENTIFIER, "<identifier>");
-    r = IDENTIFIER_0(b, l + 1);
-    r = r && consumeToken(b, ELEMENT);
-    r = r && IDENTIFIER_2(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, COMPLEX_ELE, "<complex ele>");
+    r = COMPLEX_ELE_0(b, l + 1);
+    r = r && COMPLEX_ELE_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // NAMESPACE?
-  private static boolean IDENTIFIER_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "IDENTIFIER_0")) return false;
-    consumeToken(b, NAMESPACE);
-    return true;
+  // ELEMENT|UUID
+  private static boolean COMPLEX_ELE_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "COMPLEX_ELE_0")) return false;
+    boolean r;
+    r = consumeToken(b, ELEMENT);
+    if (!r) r = consumeToken(b, UUID);
+    return r;
+  }
+
+  // ("." ELEMENT)+
+  private static boolean COMPLEX_ELE_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "COMPLEX_ELE_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = COMPLEX_ELE_1_0(b, l + 1);
+    while (r) {
+      int c = current_position_(b);
+      if (!COMPLEX_ELE_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "COMPLEX_ELE_1", c)) break;
+    }
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // "." ELEMENT
+  private static boolean COMPLEX_ELE_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "COMPLEX_ELE_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ".");
+    r = r && consumeToken(b, ELEMENT);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // NAMESPACE (COMPLEX_ELE|ELEMENT) NBT?
+  public static boolean IDENTIFIER(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "IDENTIFIER")) return false;
+    if (!nextTokenIs(b, NAMESPACE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, NAMESPACE);
+    r = r && IDENTIFIER_1(b, l + 1);
+    r = r && IDENTIFIER_2(b, l + 1);
+    exit_section_(b, m, IDENTIFIER, r);
+    return r;
+  }
+
+  // COMPLEX_ELE|ELEMENT
+  private static boolean IDENTIFIER_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "IDENTIFIER_1")) return false;
+    boolean r;
+    r = COMPLEX_ELE(b, l + 1);
+    if (!r) r = consumeToken(b, ELEMENT);
+    return r;
   }
 
   // NBT?
@@ -100,6 +154,18 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "IDENTIFIER_2")) return false;
     NBT(b, l + 1);
     return true;
+  }
+
+  /* ********************************************************** */
+  // "#" IDENTIFIER
+  public static boolean IDENTIFIER_DOMAIN(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "IDENTIFIER_DOMAIN")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, IDENTIFIER_DOMAIN, "<identifier domain>");
+    r = consumeToken(b, "#");
+    r = r && IDENTIFIER(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
   }
 
   /* ********************************************************** */
@@ -150,7 +216,7 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // "[" NBT ("," NBT)* "]" | EMPTY_LIST
+  // "[" (NBT|STRING) ("," (NBT|STRING))* "]" | EMPTY_LIST
   public static boolean NBT_LIST(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "NBT_LIST")) return false;
     boolean r;
@@ -161,20 +227,29 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // "[" NBT ("," NBT)* "]"
+  // "[" (NBT|STRING) ("," (NBT|STRING))* "]"
   private static boolean NBT_LIST_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "NBT_LIST_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, "[");
-    r = r && NBT(b, l + 1);
+    r = r && NBT_LIST_0_1(b, l + 1);
     r = r && NBT_LIST_0_2(b, l + 1);
     r = r && consumeToken(b, "]");
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // ("," NBT)*
+  // NBT|STRING
+  private static boolean NBT_LIST_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "NBT_LIST_0_1")) return false;
+    boolean r;
+    r = NBT(b, l + 1);
+    if (!r) r = consumeToken(b, STRING);
+    return r;
+  }
+
+  // ("," (NBT|STRING))*
   private static boolean NBT_LIST_0_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "NBT_LIST_0_2")) return false;
     while (true) {
@@ -185,14 +260,23 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // "," NBT
+  // "," (NBT|STRING)
   private static boolean NBT_LIST_0_2_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "NBT_LIST_0_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, ",");
-    r = r && NBT(b, l + 1);
+    r = r && NBT_LIST_0_2_0_1(b, l + 1);
     exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // NBT|STRING
+  private static boolean NBT_LIST_0_2_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "NBT_LIST_0_2_0_1")) return false;
+    boolean r;
+    r = NBT(b, l + 1);
+    if (!r) r = consumeToken(b, STRING);
     return r;
   }
 
@@ -233,7 +317,7 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // STRING|NUMBER|ELEMENT|NBT|NBT_LIST
+  // STRING|NUMBER|ELEMENT|UUID|NBT|NBT_LIST|COMPLEX_ELE
   public static boolean NBT_VALUE(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "NBT_VALUE")) return false;
     boolean r;
@@ -241,8 +325,10 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, STRING);
     if (!r) r = consumeToken(b, NUMBER);
     if (!r) r = consumeToken(b, ELEMENT);
+    if (!r) r = consumeToken(b, UUID);
     if (!r) r = NBT(b, l + 1);
     if (!r) r = NBT_LIST(b, l + 1);
+    if (!r) r = COMPLEX_ELE(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -305,7 +391,7 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // "{" | "[" | "(" | "}" | "]" | ")" | "," | ":" | "=" | "^" | "~" | "@"
+  // "{" | "[" | "(" | "}" | "]" | ")" | "," | ":" | "=" | "^" | "~" | "@" | "."
   public static boolean SYMBS_SET(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "SYMBS_SET")) return false;
     boolean r;
@@ -322,6 +408,7 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, "^");
     if (!r) r = consumeToken(b, "~");
     if (!r) r = consumeToken(b, "@");
+    if (!r) r = consumeToken(b, ".");
     exit_section_(b, l, m, r, false, null);
     return r;
   }

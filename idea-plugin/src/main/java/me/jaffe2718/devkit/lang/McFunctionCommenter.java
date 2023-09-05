@@ -14,7 +14,7 @@ public class McFunctionCommenter implements Commenter {
      */
     @Override
     public @Nullable String getLineCommentPrefix() {
-        return "#";
+        return "# ";
     }
 
     /**

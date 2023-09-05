@@ -15,7 +15,15 @@ public class McFunctionVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitComplexEle(@NotNull McFunctionComplexEle o) {
+    visitPsiElement(o);
+  }
+
   public void visitIdentifier(@NotNull McFunctionIdentifier o) {
+    visitPsiElement(o);
+  }
+
+  public void visitIdentifierDomain(@NotNull McFunctionIdentifierDomain o) {
     visitPsiElement(o);
   }
 

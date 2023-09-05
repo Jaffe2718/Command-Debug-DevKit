@@ -11,38 +11,20 @@ import static me.jaffe2718.devkit.lang.psi.McFunctionTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import me.jaffe2718.devkit.lang.psi.*;
 
-public class McFunctionNbtValueImpl extends ASTWrapperPsiElement implements McFunctionNbtValue {
+public class McFunctionComplexEleImpl extends ASTWrapperPsiElement implements McFunctionComplexEle {
 
-  public McFunctionNbtValueImpl(@NotNull ASTNode node) {
+  public McFunctionComplexEleImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull McFunctionVisitor visitor) {
-    visitor.visitNbtValue(this);
+    visitor.visitComplexEle(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof McFunctionVisitor) accept((McFunctionVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @Nullable
-  public McFunctionComplexEle getComplexEle() {
-    return findChildByClass(McFunctionComplexEle.class);
-  }
-
-  @Override
-  @Nullable
-  public McFunctionNbt getNbt() {
-    return findChildByClass(McFunctionNbt.class);
-  }
-
-  @Override
-  @Nullable
-  public McFunctionNbtList getNbtList() {
-    return findChildByClass(McFunctionNbtList.class);
   }
 
 }

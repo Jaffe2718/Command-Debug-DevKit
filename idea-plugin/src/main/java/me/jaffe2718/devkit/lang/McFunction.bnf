@@ -20,15 +20,18 @@ mcFunctionFile ::= item_*
 private item_ ::= (COMMAND|COMMENT|CRLF)
 
 COMMAND ::= (COMMAND_NAME ARGUMENT*)
-ARGUMENT ::= (NBT|STRING|NUMBER|REF|IDENTIFIER)
+ARGUMENT ::= (REF|IDENTIFIER_DOMAIN|IDENTIFIER|NBT|COMPLEX_ELE|UUID|STRING|NUMBER|ELEMENT)
 REF ::= SELECTOR ("["TAG ARGUMENT {"," TAG ARGUMENT}* "]")?
-IDENTIFIER ::= NAMESPACE? ELEMENT NBT?
+IDENTIFIER ::= NAMESPACE (COMPLEX_ELE|ELEMENT) NBT?
+IDENTIFIER_DOMAIN ::= "#" IDENTIFIER
+
+COMPLEX_ELE ::= (ELEMENT|UUID) ("." ELEMENT)+   // complex element like obj.attr1.attr2 .......
 
 NBT_PAIR ::= (NAMESPACE NBT_VALUE) | (STRING ":" NBT_VALUE)
-NBT_LIST ::= "[" NBT ("," NBT)* "]" | EMPTY_LIST
-NBT_VALUE ::= (STRING|NUMBER|ELEMENT|NBT|NBT_LIST)
+NBT_LIST ::= "[" (NBT|STRING) ("," (NBT|STRING))* "]" | EMPTY_LIST
+NBT_VALUE ::= (STRING|NUMBER|ELEMENT|UUID|NBT|NBT_LIST|COMPLEX_ELE)
 NBT ::= "{" NBT_PAIR {"," NBT_PAIR}* "}" | EMPTY_NBT
-SYMBS_SET ::= ("{" | "[" | "(" | "}" | "]" | ")" | "," | ":" | "=" | "^" | "~" | "@")
+SYMBS_SET ::= ("{" | "[" | "(" | "}" | "]" | ")" | "," | ":" | "=" | "^" | "~" | "@" | ".")
 /*
 STRING "string"
 NUMBER 123 ~123 123.456 ~123.456 ^123.456 ^~123.456

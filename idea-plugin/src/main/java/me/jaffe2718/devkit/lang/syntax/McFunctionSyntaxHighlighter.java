@@ -35,6 +35,10 @@ public class McFunctionSyntaxHighlighter extends SyntaxHighlighterBase {
             TextAttributesKey.createTextAttributesKey("MC_FUNCTION_ELEMENT",
                     DefaultLanguageHighlighterColors.FUNCTION_CALL);
 
+    public static final TextAttributesKey MC_FUNCTION_UUID =
+            TextAttributesKey.createTextAttributesKey("MC_FUNCTION_UUID",
+                    DefaultLanguageHighlighterColors.HIGHLIGHTED_REFERENCE);
+
     private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[]{MC_FUNCTION_COMMENT};
     private static final TextAttributesKey[] SYMBOL_KEYS = new TextAttributesKey[]{MC_FUNCTION_SYMBOL};
     private static final TextAttributesKey[] STRING_KEYS = new TextAttributesKey[]{MC_FUNCTION_STRING};
@@ -43,6 +47,7 @@ public class McFunctionSyntaxHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] SELECTOR_KEYS = new TextAttributesKey[]{MC_FUNCTION_SELECTOR};
     private static final TextAttributesKey[] NAMESPACE_KEYS = new TextAttributesKey[]{MC_FUNCTION_NAMESPACE};
     private static final TextAttributesKey[] ELEMENT_KEYS = new TextAttributesKey[]{MC_FUNCTION_ELEMENT};
+    private static final TextAttributesKey[] UUID_KEYS = new TextAttributesKey[]{MC_FUNCTION_UUID};
 
     /**
      * Returns the lexer used for highlighting the file. The lexer is invoked incrementally when the file is changed, so it must be
@@ -80,6 +85,8 @@ public class McFunctionSyntaxHighlighter extends SyntaxHighlighterBase {
             return NAMESPACE_KEYS;
         } else if (tokenType.equals(McFunctionTypes.ELEMENT)) {
             return ELEMENT_KEYS;
+        } else if (tokenType.equals(McFunctionTypes.UUID)) {
+            return UUID_KEYS;
         } else {
             return TextAttributesKey.EMPTY_ARRAY;
         }

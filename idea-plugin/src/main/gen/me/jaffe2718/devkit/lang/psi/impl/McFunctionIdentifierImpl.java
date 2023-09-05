@@ -29,6 +29,12 @@ public class McFunctionIdentifierImpl extends ASTWrapperPsiElement implements Mc
 
   @Override
   @Nullable
+  public McFunctionComplexEle getComplexEle() {
+    return findChildByClass(McFunctionComplexEle.class);
+  }
+
+  @Override
+  @Nullable
   public McFunctionNbt getNbt() {
     return findChildByClass(McFunctionNbt.class);
   }

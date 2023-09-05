@@ -29,8 +29,20 @@ public class McFunctionArgumentImpl extends ASTWrapperPsiElement implements McFu
 
   @Override
   @Nullable
+  public McFunctionComplexEle getComplexEle() {
+    return findChildByClass(McFunctionComplexEle.class);
+  }
+
+  @Override
+  @Nullable
   public McFunctionIdentifier getIdentifier() {
     return findChildByClass(McFunctionIdentifier.class);
+  }
+
+  @Override
+  @Nullable
+  public McFunctionIdentifierDomain getIdentifierDomain() {
+    return findChildByClass(McFunctionIdentifierDomain.class);
   }
 
   @Override

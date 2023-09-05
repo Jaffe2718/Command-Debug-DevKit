@@ -52,7 +52,7 @@ public class ExecuteWithoutLogAction extends AnAction {
 
     private String removeComments(String text) {
         // remove the comments #... and the spaces before it
-        // but strings are not comments like "...#..."
+        // but strings are not comments like "...# ...", there must be a space before the #
         boolean inString = false;
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < text.length(); i++) {
@@ -67,7 +67,9 @@ public class ExecuteWithoutLogAction extends AnAction {
                 if (c == '"') {             // start of string
                     inString = true;
                 } else if (c == '#') {      // start of comment
-                    break;
+                    if (i+1<text.length() && text.charAt(i+1) == ' ') {
+                        break;
+                    }
                 }
                 result.append(c);
             }

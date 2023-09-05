@@ -20,7 +20,7 @@ import static me.jaffe2718.devkit.lang.psi.McFunctionTypes.*;
 
 CRLF=\R
 WHITE_SPACE=[\ \n\t\f]
-LINE_COMMENT="#"[^\r\n]*
+LINE_COMMENT="# "[^\r\n]*
 
 NUM=[0-9]
 ELE_START=[a-zA-Z_]
@@ -32,7 +32,7 @@ NUMBER_LIKE=([~\^]?-?{NUM}+(\.{NUM}+)?) | [~\^]
 
 NAMESPACE={ELE_START}{ELE_CHAR}*:
 ELEMENT={ELE_START}{ELE_CHAR}*
-ADVANCEMENT={ELE_START}{ELE_CHAR}*\/{ELE_START}{ELE_CHAR}*
+ADVANCEMENT={ELE_START}{ELE_CHAR}*\/{ELE_START}{ELE_CHAR}*  // like `minecraft:adventure/kill_a_mob`
 STRING_DATA=\"[^\"]*\"
 
 /* match a nbt data like
@@ -43,6 +43,7 @@ STRING_DATA=\"[^\"]*\"
 */
 EMPTY_NBT_DATA=\{\}
 EMPTY_LIST_DATA=\[\]
+UUID = [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
 
 %state WAITING_VALUE
 
@@ -55,11 +56,10 @@ EMPTY_LIST_DATA=\[\]
     {NUMBER_LIKE}                                      { return NUMBER; }
     {TAG_NAME}                                         { return TAG; }
     {NAMESPACE}                                        { return NAMESPACE; }
-    {ELEMENT}                                          { return ELEMENT; }
-    {ADVANCEMENT}                                      { return ELEMENT; }
     @{REF_C}                                           { return SELECTOR; }
     {STRING_DATA}                                      { return STRING; }
-
+    {UUID}                                             { return UUID; }
+    {ELEMENT}|{ADVANCEMENT}                            { return ELEMENT; }
     {LINE_COMMENT}                                   { yybegin(YYINITIAL); return McFunctionTypes.COMMENT; }
     ({CRLF}|{WHITE_SPACE})+                          { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
 }
