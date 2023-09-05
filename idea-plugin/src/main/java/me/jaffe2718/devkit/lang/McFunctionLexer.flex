@@ -24,7 +24,7 @@ LINE_COMMENT="#"[^\r\n]*
 
 NUM=[0-9]
 ELE_START=[a-zA-Z_]
-ELE_CHAR=[a-zA-Z_]|{NUM}
+ELE_CHAR={ELE_START}|{NUM}
 REF_C=[aeprs]
 
 TAG_NAME={ELE_START}{ELE_CHAR}*=
@@ -32,6 +32,7 @@ NUMBER_LIKE=([~\^]?-?{NUM}+(\.{NUM}+)?) | [~\^]
 
 NAMESPACE={ELE_START}{ELE_CHAR}*:
 ELEMENT={ELE_START}{ELE_CHAR}*
+ADVANCEMENT={ELE_START}{ELE_CHAR}*\/{ELE_START}{ELE_CHAR}*
 STRING_DATA=\"[^\"]*\"
 
 /* match a nbt data like
@@ -55,6 +56,7 @@ EMPTY_LIST_DATA=\[\]
     {TAG_NAME}                                         { return TAG; }
     {NAMESPACE}                                        { return NAMESPACE; }
     {ELEMENT}                                          { return ELEMENT; }
+    {ADVANCEMENT}                                      { return ELEMENT; }
     @{REF_C}                                           { return SELECTOR; }
     {STRING_DATA}                                      { return STRING; }
 

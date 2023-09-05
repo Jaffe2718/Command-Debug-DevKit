@@ -71,10 +71,10 @@ public class McFunctionLexer implements FlexLexer {
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
     "\11\0\1\1\1\2\2\1\1\2\22\0\1\1\1\0"+
     "\1\3\1\4\4\0\2\5\2\0\1\5\1\6\1\7"+
-    "\1\0\12\10\1\11\2\0\1\12\2\0\1\13\32\14"+
-    "\1\15\1\0\1\16\1\17\1\14\1\0\1\20\3\14"+
-    "\1\20\12\14\1\20\1\14\2\20\7\14\1\21\1\0"+
-    "\1\22\1\17\6\0\1\1\u01a2\0\2\1\326\0";
+    "\1\10\12\11\1\12\2\0\1\13\2\0\1\14\32\15"+
+    "\1\16\1\0\1\17\1\20\1\15\1\0\1\21\3\15"+
+    "\1\21\12\15\1\21\1\15\2\21\7\15\1\22\1\0"+
+    "\1\23\1\20\6\0\1\1\u01a2\0\2\1\326\0";
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[768];
@@ -103,10 +103,11 @@ public class McFunctionLexer implements FlexLexer {
   private static final String ZZ_ACTION_PACKED_0 =
     "\3\0\1\1\1\2\1\1\1\3\1\4\1\1\1\5"+
     "\1\4\1\6\1\4\1\5\1\4\1\7\1\0\1\10"+
-    "\1\0\1\11\1\12\1\13\1\14\1\0\1\15\1\5";
+    "\1\0\1\11\1\0\1\12\1\13\1\14\1\0\1\15"+
+    "\1\5\1\6";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[26];
+    int [] result = new int[28];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -131,13 +132,13 @@ public class McFunctionLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\23\0\46\0\71\0\114\0\137\0\162\0\71"+
-    "\0\205\0\230\0\253\0\276\0\321\0\344\0\367\0\u010a"+
-    "\0\137\0\71\0\u011d\0\71\0\71\0\71\0\71\0\205"+
-    "\0\71\0\u011d";
+    "\0\0\0\24\0\50\0\74\0\120\0\144\0\170\0\74"+
+    "\0\214\0\240\0\264\0\310\0\334\0\360\0\u0104\0\u0118"+
+    "\0\144\0\74\0\u012c\0\74\0\u0140\0\74\0\74\0\74"+
+    "\0\214\0\74\0\u012c\0\u0154";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[26];
+    int [] result = new int[28];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -160,20 +161,22 @@ public class McFunctionLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpacktrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\4\2\5\1\6\1\7\1\10\1\11\1\4\1\12"+
+    "\1\4\2\5\1\6\1\7\1\10\1\11\2\4\1\12"+
     "\2\10\1\13\1\14\1\15\1\10\1\16\1\14\1\17"+
-    "\1\10\1\4\2\5\1\6\1\7\1\10\1\11\1\4"+
+    "\1\10\1\4\2\5\1\6\1\7\1\10\1\11\2\4"+
     "\1\12\2\10\1\13\1\20\1\15\1\10\1\16\1\20"+
-    "\1\17\1\10\5\4\1\10\3\4\3\10\1\4\3\10"+
-    "\1\4\2\10\24\0\2\5\20\0\3\21\1\22\17\21"+
-    "\2\7\1\0\20\7\10\0\1\12\21\0\1\23\1\12"+
-    "\32\0\1\24\12\0\1\14\1\25\1\26\1\0\1\14"+
-    "\3\0\1\14\20\0\1\27\12\0\1\30\1\0\1\12"+
-    "\34\0\1\31\10\0\1\20\1\25\1\26\1\0\1\20"+
-    "\3\0\1\20\12\0\1\32\12\0";
+    "\1\17\1\10\5\4\1\10\4\4\3\10\1\4\3\10"+
+    "\1\4\2\10\25\0\2\5\21\0\3\21\1\22\20\21"+
+    "\2\7\1\0\21\7\11\0\1\12\21\0\1\23\1\0"+
+    "\1\12\33\0\1\24\12\0\1\25\1\14\1\26\1\27"+
+    "\1\0\1\14\3\0\1\14\21\0\1\30\12\0\1\31"+
+    "\2\0\1\12\35\0\1\32\10\0\1\25\1\20\1\26"+
+    "\1\27\1\0\1\20\3\0\1\20\13\0\1\33\27\0"+
+    "\1\34\3\0\1\34\13\0\1\34\3\0\1\34\3\0"+
+    "\1\34\2\0";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[304];
+    int [] result = new int[360];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -212,10 +215,10 @@ public class McFunctionLexer implements FlexLexer {
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
     "\3\0\1\11\3\1\1\11\10\1\1\0\1\11\1\0"+
-    "\4\11\1\0\1\11\1\1";
+    "\1\11\1\0\3\11\1\0\1\11\2\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[26];
+    int [] result = new int[28];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
