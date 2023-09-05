@@ -101,7 +101,7 @@ public class IdeDebugTool {
             lines = new String(java.nio.file.Files.readAllBytes(java.nio.file.Paths.get(fileName))).split("\n");
             // try to remove the comments which start with "#" and trim the lines
             for (int i = 0; i < lines.length; i++) {
-                lines[i] = lines[i].split("#")[0].trim();
+                lines[i] = removeComments(lines[i]);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -134,5 +134,32 @@ public class IdeDebugTool {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static String removeComments(String text) {
+        // remove the comments #... and the spaces before it
+        // but strings are not comments like "...# ...", there must be a space before the #
+        boolean inString = false;
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            if (inString) {
+                if (c == '"') {             // end of string
+                    inString = false;
+                }
+                result.append(c);
+            }
+            else {          // not in string
+                if (c == '"') {             // start of string
+                    inString = true;
+                } else if (c == '#') {      // start of comment
+                    if (i+1<text.length() && text.charAt(i+1) == ' ') {
+                        break;
+                    }
+                }
+                result.append(c);
+            }
+        }
+        return result.toString().trim();
     }
 }
