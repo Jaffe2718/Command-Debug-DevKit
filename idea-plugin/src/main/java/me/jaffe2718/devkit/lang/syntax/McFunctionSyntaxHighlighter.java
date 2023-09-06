@@ -13,9 +13,6 @@ public class McFunctionSyntaxHighlighter extends SyntaxHighlighterBase {
     public static final TextAttributesKey MC_FUNCTION_COMMENT =
             TextAttributesKey.createTextAttributesKey("MC_FUNCTION_COMMENT",
                     DefaultLanguageHighlighterColors.LINE_COMMENT);
-    public static final TextAttributesKey MC_FUNCTION_SYMBOL =
-            TextAttributesKey.createTextAttributesKey("MC_FUNCTION_SYMBOL",
-                    DefaultLanguageHighlighterColors.KEYWORD);
     public static final TextAttributesKey MC_FUNCTION_STRING =
             TextAttributesKey.createTextAttributesKey("MC_FUNCTION_STRING",
                     DefaultLanguageHighlighterColors.STRING);
@@ -43,7 +40,6 @@ public class McFunctionSyntaxHighlighter extends SyntaxHighlighterBase {
                     DefaultLanguageHighlighterColors.HIGHLIGHTED_REFERENCE);
 
     private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[]{MC_FUNCTION_COMMENT};
-    private static final TextAttributesKey[] SYMBOL_KEYS = new TextAttributesKey[]{MC_FUNCTION_SYMBOL};
     private static final TextAttributesKey[] STRING_KEYS = new TextAttributesKey[]{MC_FUNCTION_STRING};
     private static final TextAttributesKey[] RANGE_KEYS = new TextAttributesKey[]{MC_FUNCTION_RANGE};
     private static final TextAttributesKey[] NUMBER_KEYS = new TextAttributesKey[]{MC_FUNCTION_NUMBER};
@@ -75,8 +71,6 @@ public class McFunctionSyntaxHighlighter extends SyntaxHighlighterBase {
     public TextAttributesKey @NotNull [] getTokenHighlights(IElementType tokenType) {
         if (tokenType.equals(McFunctionTypes.COMMENT)) {
             return COMMENT_KEYS;
-        } else if (tokenType.equals(McFunctionTypes.SYMBS_SET)) {
-            return SYMBOL_KEYS;
         } else if (tokenType.equals(McFunctionTypes.STRING)) {
             return STRING_KEYS;
         } else if (tokenType.equals(McFunctionTypes.RANGE)) {

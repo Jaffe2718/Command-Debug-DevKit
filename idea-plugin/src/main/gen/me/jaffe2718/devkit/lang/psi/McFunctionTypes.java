@@ -18,7 +18,6 @@ public interface McFunctionTypes {
   IElementType NBT_PAIR = new McFunctionElementType("NBT_PAIR");
   IElementType NBT_VALUE = new McFunctionElementType("NBT_VALUE");
   IElementType REF = new McFunctionElementType("REF");
-  IElementType SYMBS_SET = new McFunctionElementType("SYMBS_SET");
 
   IElementType COMMAND_NAME = new McFunctionTokenType("COMMAND_NAME");
   IElementType COMMENT = new McFunctionTokenType("COMMENT");
@@ -26,6 +25,7 @@ public interface McFunctionTypes {
   IElementType ELEMENT = new McFunctionTokenType("ELEMENT");
   IElementType EMPTY_LIST = new McFunctionTokenType("EMPTY_LIST");
   IElementType EMPTY_NBT = new McFunctionTokenType("EMPTY_NBT");
+  IElementType EX_SYNTAX = new McFunctionTokenType("EX_SYNTAX");
   IElementType NAMESPACE = new McFunctionTokenType("NAMESPACE");
   IElementType NUMBER = new McFunctionTokenType("NUMBER");
   IElementType OPERATOR = new McFunctionTokenType("OPERATOR");
@@ -67,9 +67,6 @@ public interface McFunctionTypes {
       }
       else if (type == REF) {
         return new McFunctionRefImpl(node);
-      }
-      else if (type == SYMBS_SET) {
-        return new McFunctionSymbsSetImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

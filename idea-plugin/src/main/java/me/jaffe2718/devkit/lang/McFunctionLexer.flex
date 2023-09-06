@@ -32,7 +32,7 @@ NUMBER_LIKE=([~\^]?-?{NUM}+(\.{NUM}+)?) | [~\^]
 
 NAMESPACE={ELE_START}{ELE_CHAR}*:
 ELEMENT={ELE_START}{ELE_CHAR}*
-ADVANCEMENT={ELE_START}{ELE_CHAR}*\/{ELE_START}{ELE_CHAR}*  // like `minecraft:adventure/kill_a_mob`
+ELE_PATH={ELE_START}{ELE_CHAR}*(\/{ELE_START}{ELE_CHAR}*)+  // like `adventure/kill_a_mob`
 STRING_DATA=\"[^\"]*\"
 OPERATOR=(<|<=|=|>=|>)
 
@@ -63,10 +63,10 @@ RANGE = (-?[0-9]+\.\.(-?[0-9]+)?)|((-?[0-9]+)?\.\.-?[0-9]+)
     @{REF_C}                                           { return SELECTOR; }
     {STRING_DATA}                                      { return STRING; }
     {UUID}                                             { return UUID; }
-    {ELEMENT}|{ADVANCEMENT}                            { return ELEMENT; }
+    {ELEMENT}|{ELE_PATH}                               { return ELEMENT; }
     {LINE_COMMENT}                                     { yybegin(YYINITIAL); return McFunctionTypes.COMMENT; }
     ({CRLF}|{WHITE_SPACE})+                            { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
 }
 // ("{" | "[" | "(" | "}" | "]" | ")" | "," | ":" | "=" | "^" | "~" | "@")
-[\{\[\(\}\]\)\,\:\=\^\~\@#]                            { return SYMBS_SET; }
-[^]                                                    { return TokenType.BAD_CHARACTER; }
+// [\{\[\(\}\]\)\,\:\=\^\~\@#]                            { return SYMBS_SET; }
+[^]                                                    { return EX_SYNTAX; }
