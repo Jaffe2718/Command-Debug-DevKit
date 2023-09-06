@@ -79,7 +79,7 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (ELEMENT|UUID) ("." ELEMENT)+
+  // (ELEMENT|UUID) ("." (ELEMENT|UUID))+
   public static boolean COMPLEX_ELE(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "COMPLEX_ELE")) return false;
     if (!nextTokenIs(b, "<complex ele>", ELEMENT, UUID)) return false;
@@ -100,7 +100,7 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // ("." ELEMENT)+
+  // ("." (ELEMENT|UUID))+
   private static boolean COMPLEX_ELE_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "COMPLEX_ELE_1")) return false;
     boolean r;
@@ -115,14 +115,23 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // "." ELEMENT
+  // "." (ELEMENT|UUID)
   private static boolean COMPLEX_ELE_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "COMPLEX_ELE_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, ".");
-    r = r && consumeToken(b, ELEMENT);
+    r = r && COMPLEX_ELE_1_0_1(b, l + 1);
     exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // ELEMENT|UUID
+  private static boolean COMPLEX_ELE_1_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "COMPLEX_ELE_1_0_1")) return false;
+    boolean r;
+    r = consumeToken(b, ELEMENT);
+    if (!r) r = consumeToken(b, UUID);
     return r;
   }
 
@@ -216,7 +225,7 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // "[" (NBT|STRING) ("," (NBT|STRING))* "]" | EMPTY_LIST
+  // "[" (NBT|STRING) ("," (NBT|STRING))* ","? "]" | EMPTY_LIST
   public static boolean NBT_LIST(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "NBT_LIST")) return false;
     boolean r;
@@ -227,7 +236,7 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // "[" (NBT|STRING) ("," (NBT|STRING))* "]"
+  // "[" (NBT|STRING) ("," (NBT|STRING))* ","? "]"
   private static boolean NBT_LIST_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "NBT_LIST_0")) return false;
     boolean r;
@@ -235,6 +244,7 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, "[");
     r = r && NBT_LIST_0_1(b, l + 1);
     r = r && NBT_LIST_0_2(b, l + 1);
+    r = r && NBT_LIST_0_3(b, l + 1);
     r = r && consumeToken(b, "]");
     exit_section_(b, m, null, r);
     return r;
@@ -278,6 +288,13 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
     r = NBT(b, l + 1);
     if (!r) r = consumeToken(b, STRING);
     return r;
+  }
+
+  // ","?
+  private static boolean NBT_LIST_0_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "NBT_LIST_0_3")) return false;
+    consumeToken(b, ",");
+    return true;
   }
 
   /* ********************************************************** */

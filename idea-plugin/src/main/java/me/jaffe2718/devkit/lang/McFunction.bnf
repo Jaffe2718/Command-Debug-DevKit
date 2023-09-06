@@ -25,13 +25,13 @@ REF ::= SELECTOR ("["TAG ARGUMENT {"," TAG ARGUMENT}* "]")?
 IDENTIFIER ::= NAMESPACE (COMPLEX_ELE|ELEMENT) NBT?
 IDENTIFIER_DOMAIN ::= "#" IDENTIFIER
 
-COMPLEX_ELE ::= (ELEMENT|UUID) ("." ELEMENT)+   // complex element like obj.attr1.attr2 .......
+COMPLEX_ELE ::= (ELEMENT|UUID) ("." (ELEMENT|UUID))+   // complex element like obj.attr1.attr2 .......
 
 NBT_PAIR ::= (NAMESPACE NBT_VALUE) | (STRING ":" NBT_VALUE)
-NBT_LIST ::= "[" (NBT|STRING) ("," (NBT|STRING))* "]" | EMPTY_LIST
+NBT_LIST ::= "[" (NBT|STRING) ("," (NBT|STRING))* ","? "]" | EMPTY_LIST
 NBT_VALUE ::= (STRING|NUMBER|ELEMENT|UUID|NBT|NBT_LIST|COMPLEX_ELE)
 NBT ::= "{" NBT_PAIR {"," NBT_PAIR}* "}" | EMPTY_NBT
-SYMBS_SET ::= ("{" | "[" | "(" | "}" | "]" | ")" | "," | ":" | "=" | "^" | "~" | "@" | ".")
+SYMBS_SET ::= ("{" | "[" | "(" | "}" | "]" | ")" | "," | ":" | "=" | "^" | "~" | "@" | "." | "#")
 /*
 STRING "string"
 NUMBER 123 ~123 123.456 ~123.456 ^123.456 ^~123.456

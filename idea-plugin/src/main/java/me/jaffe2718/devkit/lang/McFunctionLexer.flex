@@ -64,5 +64,5 @@ UUID = [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{1
     ({CRLF}|{WHITE_SPACE})+                          { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
 }
 // ("{" | "[" | "(" | "}" | "]" | ")" | "," | ":" | "=" | "^" | "~" | "@")
-[\{\[\(\}\]\)\,\:\=\^\~\@]                           { return SYMBS_SET; }
+[\{\[\(\}\]\)\,\:\=\^\~\@#]                           { return SYMBS_SET; }
 [^]                                                  { return TokenType.BAD_CHARACTER; }
