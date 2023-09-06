@@ -71,13 +71,20 @@ public class ExecuteAction extends AnAction {
         } catch (Exception ignored) {}
     }
 
-    private File extractTool() {
+    private File extractTool() {  // TODO: add the function to update the jar file tool automatically
         File libs = Path.of(System.getenv("HOMEPATH"), ".mcfuncdev").toAbsolutePath().toFile();
         if (libs.exists() && libs.isDirectory()) {
             // check if ide-debug-tool-<version>.jar is present
             for (File jarfile : Objects.requireNonNull(libs.listFiles())) {
                 if (jarfile.getName().startsWith("ide-debug-tool-") && jarfile.getName().endsWith(".jar")) {
-                    return jarfile;
+                    // find the jar file
+                    if (jarfile.getName().equals(TOOL_NAME)) {
+                        return jarfile;
+                    } else {
+                        // delete the old jar file
+                        assert jarfile.delete();
+                        break;
+                    }
                 }
             }
         } else {  // if not exist, create it
