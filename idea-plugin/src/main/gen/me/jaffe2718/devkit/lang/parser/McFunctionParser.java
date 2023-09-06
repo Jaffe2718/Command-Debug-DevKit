@@ -36,7 +36,7 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // REF|IDENTIFIER_DOMAIN|IDENTIFIER|NBT|COMPLEX_ELE|UUID|STRING|NUMBER|ELEMENT
+  // REF|IDENTIFIER_DOMAIN|IDENTIFIER|NBT|COMPLEX_ELE|UUID|RANGE|STRING|NUMBER|ELEMENT|OPERATOR
   public static boolean ARGUMENT(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ARGUMENT")) return false;
     boolean r;
@@ -47,9 +47,11 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
     if (!r) r = NBT(b, l + 1);
     if (!r) r = COMPLEX_ELE(b, l + 1);
     if (!r) r = consumeToken(b, UUID);
+    if (!r) r = consumeToken(b, RANGE);
     if (!r) r = consumeToken(b, STRING);
     if (!r) r = consumeToken(b, NUMBER);
     if (!r) r = consumeToken(b, ELEMENT);
+    if (!r) r = consumeToken(b, OPERATOR);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -408,7 +410,7 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // "{" | "[" | "(" | "}" | "]" | ")" | "," | ":" | "=" | "^" | "~" | "@" | "."
+  // "{" | "[" | "(" | "}" | "]" | ")" | "," | ":" | "=" | "^" | "~" | "@" | "#"
   public static boolean SYMBS_SET(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "SYMBS_SET")) return false;
     boolean r;
@@ -425,7 +427,7 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, "^");
     if (!r) r = consumeToken(b, "~");
     if (!r) r = consumeToken(b, "@");
-    if (!r) r = consumeToken(b, ".");
+    if (!r) r = consumeToken(b, "#");
     exit_section_(b, l, m, r, false, null);
     return r;
   }

@@ -19,6 +19,9 @@ public class McFunctionSyntaxHighlighter extends SyntaxHighlighterBase {
     public static final TextAttributesKey MC_FUNCTION_STRING =
             TextAttributesKey.createTextAttributesKey("MC_FUNCTION_STRING",
                     DefaultLanguageHighlighterColors.STRING);
+    public static final TextAttributesKey MC_FUNCTION_RANGE =
+            TextAttributesKey.createTextAttributesKey("MC_FUNCTION_RANGE",
+                    DefaultLanguageHighlighterColors.NUMBER);
     public static final TextAttributesKey MC_FUNCTION_NUMBER =
             TextAttributesKey.createTextAttributesKey("MC_FUNCTION_NUMBER",
                     DefaultLanguageHighlighterColors.NUMBER);
@@ -42,6 +45,7 @@ public class McFunctionSyntaxHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[]{MC_FUNCTION_COMMENT};
     private static final TextAttributesKey[] SYMBOL_KEYS = new TextAttributesKey[]{MC_FUNCTION_SYMBOL};
     private static final TextAttributesKey[] STRING_KEYS = new TextAttributesKey[]{MC_FUNCTION_STRING};
+    private static final TextAttributesKey[] RANGE_KEYS = new TextAttributesKey[]{MC_FUNCTION_RANGE};
     private static final TextAttributesKey[] NUMBER_KEYS = new TextAttributesKey[]{MC_FUNCTION_NUMBER};
     private static final TextAttributesKey[] COMMAND_NAME_KEYS = new TextAttributesKey[]{MC_FUNCTION_COMMAND_NAME};
     private static final TextAttributesKey[] SELECTOR_KEYS = new TextAttributesKey[]{MC_FUNCTION_SELECTOR};
@@ -75,6 +79,8 @@ public class McFunctionSyntaxHighlighter extends SyntaxHighlighterBase {
             return SYMBOL_KEYS;
         } else if (tokenType.equals(McFunctionTypes.STRING)) {
             return STRING_KEYS;
+        } else if (tokenType.equals(McFunctionTypes.RANGE)) {
+            return RANGE_KEYS;
         } else if (tokenType.equals(McFunctionTypes.NUMBER)) {
             return NUMBER_KEYS;
         } else if (tokenType.equals(McFunctionTypes.COMMAND_NAME)) {

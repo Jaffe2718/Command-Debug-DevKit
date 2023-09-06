@@ -28,6 +28,8 @@ public interface McFunctionTypes {
   IElementType EMPTY_NBT = new McFunctionTokenType("EMPTY_NBT");
   IElementType NAMESPACE = new McFunctionTokenType("NAMESPACE");
   IElementType NUMBER = new McFunctionTokenType("NUMBER");
+  IElementType OPERATOR = new McFunctionTokenType("OPERATOR");
+  IElementType RANGE = new McFunctionTokenType("RANGE");
   IElementType SELECTOR = new McFunctionTokenType("SELECTOR");
   IElementType STRING = new McFunctionTokenType("STRING");
   IElementType TAG = new McFunctionTokenType("TAG");
