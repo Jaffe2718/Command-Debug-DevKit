@@ -41,6 +41,9 @@ public class McFunctionColorSettingsPage implements ColorSettingsPage {
         return new McFunctionSyntaxHighlighter();
     }
 
+    /**
+     * @return the demo text to be displayed in the preview pane of the settings dialog.
+     */
     @Override
     public @NonNls @NotNull String getDemoText() {
         return """

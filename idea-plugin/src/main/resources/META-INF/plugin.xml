@@ -85,7 +85,8 @@
                 language="McFunction"
                 extensions="mcfunction"
         />
-        <colorSettingsPage implementation="me.jaffe2718.devkit.lang.color.McFunctionColorSettingsPage"/>
+        <colorSettingsPage
+                implementation="me.jaffe2718.devkit.lang.color.McFunctionColorSettingsPage"/>
         <lang.parserDefinition
                 language="McFunction"
                 implementationClass="me.jaffe2718.devkit.lang.syntax.McFunctionParserDefinition"
