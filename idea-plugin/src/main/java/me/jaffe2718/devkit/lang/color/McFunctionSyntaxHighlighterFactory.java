@@ -1,4 +1,4 @@
-package me.jaffe2718.devkit.lang.syntax;
+package me.jaffe2718.devkit.lang.color;
 
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory;

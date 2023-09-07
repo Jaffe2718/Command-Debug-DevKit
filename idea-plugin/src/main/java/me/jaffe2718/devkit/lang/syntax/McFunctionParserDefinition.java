@@ -1,4 +1,4 @@
-package me.jaffe2718.devkit.lang;
+package me.jaffe2718.devkit.lang.syntax;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
@@ -10,11 +10,11 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
+import me.jaffe2718.devkit.lang.McFunctionLanguage;
 import me.jaffe2718.devkit.lang.parser.McFunctionParser;
 import me.jaffe2718.devkit.lang.psi.McFunctionFile;
 import me.jaffe2718.devkit.lang.psi.McFunctionTokenSets;
 import me.jaffe2718.devkit.lang.psi.McFunctionTypes;
-import me.jaffe2718.devkit.lang.syntax.McFunctionLexerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 public class McFunctionParserDefinition implements ParserDefinition {

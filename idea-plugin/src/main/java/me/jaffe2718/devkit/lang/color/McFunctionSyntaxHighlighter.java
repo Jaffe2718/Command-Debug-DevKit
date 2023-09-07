@@ -1,4 +1,4 @@
-package me.jaffe2718.devkit.lang.syntax;
+package me.jaffe2718.devkit.lang.color;
 
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
@@ -6,6 +6,7 @@ import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.tree.IElementType;
 import me.jaffe2718.devkit.lang.psi.McFunctionTypes;
+import me.jaffe2718.devkit.lang.syntax.McFunctionLexerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 public class McFunctionSyntaxHighlighter extends SyntaxHighlighterBase {
@@ -39,6 +40,10 @@ public class McFunctionSyntaxHighlighter extends SyntaxHighlighterBase {
             TextAttributesKey.createTextAttributesKey("MC_FUNCTION_TAG"
                     , DefaultLanguageHighlighterColors.METADATA);
 
+    public static final TextAttributesKey MC_FUNCTION_OPERATOR =
+            TextAttributesKey.createTextAttributesKey("MC_FUNCTION_OPERATOR",
+                    DefaultLanguageHighlighterColors.OPERATION_SIGN);
+
     public static final TextAttributesKey MC_FUNCTION_UUID =
             TextAttributesKey.createTextAttributesKey("MC_FUNCTION_UUID",
                     DefaultLanguageHighlighterColors.HIGHLIGHTED_REFERENCE);
@@ -55,11 +60,12 @@ public class McFunctionSyntaxHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] NAMESPACE_KEYS = new TextAttributesKey[]{MC_FUNCTION_NAMESPACE};
     private static final TextAttributesKey[] ELEMENT_KEYS = new TextAttributesKey[]{MC_FUNCTION_ELEMENT};
     private static final TextAttributesKey[] TAG_KEYS = new TextAttributesKey[]{MC_FUNCTION_TAG};
+    private static final TextAttributesKey[] OPERATOR_KEYS = new TextAttributesKey[]{MC_FUNCTION_OPERATOR};
     private static final TextAttributesKey[] UUID_KEYS = new TextAttributesKey[]{MC_FUNCTION_UUID};
 
     /**
      * the syntax highlighting for the extended syntax
-     * */
+     */
     private static final TextAttributesKey[] EX_SYNTAX_KEYS = new TextAttributesKey[]{MC_FUNCTION_EX_SYNTAX};
 
     /**
@@ -92,7 +98,7 @@ public class McFunctionSyntaxHighlighter extends SyntaxHighlighterBase {
             return NUMBER_KEYS;
         } else if (tokenType.equals(McFunctionTypes.COMMAND_NAME)) {
             return COMMAND_NAME_KEYS;
-        } else if (tokenType.equals(McFunctionTypes.SELECTOR)) {
+        } else if (tokenType.equals(McFunctionTypes.REF)) {
             return SELECTOR_KEYS;
         } else if (tokenType.equals(McFunctionTypes.NAMESPACE)) {
             return NAMESPACE_KEYS;
@@ -100,6 +106,8 @@ public class McFunctionSyntaxHighlighter extends SyntaxHighlighterBase {
             return ELEMENT_KEYS;
         } else if (tokenType.equals(McFunctionTypes.TAG)) {
             return TAG_KEYS;
+        } else if (tokenType.equals(McFunctionTypes.OPERATOR)) {
+            return OPERATOR_KEYS;
         } else if (tokenType.equals(McFunctionTypes.UUID)) {
             return UUID_KEYS;
         } else if (tokenType.equals(McFunctionTypes.EX_SYNTAX)) {

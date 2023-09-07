@@ -2,7 +2,7 @@
     <id>me.jaffe2718.devkit</id>
 
     <name>Minecraft Command DevKit</name>
-    <version>1.0.4</version>
+    <version>1.1.0-rc1</version>
     <vendor email="qqyttwqeei@163.com" url="https://github.com/Jaffe2718">Jaffe2718</vendor>
     <description>
         <![CDATA[
@@ -55,6 +55,19 @@
             </html>
         ]]>
     </description>
+    <change-notes>
+        <![CDATA[
+            <html>
+                <head></head>
+                <body>
+                    <h2>Changelog</h2>
+                    <ol>
+                        <li>Try to add a new feature: <b>custom syntax highlighting color settings</b>.</li>
+                        <li>Optimize syntax parsing.</li>
+                </body>
+            </html>
+        ]]>
+    </change-notes>
     <depends>com.intellij.modules.platform</depends>
     <extensions defaultExtensionNs="com.intellij">
         <completion.contributor
@@ -72,13 +85,14 @@
                 language="McFunction"
                 extensions="mcfunction"
         />
+        <colorSettingsPage implementation="me.jaffe2718.devkit.lang.color.McFunctionColorSettingsPage"/>
         <lang.parserDefinition
                 language="McFunction"
-                implementationClass="me.jaffe2718.devkit.lang.McFunctionParserDefinition"
+                implementationClass="me.jaffe2718.devkit.lang.syntax.McFunctionParserDefinition"
         />
         <lang.syntaxHighlighterFactory
                 language="McFunction"
-                implementationClass="me.jaffe2718.devkit.lang.syntax.McFunctionSyntaxHighlighterFactory"
+                implementationClass="me.jaffe2718.devkit.lang.color.McFunctionSyntaxHighlighterFactory"
         />
         <lang.commenter
                 language="McFunction"
