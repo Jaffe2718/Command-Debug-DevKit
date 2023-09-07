@@ -5,15 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface McFunctionIdentifier extends PsiElement {
+public interface McFunctionTagList extends PsiElement {
 
-  @Nullable
-  McFunctionComplexEle getComplexEle();
-
-  @Nullable
-  McFunctionNbt getNbt();
-
-  @Nullable
-  McFunctionTagList getTagList();
+  @NotNull
+  List<McFunctionArgument> getArgumentList();
 
 }

@@ -36,7 +36,7 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (REF|IDENTIFIER_DOMAIN|IDENTIFIER|NBT|COMPLEX_ELE|UUID|RANGE|STRING|NUMBER|ELEMENT|OPERATOR) | EX_SYNTAX
+  // (SELECTOR|IDENTIFIER_DOMAIN|IDENTIFIER|NBT|COMPLEX_ELE|UUID|RANGE|STRING|NUMBER|ELEMENT|OPERATOR) | EX_SYNTAX
   public static boolean ARGUMENT(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ARGUMENT")) return false;
     boolean r;
@@ -47,11 +47,11 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // REF|IDENTIFIER_DOMAIN|IDENTIFIER|NBT|COMPLEX_ELE|UUID|RANGE|STRING|NUMBER|ELEMENT|OPERATOR
+  // SELECTOR|IDENTIFIER_DOMAIN|IDENTIFIER|NBT|COMPLEX_ELE|UUID|RANGE|STRING|NUMBER|ELEMENT|OPERATOR
   private static boolean ARGUMENT_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ARGUMENT_0")) return false;
     boolean r;
-    r = REF(b, l + 1);
+    r = SELECTOR(b, l + 1);
     if (!r) r = IDENTIFIER_DOMAIN(b, l + 1);
     if (!r) r = IDENTIFIER(b, l + 1);
     if (!r) r = NBT(b, l + 1);
@@ -148,7 +148,7 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // NAMESPACE (COMPLEX_ELE|ELEMENT) NBT?
+  // NAMESPACE (COMPLEX_ELE|ELEMENT) NBT? TAG_LIST?
   public static boolean IDENTIFIER(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "IDENTIFIER")) return false;
     if (!nextTokenIs(b, NAMESPACE)) return false;
@@ -157,6 +157,7 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, NAMESPACE);
     r = r && IDENTIFIER_1(b, l + 1);
     r = r && IDENTIFIER_2(b, l + 1);
+    r = r && IDENTIFIER_3(b, l + 1);
     exit_section_(b, m, IDENTIFIER, r);
     return r;
   }
@@ -174,6 +175,13 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   private static boolean IDENTIFIER_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "IDENTIFIER_2")) return false;
     NBT(b, l + 1);
+    return true;
+  }
+
+  // TAG_LIST?
+  private static boolean IDENTIFIER_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "IDENTIFIER_3")) return false;
+    TAG_LIST(b, l + 1);
     return true;
   }
 
@@ -363,53 +371,54 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // SELECTOR ("["TAG ARGUMENT {"," TAG ARGUMENT}* "]")?
-  public static boolean REF(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "REF")) return false;
-    if (!nextTokenIs(b, SELECTOR)) return false;
+  // REF TAG_LIST?
+  public static boolean SELECTOR(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "SELECTOR")) return false;
+    if (!nextTokenIs(b, REF)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, SELECTOR);
-    r = r && REF_1(b, l + 1);
-    exit_section_(b, m, REF, r);
+    r = consumeToken(b, REF);
+    r = r && SELECTOR_1(b, l + 1);
+    exit_section_(b, m, SELECTOR, r);
     return r;
   }
 
-  // ("["TAG ARGUMENT {"," TAG ARGUMENT}* "]")?
-  private static boolean REF_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "REF_1")) return false;
-    REF_1_0(b, l + 1);
+  // TAG_LIST?
+  private static boolean SELECTOR_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "SELECTOR_1")) return false;
+    TAG_LIST(b, l + 1);
     return true;
   }
 
-  // "["TAG ARGUMENT {"," TAG ARGUMENT}* "]"
-  private static boolean REF_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "REF_1_0")) return false;
+  /* ********************************************************** */
+  // "[" TAG ARGUMENT {"," TAG ARGUMENT}* "]"
+  public static boolean TAG_LIST(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "TAG_LIST")) return false;
     boolean r;
-    Marker m = enter_section_(b);
+    Marker m = enter_section_(b, l, _NONE_, TAG_LIST, "<tag list>");
     r = consumeToken(b, "[");
     r = r && consumeToken(b, TAG);
     r = r && ARGUMENT(b, l + 1);
-    r = r && REF_1_0_3(b, l + 1);
+    r = r && TAG_LIST_3(b, l + 1);
     r = r && consumeToken(b, "]");
-    exit_section_(b, m, null, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   // {"," TAG ARGUMENT}*
-  private static boolean REF_1_0_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "REF_1_0_3")) return false;
+  private static boolean TAG_LIST_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "TAG_LIST_3")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!REF_1_0_3_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "REF_1_0_3", c)) break;
+      if (!TAG_LIST_3_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "TAG_LIST_3", c)) break;
     }
     return true;
   }
 
   // "," TAG ARGUMENT
-  private static boolean REF_1_0_3_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "REF_1_0_3_0")) return false;
+  private static boolean TAG_LIST_3_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "TAG_LIST_3_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, ",");

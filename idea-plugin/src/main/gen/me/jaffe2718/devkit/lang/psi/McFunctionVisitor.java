@@ -43,7 +43,11 @@ public class McFunctionVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitRef(@NotNull McFunctionRef o) {
+  public void visitSelector(@NotNull McFunctionSelector o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTagList(@NotNull McFunctionTagList o) {
     visitPsiElement(o);
   }
 

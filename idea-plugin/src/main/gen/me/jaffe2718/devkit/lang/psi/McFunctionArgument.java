@@ -20,6 +20,6 @@ public interface McFunctionArgument extends PsiElement {
   McFunctionNbt getNbt();
 
   @Nullable
-  McFunctionRef getRef();
+  McFunctionSelector getSelector();
 
 }

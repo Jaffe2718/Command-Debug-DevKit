@@ -673,7 +673,7 @@ public class McFunctionLexer implements FlexLexer {
           // fall through
           case 23: break;
           case 9:
-            { return SELECTOR;
+            { return REF;
             }
           // fall through
           case 24: break;

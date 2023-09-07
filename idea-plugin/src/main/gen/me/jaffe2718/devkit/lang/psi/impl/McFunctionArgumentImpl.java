@@ -53,8 +53,8 @@ public class McFunctionArgumentImpl extends ASTWrapperPsiElement implements McFu
 
   @Override
   @Nullable
-  public McFunctionRef getRef() {
-    return findChildByClass(McFunctionRef.class);
+  public McFunctionSelector getSelector() {
+    return findChildByClass(McFunctionSelector.class);
   }
 
 }

@@ -17,7 +17,8 @@ public interface McFunctionTypes {
   IElementType NBT_LIST = new McFunctionElementType("NBT_LIST");
   IElementType NBT_PAIR = new McFunctionElementType("NBT_PAIR");
   IElementType NBT_VALUE = new McFunctionElementType("NBT_VALUE");
-  IElementType REF = new McFunctionElementType("REF");
+  IElementType SELECTOR = new McFunctionElementType("SELECTOR");
+  IElementType TAG_LIST = new McFunctionElementType("TAG_LIST");
 
   IElementType COMMAND_NAME = new McFunctionTokenType("COMMAND_NAME");
   IElementType COMMENT = new McFunctionTokenType("COMMENT");
@@ -30,7 +31,7 @@ public interface McFunctionTypes {
   IElementType NUMBER = new McFunctionTokenType("NUMBER");
   IElementType OPERATOR = new McFunctionTokenType("OPERATOR");
   IElementType RANGE = new McFunctionTokenType("RANGE");
-  IElementType SELECTOR = new McFunctionTokenType("SELECTOR");
+  IElementType REF = new McFunctionTokenType("REF");
   IElementType STRING = new McFunctionTokenType("STRING");
   IElementType TAG = new McFunctionTokenType("TAG");
   IElementType UUID = new McFunctionTokenType("UUID");
@@ -65,8 +66,11 @@ public interface McFunctionTypes {
       else if (type == NBT_VALUE) {
         return new McFunctionNbtValueImpl(node);
       }
-      else if (type == REF) {
-        return new McFunctionRefImpl(node);
+      else if (type == SELECTOR) {
+        return new McFunctionSelectorImpl(node);
+      }
+      else if (type == TAG_LIST) {
+        return new McFunctionTagListImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

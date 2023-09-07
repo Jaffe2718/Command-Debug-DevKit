@@ -11,14 +11,14 @@ import static me.jaffe2718.devkit.lang.psi.McFunctionTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import me.jaffe2718.devkit.lang.psi.*;
 
-public class McFunctionIdentifierImpl extends ASTWrapperPsiElement implements McFunctionIdentifier {
+public class McFunctionTagListImpl extends ASTWrapperPsiElement implements McFunctionTagList {
 
-  public McFunctionIdentifierImpl(@NotNull ASTNode node) {
+  public McFunctionTagListImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull McFunctionVisitor visitor) {
-    visitor.visitIdentifier(this);
+    visitor.visitTagList(this);
   }
 
   @Override
@@ -28,21 +28,9 @@ public class McFunctionIdentifierImpl extends ASTWrapperPsiElement implements Mc
   }
 
   @Override
-  @Nullable
-  public McFunctionComplexEle getComplexEle() {
-    return findChildByClass(McFunctionComplexEle.class);
-  }
-
-  @Override
-  @Nullable
-  public McFunctionNbt getNbt() {
-    return findChildByClass(McFunctionNbt.class);
-  }
-
-  @Override
-  @Nullable
-  public McFunctionTagList getTagList() {
-    return findChildByClass(McFunctionTagList.class);
+  @NotNull
+  public List<McFunctionArgument> getArgumentList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, McFunctionArgument.class);
   }
 
 }

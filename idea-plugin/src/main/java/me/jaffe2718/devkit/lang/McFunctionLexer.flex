@@ -60,7 +60,7 @@ RANGE = (-?[0-9]+\.\.(-?[0-9]+)?)|((-?[0-9]+)?\.\.-?[0-9]+)
     {OPERATOR}                                         { return OPERATOR; }
     {TAG_NAME}                                         { return TAG; }
     {NAMESPACE}                                        { return NAMESPACE; }
-    @{REF_C}                                           { return SELECTOR; }
+    @{REF_C}                                           { return REF; }
     {STRING_DATA}                                      { return STRING; }
     {UUID}                                             { return UUID; }
     {ELEMENT}|{ELE_PATH}                               { return ELEMENT; }
