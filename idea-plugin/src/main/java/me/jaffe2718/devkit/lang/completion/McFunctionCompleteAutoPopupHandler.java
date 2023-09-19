@@ -6,6 +6,7 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import me.jaffe2718.devkit.action.ConnectCompletionAction;
+import me.jaffe2718.devkit.filetype.McFunctionFileType;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.PrintWriter;
@@ -20,6 +21,7 @@ public class McFunctionCompleteAutoPopupHandler extends TypedHandlerDelegate {
                                           @NotNull Editor editor,
                                           @NotNull PsiFile file) {
         file.clearCaches();
+        if (!(file.getFileType() instanceof McFunctionFileType)) return Result.DEFAULT;
         try {
             Objects.requireNonNull(editor.getUserData(ConnectCompletionAction.k_completionList)).clear();
         } catch (java.lang.NullPointerException ignored) {}
