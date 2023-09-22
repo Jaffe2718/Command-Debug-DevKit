@@ -125,6 +125,9 @@ public class IdeDebugTool {
         try {
             java.io.PrintWriter writer = new java.io.PrintWriter(socket.getOutputStream(), true);
             for (String line : lines) {
+                if (line.isBlank()) {
+                    continue;
+                }
                 System.out.println("[Client] " + line);
                 writer.println(line);
                 Thread.sleep(10);

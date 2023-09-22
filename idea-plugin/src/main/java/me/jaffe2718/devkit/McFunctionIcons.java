@@ -6,5 +6,5 @@ import javax.swing.*;
 
 public abstract class McFunctionIcons {
     public static final Icon FILE = IconLoader.getIcon("/icons/mcfunction.svg", McFunctionIcons.class);
-    public static final String TOOL_NAME = "ide-debug-tool-1.1.3.jar";
+    public static final String TOOL_NAME = "ide-debug-tool-1.1.4.jar";
 }
