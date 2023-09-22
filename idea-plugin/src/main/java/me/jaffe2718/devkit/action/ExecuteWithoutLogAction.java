@@ -85,7 +85,7 @@ public class ExecuteWithoutLogAction extends AnAction {
                 PrintWriter pw = editor.getUserData(ConnectExecutionAction.k_executionPrintWriter);
                 List<String> lines = editor.getDocument().getText().lines().toList().stream().map(this::removeComments).toList();
                 for (String line: lines) {
-                    if (line.isEmpty()) continue;
+                    if (line.isBlank()) continue;
                     Objects.requireNonNull(pw).println(line);
                     Thread.sleep(10);
                 }
