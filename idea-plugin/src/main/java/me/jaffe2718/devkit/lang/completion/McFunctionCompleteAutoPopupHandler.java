@@ -11,9 +11,7 @@ import me.jaffe2718.devkit.lang.unit.McFunctionScriptFactory;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.PrintWriter;
-import java.util.List;
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 public class McFunctionCompleteAutoPopupHandler extends TypedHandlerDelegate {
 
