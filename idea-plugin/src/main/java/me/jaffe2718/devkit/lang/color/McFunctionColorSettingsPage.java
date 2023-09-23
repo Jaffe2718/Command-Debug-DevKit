@@ -13,13 +13,15 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.util.Map;
 
-import static me.jaffe2718.devkit.McFunctionIcons.FILE;
+import static me.jaffe2718.devkit.McFunctionStaticRes.ICON;
 
 public class McFunctionColorSettingsPage implements ColorSettingsPage {
 
     private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
             new AttributesDescriptor("Command name", McFunctionSyntaxHighlighter.MC_FUNCTION_COMMAND_NAME),
+            new AttributesDescriptor("Macro", McFunctionSyntaxHighlighter.MC_FUNCTION_MACRO),
             new AttributesDescriptor("Comment", McFunctionSyntaxHighlighter.MC_FUNCTION_COMMENT),
+            new AttributesDescriptor("Continuation", McFunctionSyntaxHighlighter.MC_FUNCTION_CONTINUATION),
             new AttributesDescriptor("Element", McFunctionSyntaxHighlighter.MC_FUNCTION_ELEMENT),
             new AttributesDescriptor("Namespace", McFunctionSyntaxHighlighter.MC_FUNCTION_NAMESPACE),
             new AttributesDescriptor("Number like", McFunctionSyntaxHighlighter.MC_FUNCTION_NUMBER),
@@ -33,7 +35,7 @@ public class McFunctionColorSettingsPage implements ColorSettingsPage {
 
     @Override
     public @Nullable Icon getIcon() {
-        return FILE;
+        return ICON;
     }
 
     @Override
@@ -53,10 +55,19 @@ public class McFunctionColorSettingsPage implements ColorSettingsPage {
                 execute
                 summon
                 
+                # Macro #
+                $(foo)
+                
                 # Comment #
                 
                 # This is a comment
                 give @s stone # This is a comment behind a command
+                $(foo) # This is a comment behind a macro
+                
+                # Continuation #
+                
+                give @s \\
+                 minecraft:stone  # This is a command with a continuation so it can continue to the next line
                             
                 # Element #
                 

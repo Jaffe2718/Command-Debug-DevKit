@@ -2,6 +2,7 @@ package me.jaffe2718.sckinj;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.List;
 
 /**
  * This is the IDE Debug Tool
@@ -96,13 +97,10 @@ public class IdeDebugTool {
             throw new RuntimeException(e);
         }
         // read the second as a file name and read the file line by line
-        String[] lines;
+        List<String> lines;
         try {
-            lines = new String(java.nio.file.Files.readAllBytes(java.nio.file.Paths.get(fileName))).split("\n");
-            // try to remove the comments which start with "#" and trim the lines
-            for (int i = 0; i < lines.length; i++) {
-                lines[i] = removeComments(lines[i]);
-            }
+            McFunctionScriptFactory scriptFactory = new McFunctionScriptFactory(java.nio.file.Files.readString(java.nio.file.Paths.get(fileName)));
+            lines = scriptFactory.getCommands();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

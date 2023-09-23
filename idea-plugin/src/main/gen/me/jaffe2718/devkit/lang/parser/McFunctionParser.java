@@ -66,7 +66,7 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // COMMAND_NAME ARGUMENT*
+  // COMMAND_NAME (ARGUMENT|CONTINUATION)*
   public static boolean COMMAND(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "COMMAND")) return false;
     if (!nextTokenIs(b, COMMAND_NAME)) return false;
@@ -78,15 +78,24 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // ARGUMENT*
+  // (ARGUMENT|CONTINUATION)*
   private static boolean COMMAND_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "COMMAND_1")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!ARGUMENT(b, l + 1)) break;
+      if (!COMMAND_1_0(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "COMMAND_1", c)) break;
     }
     return true;
+  }
+
+  // ARGUMENT|CONTINUATION
+  private static boolean COMMAND_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "COMMAND_1_0")) return false;
+    boolean r;
+    r = ARGUMENT(b, l + 1);
+    if (!r) r = consumeToken(b, CONTINUATION);
+    return r;
   }
 
   /* ********************************************************** */
@@ -429,11 +438,12 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // COMMAND|COMMENT|CRLF
+  // COMMAND|MACRO|COMMENT|CRLF
   static boolean item_(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "item_")) return false;
     boolean r;
     r = COMMAND(b, l + 1);
+    if (!r) r = consumeToken(b, MACRO);
     if (!r) r = consumeToken(b, COMMENT);
     if (!r) r = consumeToken(b, CRLF);
     return r;

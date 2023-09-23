@@ -8,8 +8,6 @@ import com.intellij.execution.process.ProcessHandlerFactory;
 import com.intellij.execution.process.ProcessTerminatedListener;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.ui.Messages;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,22 +18,22 @@ import java.io.OutputStream;
 import java.nio.file.Path;
 import java.util.Objects;
 
-import static me.jaffe2718.devkit.McFunctionIcons.FILE;
-import static me.jaffe2718.devkit.McFunctionIcons.TOOL_NAME;
+import static me.jaffe2718.devkit.McFunctionStaticRes.ICON;
+import static me.jaffe2718.devkit.McFunctionStaticRes.TOOL_NAME;
 
 public class McCommandConsoleAction extends AnAction {
 
     public McCommandConsoleAction() {
         super("Minecraft Command Console",
                 "Create a new Minecraft Command Console to execute commands in.",
-                FILE);
+                ICON);
     }
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         String hostport = Messages.showInputDialog(
                 "Enter the host and port of the command execution\n service socket to create new console to execute\n commands in interactive mode.",
                 "New Minecraft Command Console",
-                FILE,
+                ICON,
                 "localhost:",
                 null);
         if (hostport != null) {

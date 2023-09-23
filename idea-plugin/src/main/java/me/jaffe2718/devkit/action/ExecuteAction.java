@@ -23,7 +23,7 @@ import java.nio.file.Path;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static me.jaffe2718.devkit.McFunctionIcons.TOOL_NAME;
+import static me.jaffe2718.devkit.McFunctionStaticRes.TOOL_NAME;
 
 public class ExecuteAction extends AnAction {
 

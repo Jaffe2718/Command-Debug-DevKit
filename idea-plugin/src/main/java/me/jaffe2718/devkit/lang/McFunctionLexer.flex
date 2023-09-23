@@ -18,6 +18,7 @@ import static me.jaffe2718.devkit.lang.psi.McFunctionTypes.*;
 %type IElementType
 %unicode
 
+CONTINUE=\\" "*\n
 CRLF=\R
 WHITE_SPACE=[\ \n\t\f]
 LINE_COMMENT="# "[^\r\n]*
@@ -33,6 +34,7 @@ NUMBER_LIKE=([~\^]?-?{NUM}+(\.{NUM}+)?) | [~\^]
 NAMESPACE={ELE_START}{ELE_CHAR}*:
 ELEMENT={ELE_START}{ELE_CHAR}*
 ELE_PATH={ELE_START}{ELE_CHAR}*(\/{ELE_START}{ELE_CHAR}*)+  // like `adventure/kill_a_mob`
+MACRO=\$\([a-zA-Z_][a-zA-Z0-9_]*\)                          // like `$(foo)`
 STRING_DATA=\"[^\"]*\"
 OPERATOR=(<|<=|=|>=|>)
 
@@ -52,6 +54,8 @@ RANGE = (-?[0-9]+\.\.(-?[0-9]+)?)|((-?[0-9]+)?\.\.-?[0-9]+)
 %%
 <YYINITIAL> {
 
+    {CONTINUE}                                         { return CONTINUATION; }
+    {MACRO}                                            { return MACRO; }
     ^{ELE_START}{ELE_CHAR}*                            { return COMMAND_NAME;}
     {EMPTY_NBT_DATA}                                   { return EMPTY_NBT; }
     {EMPTY_LIST_DATA}                                  { return EMPTY_LIST; }

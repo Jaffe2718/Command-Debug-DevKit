@@ -22,11 +22,13 @@ public interface McFunctionTypes {
 
   IElementType COMMAND_NAME = new McFunctionTokenType("COMMAND_NAME");
   IElementType COMMENT = new McFunctionTokenType("COMMENT");
+  IElementType CONTINUATION = new McFunctionTokenType("CONTINUATION");
   IElementType CRLF = new McFunctionTokenType("CRLF");
   IElementType ELEMENT = new McFunctionTokenType("ELEMENT");
   IElementType EMPTY_LIST = new McFunctionTokenType("EMPTY_LIST");
   IElementType EMPTY_NBT = new McFunctionTokenType("EMPTY_NBT");
   IElementType EX_SYNTAX = new McFunctionTokenType("EX_SYNTAX");
+  IElementType MACRO = new McFunctionTokenType("MACRO");
   IElementType NAMESPACE = new McFunctionTokenType("NAMESPACE");
   IElementType NUMBER = new McFunctionTokenType("NUMBER");
   IElementType OPERATOR = new McFunctionTokenType("OPERATOR");

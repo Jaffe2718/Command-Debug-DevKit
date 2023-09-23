@@ -1,7 +1,7 @@
 package me.jaffe2718.devkit.filetype;
 
 import com.intellij.openapi.fileTypes.LanguageFileType;
-import me.jaffe2718.devkit.McFunctionIcons;
+import me.jaffe2718.devkit.McFunctionStaticRes;
 import me.jaffe2718.devkit.lang.McFunctionLanguage;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,7 +36,7 @@ public class McFunctionFileType extends LanguageFileType {
     @NotNull
     @Override
     public Icon getIcon() {
-        return McFunctionIcons.FILE;
+        return McFunctionStaticRes.ICON;
     }
 
 }

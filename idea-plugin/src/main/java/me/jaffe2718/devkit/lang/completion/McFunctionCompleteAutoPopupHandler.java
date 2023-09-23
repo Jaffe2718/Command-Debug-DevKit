@@ -7,10 +7,13 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import me.jaffe2718.devkit.action.ConnectCompletionAction;
 import me.jaffe2718.devkit.filetype.McFunctionFileType;
+import me.jaffe2718.devkit.lang.unit.McFunctionScriptFactory;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class McFunctionCompleteAutoPopupHandler extends TypedHandlerDelegate {
 
@@ -28,10 +31,12 @@ public class McFunctionCompleteAutoPopupHandler extends TypedHandlerDelegate {
         if (CHAR_SET.contains(String.valueOf(charTyped))) {
             try {
                 PrintWriter pw = editor.getUserData(ConnectCompletionAction.k_completionPrintWriter);
-                String lineText = editor.getDocument().getText().substring(
-                        editor.getCaretModel().getVisualLineStart(),
-                        editor.getCaretModel().getOffset()
-                ) + charTyped;
+                McFunctionScriptFactory scriptFactory = new McFunctionScriptFactory(
+                        editor.getDocument().getText().substring(  // get all text before the caret (cross-line)
+                                0, editor.getCaretModel().getOffset()) + charTyped
+                );
+                String lineText = scriptFactory.getCommands().get(scriptFactory.getCommands().size()-1);
+                System.out.println("Command: " + lineText);    // TODO: remove this line
                 assert pw != null;
                 pw.println(lineText);
                 Thread.sleep(20);

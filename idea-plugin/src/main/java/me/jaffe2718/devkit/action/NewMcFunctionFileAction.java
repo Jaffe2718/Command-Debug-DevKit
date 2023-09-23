@@ -12,7 +12,7 @@ import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.ui.popup.JBPopup;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
-import me.jaffe2718.devkit.McFunctionIcons;
+import me.jaffe2718.devkit.McFunctionStaticRes;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -20,7 +20,7 @@ import java.util.function.Consumer;
 
 public class NewMcFunctionFileAction extends CreateFileAction {
     public NewMcFunctionFileAction() {
-        super("Minecraft Function File", "Creates a new McFunction file", McFunctionIcons.FILE);
+        super("Minecraft Function File", "Creates a new McFunction file", McFunctionStaticRes.ICON);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class NewMcFunctionFileAction extends CreateFileAction {
             }
             else {
                 Messages.showInputDialog(project, "Create a new Minecraft function file (*.mcfunction).",
-                        "New Minecraft Function File", McFunctionIcons.FILE, null, validator);
+                        "New Minecraft Function File", McFunctionStaticRes.ICON, null, validator);
                 elementsConsumer.accept(validator.getCreatedElements());
             }
         }
@@ -61,7 +61,7 @@ public class NewMcFunctionFileAction extends CreateFileAction {
         NewItemSimplePopupPanel contentPanel = new NewItemSimplePopupPanel();
         JTextField nameField = contentPanel.getTextField();
         JBPopup popup = NewItemPopupUtil.createNewItemPopup("New Minecraft Function File", contentPanel, nameField);
-        popup.setCaptionIcon(McFunctionIcons.FILE);
+        popup.setCaptionIcon(McFunctionStaticRes.ICON);
         contentPanel.setApplyAction(event -> {
             String name = nameField.getText();
             if (validator.checkInput(name) && validator.canClose(name)) {

@@ -11,6 +11,7 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.ui.Messages;
 import me.jaffe2718.devkit.editor.McFunctionFileEditor;
+import me.jaffe2718.devkit.lang.unit.McFunctionScriptFactory;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -50,40 +51,15 @@ public class ExecuteWithoutLogAction extends AnAction {
         createExecutionThread().start();
     }
 
-    private String removeComments(String text) {
-        // remove the comments #... and the spaces before it
-        // but strings are not comments like "...# ...", there must be a space before the #
-        boolean inString = false;
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < text.length(); i++) {
-            char c = text.charAt(i);
-            if (inString) {
-                if (c == '"') {             // end of string
-                    inString = false;
-                }
-                result.append(c);
-            }
-            else {          // not in string
-                if (c == '"') {             // start of string
-                    inString = true;
-                } else if (c == '#') {      // start of comment
-                    if (i+1<text.length() && text.charAt(i+1) == ' ') {
-                        break;
-                    }
-                }
-                result.append(c);
-            }
-        }
-        return result.toString().trim();
-    }
-
     @Contract(" -> new")
     private @NotNull Thread createExecutionThread() {
         return new Thread(() -> {
             try {
                 Editor editor = this.targetEditor.getEditor();
                 PrintWriter pw = editor.getUserData(ConnectExecutionAction.k_executionPrintWriter);
-                List<String> lines = editor.getDocument().getText().lines().toList().stream().map(this::removeComments).toList();
+                McFunctionScriptFactory scriptFactory = new McFunctionScriptFactory(editor.getDocument().getText());
+                List<String> lines = scriptFactory.getCommands();
+                // List<String> lines = editor.getDocument().getText().lines().toList().stream().map(this::removeComments).toList();
                 for (String line: lines) {
                     if (line.isBlank()) continue;
                     Objects.requireNonNull(pw).println(line);

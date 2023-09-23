@@ -39,7 +39,7 @@ public class McFunctionCompletionProvider extends CompletionProvider<CompletionP
                     .withInsertHandler((context, item) -> {
                         // get the string of context from beginning to the cursor
                         String text = context.getDocument().getText().substring(0, context.getTailOffset() - completion.length());
-                        System.out.println(text);
+                        // System.out.println(text);
                         Pattern pos = Pattern.compile("((~?-?\\d+)|~)[ ]?$");
                         for (int i=0; i<3; i++) {
                             Matcher matcher = pos.matcher(text);
