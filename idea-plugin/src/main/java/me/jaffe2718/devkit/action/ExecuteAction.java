@@ -71,7 +71,7 @@ public class ExecuteAction extends AnAction {
         } catch (Exception ignored) {}
     }
 
-    private File extractTool() {  // TODO: add the function to update the jar file tool automatically
+    private File extractTool() {
         File libs = Path.of(System.getenv("HOMEPATH"), ".mcfuncdev").toAbsolutePath().toFile();
         if (libs.exists() && libs.isDirectory()) {
             // check if ide-debug-tool-<version>.jar is present
