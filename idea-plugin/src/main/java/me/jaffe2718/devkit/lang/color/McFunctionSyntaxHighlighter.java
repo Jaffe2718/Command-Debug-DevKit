@@ -19,7 +19,7 @@ public class McFunctionSyntaxHighlighter extends SyntaxHighlighterBase {
                     DefaultLanguageHighlighterColors.LINE_COMMENT);
     public static final TextAttributesKey MC_FUNCTION_CONTINUATION =
             TextAttributesKey.createTextAttributesKey("MC_FUNCTION_CONTINUATION",
-                    DefaultLanguageHighlighterColors.KEYWORD);
+                    DefaultLanguageHighlighterColors.LINE_COMMENT);
     public static final TextAttributesKey MC_FUNCTION_STRING =
             TextAttributesKey.createTextAttributesKey("MC_FUNCTION_STRING",
                     DefaultLanguageHighlighterColors.STRING);

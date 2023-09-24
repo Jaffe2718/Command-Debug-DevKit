@@ -18,8 +18,7 @@ import static me.jaffe2718.devkit.lang.psi.McFunctionTypes.*;
 %type IElementType
 %unicode
 
-CONTINUE=\\\n
-INVALID_CONTINUE=\\(" "|\t)+\n
+CONTINUE=\\(" "|\t|\f|{LINE_COMMENT})*\r?\n
 CRLF=\R
 WHITE_SPACE=[\ \n\t\f]
 LINE_COMMENT="# "[^\r\n]*
@@ -74,5 +73,4 @@ RANGE = (-?[0-9]+\.\.(-?[0-9]+)?)|((-?[0-9]+)?\.\.-?[0-9]+)
 }
 // ("{" | "[" | "(" | "}" | "]" | ")" | "," | ":" | "=" | "^" | "~" | "@")
 // [\{\[\(\}\]\)\,\:\=\^\~\@#]                            { return SYMBS_SET; }
-{INVALID_CONTINUE}                                     { return BAD_CHARACTER; }
 [^]                                                    { return EX_SYNTAX; }
