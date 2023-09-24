@@ -38,8 +38,16 @@
                 "versions": ">=0.19.1"
             },
             {
-                "id": "quilted_fabric_api",
-                "versions": ">=7.0.2"
+                "id": "quilt_base",
+                "versions": ">=6.1.0"
+            },
+            {
+                "id": "quilt_lifecycle_events",
+                "versions": "*"
+            },
+            {
+                "id": "quilted_fabric_message_api_v1",
+                "versions": "*"
             },
             {
                 "id": "minecraft",
