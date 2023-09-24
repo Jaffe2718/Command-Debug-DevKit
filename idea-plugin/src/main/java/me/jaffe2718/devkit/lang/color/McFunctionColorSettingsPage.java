@@ -118,7 +118,6 @@ public class McFunctionColorSettingsPage implements ColorSettingsPage {
 
     @Override
     public @Nullable Map<String, TextAttributesKey> getAdditionalHighlightingTagToDescriptorMap() {
-        // TODO: write additional highlighting
         Map<String, TextAttributesKey> map = new java.util.HashMap<>();
         map.put("MC_FUNCTION_EX_SYNTAX", McFunctionSyntaxHighlighter.MC_FUNCTION_EX_SYNTAX);
         return map;

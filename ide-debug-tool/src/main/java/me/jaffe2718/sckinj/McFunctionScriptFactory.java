@@ -12,17 +12,9 @@ import java.util.List;
  * 3. A single backslash `\` as the last non-whitespace character of a line now allows a command to be continued on the next line.
  * */
 public class McFunctionScriptFactory {
-    private String rawScript = null;     // the whole script string
+    private final String rawScript;     // the whole script string
 
     public McFunctionScriptFactory(String rawScript) {
-        this.rawScript = rawScript;
-    }
-
-    public McFunctionScriptFactory() {
-        this.rawScript = "";
-    }
-
-    public void setRawScript(String rawScript) {
         this.rawScript = rawScript;
     }
 
@@ -61,7 +53,8 @@ public class McFunctionScriptFactory {
             if (line.isBlank()) continue;    // ignore blank lines
             if (line.endsWith("\\")) {
                 // remove the `\` at the end of the line and remove the multiple spaces at the end then add one space
-                String part = line.substring(0, line.length()-1).trim() + " ";
+                String part = line.replaceAll("\\s*\\\\\\s*$", " ");
+                if (part.isBlank()) continue;  // ignore blank lines
                 currentCommand.append(part);
             } else {
                 currentCommand.append(line);

@@ -34,7 +34,6 @@ public class McFunctionCompleteAutoPopupHandler extends TypedHandlerDelegate {
                                 0, editor.getCaretModel().getOffset()) + charTyped
                 );
                 String lineText = scriptFactory.getCommands().get(scriptFactory.getCommands().size()-1);
-                System.out.println("Command: " + lineText);    // TODO: remove this line
                 assert pw != null;
                 pw.println(lineText);
                 Thread.sleep(20);
