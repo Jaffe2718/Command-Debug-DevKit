@@ -8,6 +8,8 @@ import com.intellij.execution.process.ProcessHandlerFactory;
 import com.intellij.execution.process.ProcessTerminatedListener;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.projectRoots.Sdk;
+import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.ui.Messages;
 import org.jetbrains.annotations.NotNull;
 
@@ -44,27 +46,44 @@ public class McCommandConsoleAction extends AnAction {
         }
     }
 
-    private void executeInIDE(AnActionEvent e,File jarfile, String hostPort) throws ExecutionException {
-        GeneralCommandLine commandLine = new GeneralCommandLine("java", "-jar", jarfile.getAbsolutePath(), hostPort);
+    private void executeInIDE(@NotNull AnActionEvent e,
+                              @NotNull File jarfile,
+                              String hostPort)
+            throws ExecutionException {
+        Sdk sdk = ProjectRootManager.getInstance(Objects.requireNonNull(e.getProject())).getProjectSdk();
+        if (sdk == null) {
+            throw new ExecutionException("No SDK is configured for this project.");
+        }
+        GeneralCommandLine commandLine = new GeneralCommandLine(
+                Path.of(Objects.requireNonNull(sdk.getHomePath()), "bin", "java.exe").toString(),
+                "-jar",
+                jarfile.getAbsolutePath(),
+                hostPort);
         OSProcessHandler processHandler = ProcessHandlerFactory.getInstance().createColoredProcessHandler(commandLine);
         ProcessTerminatedListener.attach(processHandler);
         // add the process handler to the task manager
-        // get the project
         new RunContentExecutor(Objects.requireNonNull(e.getProject()), processHandler)
                 .withTitle("Minecraft Command Console (" + hostPort + ")")
                 .withActivateToolWindow(true)
                 .run();
     }
 
-    private File extractIDEDebugTool() {
+    private @NotNull File extractIDEDebugTool() {
         File libs = Path.of(System.getenv("HOMEPATH"), ".mcfuncdev").toFile();
         if (libs.exists() && libs.isDirectory()) {
+            // check if ide-debug-tool-<version>.jar is present
             for (File jarfile : Objects.requireNonNull(libs.listFiles())) {
                 if (jarfile.getName().startsWith("ide-debug-tool-") && jarfile.getName().endsWith(".jar")) {
-                    return jarfile;
+                    // find the jar file
+                    if (jarfile.getName().equals(TOOL_NAME)) {
+                        return jarfile;
+                    } else {
+                        // delete the old jar file
+                        assert jarfile.delete();
+                        break;
+                    }
                 }
             }
-
         } else {
             // if not, create it
             assert libs.mkdir();

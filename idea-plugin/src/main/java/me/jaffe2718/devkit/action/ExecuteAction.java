@@ -1,5 +1,6 @@
 package me.jaffe2718.devkit.action;
 
+import com.intellij.execution.ExecutionException;
 import com.intellij.execution.RunContentExecutor;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.process.OSProcessHandler;
@@ -10,6 +11,8 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.projectRoots.Sdk;
+import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.ui.Messages;
 import me.jaffe2718.devkit.editor.McFunctionFileEditor;
 import org.jetbrains.annotations.NotNull;
@@ -58,7 +61,12 @@ public class ExecuteAction extends AnAction {
             String mcfunc = targetEditor.getFile().getPath();
             assert execSocket.get() != null && execSocket.get().isConnected() && project != null;
             String hostPort = execSocket.get().getInetAddress().getHostAddress() + ":" + execSocket.get().getPort();
-            GeneralCommandLine commandLine = new GeneralCommandLine("java", "-jar", toolJar.getAbsolutePath(), hostPort, mcfunc);
+            Sdk sdk = ProjectRootManager.getInstance(Objects.requireNonNull(project)).getProjectSdk();
+            if (sdk == null) {
+                throw new ExecutionException("No Java SDK is configured for this project.");
+            }
+            String javaExe = Path.of(Objects.requireNonNull(sdk.getHomePath()), "bin", "java.exe").toString();
+            GeneralCommandLine commandLine = new GeneralCommandLine(javaExe, "-jar", toolJar.getAbsolutePath(), hostPort, mcfunc);
             OSProcessHandler processHandler = ProcessHandlerFactory.getInstance().createColoredProcessHandler(commandLine);
             ProcessTerminatedListener.attach(processHandler);
             // add the process handler to the task manager
@@ -68,6 +76,8 @@ public class ExecuteAction extends AnAction {
                     .run();
         } catch (AssertionError ignore) {
             Messages.showWarningDialog("Please connect to the Minecraft execution service socket first.", "Not Connected");
+        } catch (ExecutionException e) {
+            Messages.showErrorDialog("No Java SDK is configured for this project.", "No Java SDK");
         } catch (Exception ignored) {}
     }
 
