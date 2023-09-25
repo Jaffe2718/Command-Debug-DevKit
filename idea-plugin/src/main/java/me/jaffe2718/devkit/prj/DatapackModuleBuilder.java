@@ -7,6 +7,7 @@ import com.intellij.openapi.Disposable;
 import com.intellij.openapi.module.ModuleType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ModifiableRootModel;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import me.jaffe2718.devkit.McFunctionStaticRes;
@@ -45,8 +46,10 @@ public class DatapackModuleBuilder extends ModuleBuilder {
             assert packMetaVFile != null;
             packMetaVFile.setBinaryContent(packMetaContents.getBytes());
             packMetaVFile.refresh(false, false);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to create pack.mcmeta file.", e);
+        } catch (AssertionError | IOException es) {
+            Messages.showErrorDialog("Failed to create pack.mcmeta file. \n" +
+                    "Please ensure that the project directory is writable and empty.", "Error");
+            throw new RuntimeException("Failed to create project files.", es);
         }
         // create the `data/<namespace>/functions/demo.mcfunction` file
         File demoFunctionFile = new File(prjPth.toString(), "data/" + meta.namespace() + "/functions/demo.mcfunction");
@@ -87,6 +90,7 @@ public class DatapackModuleBuilder extends ModuleBuilder {
         VirtualFile prjVFile = LocalFileSystem.getInstance().refreshAndFindFileByIoFile(prjPth.toFile());
         VirtualFile srcVFile = LocalFileSystem.getInstance().refreshAndFindFileByIoFile(new File(prjPth.toString(), "data"));
         VirtualFile buildVFile = LocalFileSystem.getInstance().refreshAndFindFileByIoFile(new File(prjPth.toString(), "build"));
+        assert prjVFile != null && srcVFile != null && buildVFile != null;
         var rootEntry = rootModel.addContentEntry(prjVFile);
         rootEntry.addSourceFolder(srcVFile, false);
         rootEntry.addExcludeFolder(buildVFile);

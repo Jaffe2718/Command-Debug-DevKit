@@ -22,7 +22,7 @@ public class McFunctionCompleteAutoPopupHandler extends TypedHandlerDelegate {
                                           @NotNull Editor editor,
                                           @NotNull PsiFile file) {
         file.clearCaches();
-        if (!(file.getFileType() instanceof McFunctionFileType)) return Result.DEFAULT;
+        if (!(file.getFileType() instanceof McFunctionFileType)) return Result.CONTINUE;
         try {
             Objects.requireNonNull(editor.getUserData(ConnectCompletionAction.k_completionList)).clear();
         } catch (java.lang.NullPointerException ignored) {}

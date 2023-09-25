@@ -42,7 +42,9 @@ public class McCommandConsoleAction extends AnAction {
             // try to check if %HOMEPATH%\.mcfuncdev\ide-debug-tool-<version>.jar exists
             try {
                 this.executeInIDE(e, this.extractIDEDebugTool(), hostport);
-            } catch (ExecutionException ignored) {}
+            } catch (ExecutionException ignored) {
+                Messages.showErrorDialog("No Java SDK is configured for this project.", "Error");
+            }
         }
     }
 
