@@ -13,6 +13,7 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class ConfigUI {
@@ -31,6 +32,7 @@ public class ConfigUI {
     private JLabel packFormatLabel;
 
     private static final JBColor ERROR_COLOR = new JBColor(new Color(128, 0, 0), new Color(255, 0, 0));
+    private static final JBColor WARNING_COLOR = new JBColor(new Color(128, 128, 0), new Color(255, 255, 0));
     private static final JBColor INFO_COLOR = new JBColor(new Color(0, 128, 0), new Color(0, 255, 0));
 
     public ConfigUI() {
@@ -79,9 +81,15 @@ public class ConfigUI {
                 messageLabel.setForeground(ERROR_COLOR);
                 messageLabel.setText("Namespace must be a valid Minecraft namespace.");
             } else {
-                messageLabel.setForeground(INFO_COLOR);
-                messageLabel.setText("The new project will be created at " +
-                        Paths.get(locationTextField.getText(), datapackNameTextField.getText()).toAbsolutePath());
+                Path dstPth = Paths.get(locationTextField.getText(), datapackNameTextField.getText()).toAbsolutePath();
+                if (dstPth.toFile().isDirectory()) {
+                    messageLabel.setForeground(WARNING_COLOR);
+                    messageLabel.setText("<html><body><p align=\"center\">The target directory <i>" + dstPth + "</i> already exists.<br>" +
+                            "Please be cautious when creating a new project here.<p></body><html>");
+                } else {
+                    messageLabel.setForeground(INFO_COLOR);
+                    messageLabel.setText("The new project will be created at " + dstPth);
+                }
             }
         }
     }
