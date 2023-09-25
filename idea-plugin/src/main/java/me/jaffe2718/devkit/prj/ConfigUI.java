@@ -4,6 +4,7 @@ import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.ui.Gray;
 import com.intellij.ui.JBColor;
 
 import javax.swing.*;
@@ -34,6 +35,7 @@ public class ConfigUI {
     private static final JBColor ERROR_COLOR = new JBColor(new Color(128, 0, 0), new Color(255, 0, 0));
     private static final JBColor WARNING_COLOR = new JBColor(new Color(128, 128, 0), new Color(255, 255, 0));
     private static final JBColor INFO_COLOR = new JBColor(new Color(0, 128, 0), new Color(0, 255, 0));
+    private static final JBColor UI_BG = new JBColor(Gray._235, Gray._50);
 
     public ConfigUI() {
         this.datapackNameTextField.setToolTipText("The name of the datapack.");
@@ -46,6 +48,7 @@ public class ConfigUI {
         this.namespaceTextField.getDocument().addDocumentListener(new ConfigCheckListener());
         this.packFormatSpinner.addChangeListener(this::packFormatListener);
         this.exploreButton.addMouseListener(new ExploreButtonListener());
+        this.descriptionTextArea.setBackground(UI_BG);
     }
 
     public JPanel getPanel() {

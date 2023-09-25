@@ -58,7 +58,6 @@
           </grid>
         </constraints>
         <properties>
-          <background color="-13158601"/>
           <dragEnabled value="true"/>
           <lineWrap value="true"/>
           <margin top="1" left="1" bottom="1" right="1"/>
