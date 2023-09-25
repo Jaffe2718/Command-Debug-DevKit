@@ -20,7 +20,7 @@ import java.util.function.Consumer;
 
 public class NewMcFunctionFileAction extends CreateFileAction {
     public NewMcFunctionFileAction() {
-        super("Minecraft Function File", "Creates a new McFunction file", McFunctionStaticRes.ICON);
+        super("Minecraft Function File", "Creates a new McFunction file", McFunctionStaticRes.MC_ICON);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class NewMcFunctionFileAction extends CreateFileAction {
             }
             else {
                 Messages.showInputDialog(project, "Create a new Minecraft function file (*.mcfunction).",
-                        "New Minecraft Function File", McFunctionStaticRes.ICON, null, validator);
+                        "New Minecraft Function File", McFunctionStaticRes.MC_ICON, null, validator);
                 elementsConsumer.accept(validator.getCreatedElements());
             }
         }
@@ -61,7 +61,7 @@ public class NewMcFunctionFileAction extends CreateFileAction {
         NewItemSimplePopupPanel contentPanel = new NewItemSimplePopupPanel();
         JTextField nameField = contentPanel.getTextField();
         JBPopup popup = NewItemPopupUtil.createNewItemPopup("New Minecraft Function File", contentPanel, nameField);
-        popup.setCaptionIcon(McFunctionStaticRes.ICON);
+        popup.setCaptionIcon(McFunctionStaticRes.MC_ICON);
         contentPanel.setApplyAction(event -> {
             String name = nameField.getText();
             if (validator.checkInput(name) && validator.canClose(name)) {

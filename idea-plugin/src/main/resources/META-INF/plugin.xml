@@ -2,7 +2,7 @@
     <id>me.jaffe2718.devkit</id>
 
     <name>Minecraft Command DevKit</name>
-    <version>1.1.2</version>
+    <version>1.2.0-rc1</version>
     <vendor email="qqyttwqeei@163.com" url="https://github.com/Jaffe2718">Jaffe2718</vendor>
     <description>
         <![CDATA[
@@ -70,6 +70,10 @@
     </change-notes>
     <depends>com.intellij.modules.platform</depends>
     <extensions defaultExtensionNs="com.intellij">
+        <moduleBuilder
+                builderClass="me.jaffe2718.devkit.prj.DatapackModuleBuilder"
+                id="DATAPACK_MODULE_BUILDER"
+        />
         <completion.contributor
                 language="McFunction"
                 implementationClass="me.jaffe2718.devkit.lang.completion.McFunctionCompletionContributor"

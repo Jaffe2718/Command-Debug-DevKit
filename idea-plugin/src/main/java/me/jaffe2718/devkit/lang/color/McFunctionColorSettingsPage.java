@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.util.Map;
 
-import static me.jaffe2718.devkit.McFunctionStaticRes.ICON;
+import static me.jaffe2718.devkit.McFunctionStaticRes.MC_ICON;
 
 public class McFunctionColorSettingsPage implements ColorSettingsPage {
 
@@ -35,7 +35,7 @@ public class McFunctionColorSettingsPage implements ColorSettingsPage {
 
     @Override
     public @Nullable Icon getIcon() {
-        return ICON;
+        return MC_ICON;
     }
 
     @Override

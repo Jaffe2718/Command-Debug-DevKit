@@ -36,7 +36,7 @@ public class McFunctionFileType extends LanguageFileType {
     @NotNull
     @Override
     public Icon getIcon() {
-        return McFunctionStaticRes.ICON;
+        return McFunctionStaticRes.MC_ICON;
     }
 
 }

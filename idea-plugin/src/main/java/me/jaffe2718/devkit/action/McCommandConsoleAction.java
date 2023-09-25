@@ -18,7 +18,7 @@ import java.io.OutputStream;
 import java.nio.file.Path;
 import java.util.Objects;
 
-import static me.jaffe2718.devkit.McFunctionStaticRes.ICON;
+import static me.jaffe2718.devkit.McFunctionStaticRes.MC_ICON;
 import static me.jaffe2718.devkit.McFunctionStaticRes.TOOL_NAME;
 
 public class McCommandConsoleAction extends AnAction {
@@ -26,14 +26,14 @@ public class McCommandConsoleAction extends AnAction {
     public McCommandConsoleAction() {
         super("Minecraft Command Console",
                 "Create a new Minecraft Command Console to execute commands in.",
-                ICON);
+                MC_ICON);
     }
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         String hostport = Messages.showInputDialog(
                 "Enter the host and port of the command execution\n service socket to create new console to execute\n commands in interactive mode.",
                 "New Minecraft Command Console",
-                ICON,
+                MC_ICON,
                 "localhost:",
                 null);
         if (hostport != null) {
