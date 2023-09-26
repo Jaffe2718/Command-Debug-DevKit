@@ -1,4 +1,4 @@
-package me.jaffe2718.devkit.prj;
+package me.jaffe2718.devkit.prj.ui;
 
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.ui.Messages;
@@ -14,6 +14,7 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -84,14 +85,35 @@ public class ConfigUI {
                 messageLabel.setForeground(ERROR_COLOR);
                 messageLabel.setText("Namespace must be a valid Minecraft namespace.");
             } else {
-                Path dstPth = Paths.get(locationTextField.getText(), datapackNameTextField.getText()).toAbsolutePath();
-                if (dstPth.toFile().isDirectory()) {
-                    messageLabel.setForeground(WARNING_COLOR);
-                    messageLabel.setText("<html><body><p align=\"center\">The target directory <i>" + dstPth + "</i> already exists.<br>" +
-                            "Please be cautious when creating a new project here.<p></body><html>");
-                } else {
-                    messageLabel.setForeground(INFO_COLOR);
-                    messageLabel.setText("The new project will be created at " + dstPth);
+                try {
+                    Path dstPth = Paths.get(locationTextField.getText(), datapackNameTextField.getText()).toAbsolutePath();
+                    if (!dstPth.getParent().toString().equals(Path.of(locationTextField.getText()).toString())) {
+                        messageLabel.setForeground(ERROR_COLOR);
+                        messageLabel.setText("Invalid project name: " + datapackNameTextField.getText());
+                    } else if (dstPth.toFile().isDirectory()) {
+                        messageLabel.setForeground(WARNING_COLOR);
+                        messageLabel.setText("<html><body><p align=\"center\">The target directory <i>" +
+                                dstPth + "</i> already exists.<br>" +
+                                "Please be cautious when creating a new project here.<p></body><html>");
+                    } else {
+                        messageLabel.setForeground(INFO_COLOR);
+                        messageLabel.setText("The new project will be created at " + dstPth);
+                    }
+                } catch (InvalidPathException ignored) {
+                    messageLabel.setForeground(ERROR_COLOR);
+                    messageLabel.setText(String.format("""
+                            <html>
+                                <body>
+                                    <p align="center">
+                                        Invalid path of project file directory:<br>
+                                        Location: <i>%s</i><br>
+                                        Datapack Dir: <i>%s</i>
+                                    </p>
+                                </body>
+                            </html>
+                            """, locationTextField.getText(),
+                            datapackNameTextField.getText())
+                    );
                 }
             }
         }
@@ -114,7 +136,13 @@ public class ConfigUI {
         }
 
         private void onUpdated() {
-            namespaceTextField.setText(datapackNameTextField.getText().toLowerCase().replaceAll("[\\-+.]", "_" ));
+            namespaceTextField.setText(
+                    datapackNameTextField
+                            .getText()
+                            .toLowerCase()
+                            .replaceAll("[\\-+.]", "_" )
+                            .replaceAll("[^a-z0-9_]", "")
+            );
         }
     }
 
@@ -127,12 +155,7 @@ public class ConfigUI {
     }
 
     private final class ExploreButtonListener implements MouseListener {
-        /**
-         * Invoked when the mouse button has been clicked (pressed
-         * and released) on a component.
-         *
-         * @param e the event to be processed
-         */
+
         @Override
         public void mouseClicked(MouseEvent e) {
             VirtualFile vRootDir = FileChooser.chooseFile(
@@ -146,41 +169,21 @@ public class ConfigUI {
             }
         }
 
-        /**
-         * Invoked when a mouse button has been pressed on a component.
-         *
-         * @param e the event to be processed
-         */
         @Override
         public void mousePressed(MouseEvent e) {
 
         }
 
-        /**
-         * Invoked when a mouse button has been released on a component.
-         *
-         * @param e the event to be processed
-         */
         @Override
         public void mouseReleased(MouseEvent e) {
 
         }
 
-        /**
-         * Invoked when the mouse enters a component.
-         *
-         * @param e the event to be processed
-         */
         @Override
         public void mouseEntered(MouseEvent e) {
 
         }
 
-        /**
-         * Invoked when the mouse exits a component.
-         *
-         * @param e the event to be processed
-         */
         @Override
         public void mouseExited(MouseEvent e) {
 

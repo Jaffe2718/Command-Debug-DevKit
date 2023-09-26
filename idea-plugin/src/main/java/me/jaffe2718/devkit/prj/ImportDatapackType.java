@@ -7,19 +7,18 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 
-public class DatapackModuleType extends ModuleType<DatapackModuleBuilder> {
+public class ImportDatapackType extends ModuleType<ImportDatapackBuilder> {
 
-    private static final String ID = "DATAPACK_MODULE_TYPE";
+    public static final String ID = "IMPORT_DATAPACK_TYPE";
+    public static final ImportDatapackType INSTANCE = new ImportDatapackType();
 
-    public static final DatapackModuleType INSTANCE = new DatapackModuleType();
-
-    public DatapackModuleType() {
+    protected ImportDatapackType() {
         super(ID);
     }
 
     @Override
-    public @NotNull DatapackModuleBuilder createModuleBuilder() {
-        return new DatapackModuleBuilder();
+    public @NotNull ImportDatapackBuilder createModuleBuilder() {
+        return new ImportDatapackBuilder();
     }
 
     @Override
@@ -29,7 +28,7 @@ public class DatapackModuleType extends ModuleType<DatapackModuleBuilder> {
 
     @Override
     public @NotNull @Nls(capitalization = Nls.Capitalization.Sentence) String getDescription() {
-        return "A Minecraft datapack.";
+        return "Import a Minecraft datapack.";
     }
 
     @Override
@@ -37,4 +36,3 @@ public class DatapackModuleType extends ModuleType<DatapackModuleBuilder> {
         return McFunctionStaticRes.PLUGIN_ICON;
     }
 }
-

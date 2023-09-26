@@ -17,7 +17,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -115,8 +114,6 @@ public class DatapackModuleBuilder extends ModuleBuilder {
 
     @Override
     public @NotNull List<Class<? extends ModuleWizardStep>> getIgnoredSteps() {
-        ArrayList<Class<? extends ModuleWizardStep>> ignoredSteps = new ArrayList<>();
-        ignoredSteps.add(ModuleWizardStep.class);
-        return ignoredSteps;
+        return List.of(ModuleWizardStep.class);
     }
 }
