@@ -63,6 +63,7 @@
                     <h2>Changelog</h2>
                     <ol>
                         <li>new features: create new project with the file structure of minecraft datapack.</li>
+                        <li>new features: generate minecraft datapack from the project.</li>
                         <li>fix bugs: the `ide-debug-tool` can override the old one when create a Minecraft command console.</li>
                         <li>optimize: use project inner JDK instead of the global JDK to run the `ide-debug-tool`.</li>
                 </body>
@@ -90,6 +91,13 @@
                 language="McFunction"
                 extensions="mcfunction"
         />
+        <fileType
+                name="pack.mcmeta"
+                implementationClass="me.jaffe2718.devkit.filetype.PackMcMetaFileType"
+                fieldName="INSTANCE"
+                language="JSON"
+                extensions="mcmeta"
+        />
         <colorSettingsPage
                 implementation="me.jaffe2718.devkit.lang.color.McFunctionColorSettingsPage"/>
         <lang.parserDefinition
@@ -111,11 +119,18 @@
         <action class="me.jaffe2718.devkit.action.NewMcFunctionFileAction">
             <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFromTemplate"/>
         </action>
-        <action class="me.jaffe2718.devkit.action.McCommandConsoleAction">
+        <action class="me.jaffe2718.devkit.action.McCommandConsoleAction"
+                id="me.jaffe2718.devkit.action.McCommandConsoleAction">
             <keyboard-shortcut keymap="$default"  first-keystroke="control alt M" replace-all="true"/>
             <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta alt M" replace-all="true"/>
             <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="meta alt M" replace-all="true"/>
             <add-to-group group-id="ToolsMenu"/>
+        </action>
+        <action class="me.jaffe2718.devkit.action.GenDatapackAction">
+            <add-to-group group-id="ToolsMenu"
+                          anchor="after"
+                          relative-to-action="me.jaffe2718.devkit.action.McCommandConsoleAction"/>
+            <add-to-group group-id="ProjectViewPopupMenu"/>
         </action>
     </actions>
 </idea-plugin>
