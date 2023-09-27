@@ -15,13 +15,12 @@ import java.util.Objects;
 
 public class McFunctionCompleteAutoPopupHandler extends TypedHandlerDelegate {
 
-    private static final String CHAR_SET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_@:~^.{[-\"";
+    private static final String CHAR_SET = " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_@:~^.{[-\"";
     @Override
     public @NotNull Result checkAutoPopup(char charTyped,
                                           @NotNull Project project,
                                           @NotNull Editor editor,
                                           @NotNull PsiFile file) {
-        file.clearCaches();
         if (!(file.getFileType() instanceof McFunctionFileType)) return Result.CONTINUE;
         try {
             Objects.requireNonNull(editor.getUserData(ConnectCompletionAction.k_completionList)).clear();
@@ -33,9 +32,12 @@ public class McFunctionCompleteAutoPopupHandler extends TypedHandlerDelegate {
                         editor.getDocument().getText().substring(  // get all text before the caret (cross-line)
                                 0, editor.getCaretModel().getOffset()) + charTyped
                 );
-                String lineText = scriptFactory.getCommands().get(scriptFactory.getCommands().size()-1);
+                String lineText = scriptFactory.getLastCommand() + (charTyped==' ' ? charTyped : "");
                 assert pw != null;
                 pw.println(lineText);
+                if (charTyped==' ') {   // don't show if typed ' '
+                    return super.checkAutoPopup(charTyped, project, editor, file);
+                }
                 Thread.sleep(20);
             } catch (Exception|AssertionError ignored) {}
             AutoPopupController.getInstance(project).scheduleAutoPopup(editor);
@@ -45,18 +47,9 @@ public class McFunctionCompleteAutoPopupHandler extends TypedHandlerDelegate {
                 case '{' -> editor.getDocument().insertString(editor.getCaretModel().getOffset(), "}");
             }
             return Result.STOP;
-        } else if (charTyped == ' ') {
-            try {
-                PrintWriter pw = editor.getUserData(ConnectCompletionAction.k_completionPrintWriter);
-                String lineText = editor.getDocument().getText().substring(
-                        editor.getCaretModel().getVisualLineStart(),
-                        editor.getCaretModel().getOffset()
-                ) + charTyped;
-                assert pw != null;
-                pw.println(lineText);
-            } catch (Exception|AssertionError ignored) {}
+        } else {
+            return super.checkAutoPopup(charTyped, project, editor, file);
         }
-        return super.checkAutoPopup(charTyped, project, editor, file);
     }
 
 }

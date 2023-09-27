@@ -2,7 +2,7 @@
     <id>me.jaffe2718.devkit</id>
 
     <name>Minecraft Command DevKit</name>
-    <version>1.2.0-rc4</version>
+    <version>1.2.0-rc5</version>
     <vendor email="qqyttwqeei@163.com" url="https://github.com/Jaffe2718">Jaffe2718</vendor>
     <description>
         <![CDATA[
@@ -65,7 +65,9 @@
                         <li>new features: create new project with the file structure of minecraft datapack.</li>
                         <li>new features: import minecraft datapack as a project.</li>
                         <li>new features: generate minecraft datapack from the project.</li>
+                        <li>fix bugs: optimize macro editing.</li>
                         <li>fix bugs: the `ide-debug-tool` can override the old one when create a Minecraft command console.</li>
+                        <li>new features: `ide-debug-tool` can automatically ignore the macros in the Minecraft function file.</li>
                         <li>optimize: use project inner JDK instead of the global JDK to run the `ide-debug-tool`.</li>
                 </body>
             </html>

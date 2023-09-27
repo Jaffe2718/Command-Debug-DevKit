@@ -207,6 +207,40 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // MACRO_START (ARGUMENT|CONTINUATION|MACRO)*
+  public static boolean MACRO_LINE(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MACRO_LINE")) return false;
+    if (!nextTokenIs(b, MACRO_START)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, MACRO_START);
+    r = r && MACRO_LINE_1(b, l + 1);
+    exit_section_(b, m, MACRO_LINE, r);
+    return r;
+  }
+
+  // (ARGUMENT|CONTINUATION|MACRO)*
+  private static boolean MACRO_LINE_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MACRO_LINE_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!MACRO_LINE_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "MACRO_LINE_1", c)) break;
+    }
+    return true;
+  }
+
+  // ARGUMENT|CONTINUATION|MACRO
+  private static boolean MACRO_LINE_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MACRO_LINE_1_0")) return false;
+    boolean r;
+    r = ARGUMENT(b, l + 1);
+    if (!r) r = consumeToken(b, CONTINUATION);
+    if (!r) r = consumeToken(b, MACRO);
+    return r;
+  }
+
+  /* ********************************************************** */
   // "{" NBT_PAIR {"," NBT_PAIR}* "}" | EMPTY_NBT
   public static boolean NBT(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "NBT")) return false;
@@ -438,12 +472,12 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // COMMAND|MACRO|COMMENT|CRLF
+  // COMMAND|MACRO_LINE|COMMENT|CRLF
   static boolean item_(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "item_")) return false;
     boolean r;
     r = COMMAND(b, l + 1);
-    if (!r) r = consumeToken(b, MACRO);
+    if (!r) r = MACRO_LINE(b, l + 1);
     if (!r) r = consumeToken(b, COMMENT);
     if (!r) r = consumeToken(b, CRLF);
     return r;

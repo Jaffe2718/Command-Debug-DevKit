@@ -34,7 +34,7 @@ NUMBER_LIKE=([~\^]?-?{NUM}+(\.{NUM}+)?) | [~\^]
 NAMESPACE={ELE_START}{ELE_CHAR}*:
 ELEMENT={ELE_START}{ELE_CHAR}*
 ELE_PATH={ELE_START}{ELE_CHAR}*(\/{ELE_START}{ELE_CHAR}*)+  // like `adventure/kill_a_mob`
-MACRO=\$\([a-zA-Z_][a-zA-Z0-9_]*\)                          // like `$(foo)`
+MACRO=("$"\({ELEMENT}\)) | ("$"\{{ELEMENT}\})
 STRING_DATA=\"[^\"]*\"
 OPERATOR=(<|<=|=|>=|>)
 
@@ -57,6 +57,7 @@ RANGE = (-?[0-9]+\.\.(-?[0-9]+)?)|((-?[0-9]+)?\.\.-?[0-9]+)
     {CONTINUE}                                         { return CONTINUATION; }
     {MACRO}                                            { return MACRO; }
     ^{ELE_START}{ELE_CHAR}*                            { return COMMAND_NAME;}
+    ^"$"                                               { return MACRO_START; }
     {EMPTY_NBT_DATA}                                   { return EMPTY_NBT; }
     {EMPTY_LIST_DATA}                                  { return EMPTY_LIST; }
     {RANGE}                                            { return RANGE; }

@@ -57,12 +57,21 @@ public class ExecuteWithoutLogAction extends AnAction {
             try {
                 Editor editor = this.targetEditor.getEditor();
                 PrintWriter pw = editor.getUserData(ConnectExecutionAction.k_executionPrintWriter);
-                McFunctionScriptFactory scriptFactory = new McFunctionScriptFactory(editor.getDocument().getText());
-                List<String> lines = scriptFactory.getCommands();
+                String rawText = editor.getDocument().getText();
+                McFunctionScriptFactory scriptFactory = new McFunctionScriptFactory(rawText);
+                if (scriptFactory.hasMacro()) {
+                    ApplicationManager.getApplication().invokeLater(() ->
+                            Messages.showWarningDialog("Macros cannot be executed directly in current IDE,\n" +
+                                            "macro lines will be ignored!\n" +
+                                            "Please pack the file into a datapack and execute\n it in Minecraft if you want to use macros.",
+                                    "Macro Detected")
+                    );
+                }
+                List<String> commands = scriptFactory.getCommands();
                 // List<String> lines = editor.getDocument().getText().lines().toList().stream().map(this::removeComments).toList();
-                for (String line: lines) {
-                    if (line.isBlank()) continue;
-                    Objects.requireNonNull(pw).println(line);
+                for (String command: commands) {
+                    if (command.isBlank() || command.startsWith("$")) continue;
+                    Objects.requireNonNull(pw).println(command);
                     Thread.sleep(10);
                 }
                 ApplicationManager.getApplication().invokeLater(() ->

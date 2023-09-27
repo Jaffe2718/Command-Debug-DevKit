@@ -27,6 +27,10 @@ public class McFunctionVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitMacroLine(@NotNull McFunctionMacroLine o) {
+    visitPsiElement(o);
+  }
+
   public void visitNbt(@NotNull McFunctionNbt o) {
     visitPsiElement(o);
   }

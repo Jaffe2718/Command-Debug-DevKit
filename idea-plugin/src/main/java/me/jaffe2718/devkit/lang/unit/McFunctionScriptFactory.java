@@ -2,6 +2,7 @@ package me.jaffe2718.devkit.lang.unit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * This is the class to transform the string in *.mcfunction file to a List<String> of commands (MCJE 1.20.2 or later).<br>
@@ -53,6 +54,11 @@ public class McFunctionScriptFactory {
         return result.toString().trim();
     }
 
+    private String removeContinuation(String text) {
+        // remove the continuation \ at the end of the line
+        return text.replaceAll("\\s*\\\\\\s*$", "");
+    }
+
     public List<String> getCommands() {
         List<String> lines = this.rawScript.lines().toList().stream().map(this::removeComments).toList();
         List<String> commands = new ArrayList<>();
@@ -71,5 +77,29 @@ public class McFunctionScriptFactory {
             }
         }
         return commands;
+    }
+
+    public String getLastCommand() {
+        List<String> lines = this.rawScript.lines().toList().stream().map(this::removeComments).toList();
+        StringBuilder currentCommand = new StringBuilder();
+        // get the line from the last line backwards to save time
+        for (int i = lines.size()-1; i >= 0; i--) {
+            String line = lines.get(i);
+            String presentLine = i > 0 ? this.removeComments(lines.get(i - 1)) : "";  // the line before the current line
+            if (presentLine.endsWith("\\")) {
+                currentCommand.insert(0,
+                        !this.removeContinuation(line).isBlank()?  // if the line is not blank
+                                this.removeContinuation(line) + " " : "");
+            } else {
+                currentCommand.insert(0, line);
+                break;
+            }
+        }
+        return currentCommand.toString().trim();
+    }
+
+    public boolean hasMacro() {
+        Pattern pattern = Pattern.compile("(^\\$)|(\\n\\$)");
+        return pattern.matcher(this.rawScript).find();
     }
 }

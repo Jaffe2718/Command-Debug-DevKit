@@ -19,6 +19,7 @@ public class McFunctionColorSettingsPage implements ColorSettingsPage {
 
     private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
             new AttributesDescriptor("Command name", McFunctionSyntaxHighlighter.MC_FUNCTION_COMMAND_NAME),
+            new AttributesDescriptor("Macro line start", McFunctionSyntaxHighlighter.MC_FUNCTION_MACRO_START),
             new AttributesDescriptor("Macro", McFunctionSyntaxHighlighter.MC_FUNCTION_MACRO),
             new AttributesDescriptor("Comment", McFunctionSyntaxHighlighter.MC_FUNCTION_COMMENT),
             new AttributesDescriptor("Continuation", McFunctionSyntaxHighlighter.MC_FUNCTION_CONTINUATION),
@@ -55,8 +56,12 @@ public class McFunctionColorSettingsPage implements ColorSettingsPage {
                 execute
                 summon
                 
-                # Macro #
-                $(foo)
+                # Macro lines example #
+                
+                $$(foo)
+                $give ${some_player} ${something} ${count}
+                $say This is a macro line, using $(key_1)!
+                $teleport @s ~ ~${key_2} ~
                 
                 # Comment #
                 

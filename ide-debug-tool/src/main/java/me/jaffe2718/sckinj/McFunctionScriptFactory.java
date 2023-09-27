@@ -2,6 +2,7 @@ package me.jaffe2718.sckinj;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * This is the class to transform the string in *.mcfunction file to a List<String> of commands (MCJE 1.20.2 or later).<br>
@@ -10,6 +11,7 @@ import java.util.List;
  * 1. The line starts with `# ` is a comment.<br>
  * 2. The text after `# ` in a line is a comment (`# ` must be outside a string).<br>
  * 3. A single backslash `\` as the last non-whitespace character of a line now allows a command to be continued on the next line.
+ * 4. Automatically remove the macro line (the line starts with `$`)
  * */
 public class McFunctionScriptFactory {
     private final String rawScript;     // the whole script string
@@ -58,10 +60,18 @@ public class McFunctionScriptFactory {
                 currentCommand.append(part);
             } else {
                 currentCommand.append(line);
+                if (currentCommand.toString().startsWith("$")) { // ignore the macro line
+                    continue;
+                }
                 commands.add(currentCommand.toString());
                 currentCommand = new StringBuilder();
             }
         }
         return commands;
+    }
+
+    public boolean hasMacro() {
+        Pattern pattern = Pattern.compile("(^\\$)|(\\n\\$)");
+        return pattern.matcher(this.rawScript).find();
     }
 }

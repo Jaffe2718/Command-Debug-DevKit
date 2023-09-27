@@ -100,6 +100,10 @@ public class IdeDebugTool {
         List<String> lines;
         try {
             McFunctionScriptFactory scriptFactory = new McFunctionScriptFactory(java.nio.file.Files.readString(java.nio.file.Paths.get(fileName)));
+            if (scriptFactory.hasMacro()) {
+                // Show a warning if the file contains macro lines
+                System.err.println("Warning: The file contains macro lines, which will be ignored.");
+            }
             lines = scriptFactory.getCommands();
         } catch (IOException e) {
             throw new RuntimeException(e);

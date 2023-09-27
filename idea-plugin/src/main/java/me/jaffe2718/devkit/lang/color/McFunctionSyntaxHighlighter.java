@@ -32,6 +32,9 @@ public class McFunctionSyntaxHighlighter extends SyntaxHighlighterBase {
     public static final TextAttributesKey MC_FUNCTION_COMMAND_NAME =
             TextAttributesKey.createTextAttributesKey("MC_FUNCTION_COMMAND_NAME",
                     DefaultLanguageHighlighterColors.CONSTANT);
+    public static final TextAttributesKey MC_FUNCTION_MACRO_START =
+            TextAttributesKey.createTextAttributesKey("MC_FUNCTION_MACRO_START",
+                    DefaultLanguageHighlighterColors.STATIC_FIELD);
     public static final TextAttributesKey MC_FUNCTION_SELECTOR =
             TextAttributesKey.createTextAttributesKey("MC_FUNCTION_REF",
                     DefaultLanguageHighlighterColors.KEYWORD);
@@ -64,6 +67,7 @@ public class McFunctionSyntaxHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] RANGE_KEYS = new TextAttributesKey[]{MC_FUNCTION_RANGE};
     private static final TextAttributesKey[] NUMBER_KEYS = new TextAttributesKey[]{MC_FUNCTION_NUMBER};
     private static final TextAttributesKey[] COMMAND_NAME_KEYS = new TextAttributesKey[]{MC_FUNCTION_COMMAND_NAME};
+    private static final TextAttributesKey[] MACRO_START_KEYS = new TextAttributesKey[]{MC_FUNCTION_MACRO_START};
     private static final TextAttributesKey[] SELECTOR_KEYS = new TextAttributesKey[]{MC_FUNCTION_SELECTOR};
     private static final TextAttributesKey[] NAMESPACE_KEYS = new TextAttributesKey[]{MC_FUNCTION_NAMESPACE};
     private static final TextAttributesKey[] ELEMENT_KEYS = new TextAttributesKey[]{MC_FUNCTION_ELEMENT};
@@ -110,6 +114,8 @@ public class McFunctionSyntaxHighlighter extends SyntaxHighlighterBase {
             return NUMBER_KEYS;
         } else if (tokenType.equals(McFunctionTypes.COMMAND_NAME)) {
             return COMMAND_NAME_KEYS;
+        } else if (tokenType.equals(McFunctionTypes.MACRO_START)) {
+            return MACRO_START_KEYS;
         } else if (tokenType.equals(McFunctionTypes.REF)) {
             return SELECTOR_KEYS;
         } else if (tokenType.equals(McFunctionTypes.NAMESPACE)) {

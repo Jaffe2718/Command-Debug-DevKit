@@ -13,6 +13,7 @@ public interface McFunctionTypes {
   IElementType COMPLEX_ELE = new McFunctionElementType("COMPLEX_ELE");
   IElementType IDENTIFIER = new McFunctionElementType("IDENTIFIER");
   IElementType IDENTIFIER_DOMAIN = new McFunctionElementType("IDENTIFIER_DOMAIN");
+  IElementType MACRO_LINE = new McFunctionElementType("MACRO_LINE");
   IElementType NBT = new McFunctionElementType("NBT");
   IElementType NBT_LIST = new McFunctionElementType("NBT_LIST");
   IElementType NBT_PAIR = new McFunctionElementType("NBT_PAIR");
@@ -29,6 +30,7 @@ public interface McFunctionTypes {
   IElementType EMPTY_NBT = new McFunctionTokenType("EMPTY_NBT");
   IElementType EX_SYNTAX = new McFunctionTokenType("EX_SYNTAX");
   IElementType MACRO = new McFunctionTokenType("MACRO");
+  IElementType MACRO_START = new McFunctionTokenType("MACRO_START");
   IElementType NAMESPACE = new McFunctionTokenType("NAMESPACE");
   IElementType NUMBER = new McFunctionTokenType("NUMBER");
   IElementType OPERATOR = new McFunctionTokenType("OPERATOR");
@@ -55,6 +57,9 @@ public interface McFunctionTypes {
       }
       else if (type == IDENTIFIER_DOMAIN) {
         return new McFunctionIdentifierDomainImpl(node);
+      }
+      else if (type == MACRO_LINE) {
+        return new McFunctionMacroLineImpl(node);
       }
       else if (type == NBT) {
         return new McFunctionNbtImpl(node);
