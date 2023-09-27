@@ -2,7 +2,6 @@ package me.jaffe2718.devkit.action;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.ui.MessageConstants;
 import com.intellij.openapi.ui.Messages;
 import me.jaffe2718.devkit.prj.unit.DatapackGenerator;
 import org.jetbrains.annotations.NotNull;
