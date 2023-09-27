@@ -51,45 +51,183 @@ or [![Quilted Fabric API](https://img.shields.io/badge/Quilted%20Fabric%20API-00
 
 ## Usage 📖
 
-1. Start your Minecraft game and join or create a world. The mod will create two socket server and show the host and port information in the game chat.
+> **Note**: The Author's most recommended way to use this mod is to use the plugin.
 
-2. Start your IDE, create or open a project.
+### Mods
 
-3. Create or open a file with suffix `.mcfunction`.
+* The mods only create 2 socket servers to provide code completion and code execution service.
+* The mods should work with other tools like [IDE Debug Tool](#ide-debug-tool) or [IDEA Plugin](#idea-plugin) or [other tools](DEV.md) you write by yourself.
+
+### IDEA Plugin
+
+#### Create a New Datapack Project
+
+1. Setup a new datapack project in IDEA.
+   1. At the welcome page of IDEA, click `New Project`;
+   2. Choose `Minecraft Datapack`;
+   3. Fill in the metadata of the datapack project;
+      <details>
+         <summary></summary>
+         <img src=".doc/plugin/i1000.png" alt="create new project"/>
+         <center>fill in metadata</center>
+      </details>
+   
+   4. Click `Create`, and the project will be automatically created with the default structure, and it will create `data/<namespace>/functions/demo.mcfunction` as example.
+      <details>
+         <summary></summary>
+         <img src=".doc/plugin/i1001.png" alt="fill in metadata"/>
+         <center>The new datapack project</center>
+      </details>
+
+2. Import an existing datapack as a project.
+   1. At the welcome page of IDEA, click `New Project`;
+   2. Choose `Import Minecraft Datapack`;
+   3. Choose the datapack you want to import and fill the project name and extract path;
+      <details>
+         <summary></summary>
+         <img src=".doc/plugin/i1002.png" alt="import existing project"/>
+         <center>Choose the datapack you want to import</center>
+      </details>
+      <details>
+         <summary></summary>
+         <img src=".doc/plugin/i1003.png" alt="import existing project"/>
+         <center>Filling the project name and extract path</center>
+      </details>
+   
+   > **Note**: The plugin will automatically check if the datapack is valid by these rules:<br>&nbsp;&nbsp;&nbsp;&nbsp;1. The datapack must be a zip file;<br>&nbsp;&nbsp;&nbsp;&nbsp;2. The zip file must contain a `pack.mcmeta` file;<br>&nbsp;&nbsp;&nbsp;&nbsp;3. The zip file must contain a `data` folder.<br>If the datapack is invalid, the plugin will prevent you from importing it.
+         <details>
+            <summary></summary>
+            <img src=".doc/plugin/i1004.png" alt="import existing project"/>
+            <center>The plugin will prevent you from importing an invalid datapack</center>
+         </details>
+   
+   4. Click `Create`, and the datapack will be automatically imported as a project.
+      <details>
+         <summary></summary>
+         <img src=".doc/plugin/i1005.png" alt="import existing project"/>
+         <center>The new project based on the imported datapack</center>
+      </details>
+
+#### Edit & Debug Minecraft Function
+
+1. Open or create a project;
+2. Open or create a Minecraft function file;
    <details>
-      <summary>edit *.mcfunction file</summary>
-      <img src=".doc/i0.png" alt="edit *.mcfunction file"/>
+      <summary></summary>
+      <img src=".doc/plugin/i1006.png" alt="open or create a function file"/>
+      <center>create a Minecraft function file</center>
+   </details>
+
+3. Start the Minecraft game with the [mod](#mods) installed, and open the world you want to debug;
+4. Start edit the `*.mcfunction` file, connect to the socket servers and start debug;
+   <details>
+      <summary></summary>
+      <img src=".doc/plugin/i1007.png" alt="start debug"/>
+      <center>Click the function buttons at the toolbar of the editor to get debug services</center>
+   </details>
+   <details>
+      <summary></summary>
+      <img src=".doc/plugin/i1008.png" alt="start debug"/>
+      <center>Connect to the code execution service</center>
+   </details>
+   <details>
+      <summary></summary>
+      <img src=".doc/plugin/i1009.png" alt="start debug"/>
+      <center>Connect to the completion service</center>
+   </details>
+
+5. Now you can start edit the `*.mcfunction` file and get code completion and code execution service.
+   <details>
+      <summary></summary>
+      <img src=".doc/plugin/i1010.png" alt="import existing project"/>
+      <center>Code completion</center>
+   </details>
+
+6. You can click `Execute Without Log` to execute the command without logging the result to the console.
+   <details>
+      <summary></summary>
+      <img src=".doc/plugin/i1011.png" alt="execute without log"/>
+      <center>Execute the command without logging</center>
+   </details>
+
+7. You can click `Execute` to execute the command and log the result to the console.
+   <details>
+      <summary></summary>
+      <img src=".doc/plugin/i1012.png" alt="execute"/>
+      <center>Execute the command and log the result to the console</center>
    </details>
    
-4. Connect to these two socket servers by entering the host and port which shown in the game chat. Then you can use the code completion and code execution service.
+   > **Note**: Remember to configure the project JDK. Click `File` -> `Project Structure` to choose the JDK you want to use.
+         <details>
+            <summary></summary>
+            <img src=".doc/plugin/i1013.png" alt="configure project JDK"/>
+            <center>Congigure the project JDK</center>
+         </details>
+   
+
+#### Custom Syntax Highlighting
+
+* Click `File` -> `Settings` -> `Editor` -> `Color Scheme` -> `Minecraft Function` to customize the syntax highlighting.
    <details>
-     <summary>connect to socket server</summary>
-     <img src=".doc/i1.png" alt="connect to socket server"/>
-   </details>
-   <details>
-     <summary>code completion</summary>
-     <img src=".doc/i2.png" alt="code completion"/>
-   </details>
-   <details>
-      <summary>code execution</summary>
-      <img src=".doc/i3.png" alt="code execution"/>
+      <summary></summary>
+      <img src=".doc/plugin/i2000.png" alt="custom syntax highlighting"/>
+      <center>Click <code>File</code> -> <code>Settings</code> -> <code>Editor</code> -> <code>Color Scheme</code> -> <code>Minecraft Function</code> to customize the syntax highlighting</center>
    </details>
 
-5. You can also start the interactive console by starting the tool from `Tools -> Minecraft Command Console`
-   or by pressing `Ctrl + Alt + M` (or `Command + Alt + M` on Mac),
-   then you can send single line commands to the game and get the feedback one by one.
+#### Minecraft Command Console
+
+1. Launch the Minecraft game with the [mod](#mods) installed, and open the world you want to debug;
+
+2. Click `Tools` -> `Minecraft Command DecKit` -> `Minecraft Command Console` and fill the host and port of the command execution socket server.
    <details>
-      <summary>press Ctrl+Alt+M to create interactive console</summary>
-      <img src=".doc/i4.png" alt="interactive console"/>
+      <summary></summary>
+      <img src=".doc/plugin/i3000.png" alt="open console"/>
+      <center>Click <code>Tools</code> -> <code>Minecraft Command DecKit</code> -> <code>Minecraft Command Console</code> to open the console</center>
    </details>
    <details>
-      <summary>interactive console</summary>
-      <img src=".doc/i5.png" alt="interactive console"/>
+      <summary></summary>
+      <img src=".doc/plugin/i3001.png" alt="open console"/>
+      <center>Fill the host and port of the command execution socket server</center>
    </details>
-6. You can also use the [command line tool](#ide-debug-tool) to connect to the socket server and execute the code.
+
+3. You can write your commands line by line press `Enter` to execute the command.
    <details>
-      <summary>command line tool</summary>
-      <img src=".doc/i6.png" alt="command line tool"/>
+      <summary></summary>
+      <img src=".doc/plugin/i3002.png" alt="open console"/>
+      <center>Write your commands line by line press <code>Enter</code> to execute the command</center>
+   </details>
+
+#### Generate Minecraft Datapack
+
+1. There are two ways to start the task to generate a datapack:
+   - Right click the project view and click `Generate Minecraft Datapack` in the context menu.
+      <details>
+         <summary></summary>
+         <img src=".doc/plugin/i4000.png" alt="generate datapack"/>
+         <center>Right click the project view and click <code>Generate Minecraft Datapack</code> in the context menu</center>
+      </details>
+   
+   - Click `Tools` -> `Minecraft Command DecKit` -> `Generate Minecraft Datapack` from the main menu bar:
+      <details>
+         <summary></summary>
+         <img src=".doc/plugin/i4001.png" alt="generate datapack"/>
+         <center>Click <code>Generate Minecraft Datapack</code> from the main menu bar</center>
+      </details>
+
+2. Click `Generate` to start the task, and the datapack will be generated in the `build` folder of the project named `<project_name>.zip`.
+   <details>
+      <summary></summary>
+      <img src=".doc/plugin/i4002.png" alt="generate datapack"/>
+      <center>Click <code>Generate</code> to start the task</center>
+   </details>
+
+### Command Line Tool
+
+* You can also use the [IDE Debug Tool](#ide-debug-tool) to connect to the socket server and execute the code.
+   <details>
+      <summary></summary>
+      <img src=".doc/cmd/i5001.png" alt="command line tool"/>
+      <center>Command Line Tool</center>
    </details>
 
 
