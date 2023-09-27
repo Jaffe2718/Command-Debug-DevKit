@@ -14,7 +14,7 @@ import static me.jaffe2718.devkit.McFunctionStaticRes.PLUGIN_ICON;
 public class GenDatapackAction extends AnAction {
 
     public GenDatapackAction() {
-        super("Generate Datapack",
+        super("Generate Minecraft Datapack",
                 "Generate a Minecraft datapack from current project.",
                 PLUGIN_ICON);
     }

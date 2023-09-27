@@ -2,7 +2,7 @@
     <id>me.jaffe2718.devkit</id>
 
     <name>Minecraft Command DevKit</name>
-    <version>1.2.0-rc5</version>
+    <version>1.2.0-rc6</version>
     <vendor email="qqyttwqeei@163.com" url="https://github.com/Jaffe2718">Jaffe2718</vendor>
     <description>
         <![CDATA[
@@ -123,6 +123,12 @@
         <fileEditorProvider implementation="me.jaffe2718.devkit.editor.McFunctionFileEditorProvider" order="last"/>
     </extensions>
     <actions>
+        <group
+                id="me.jaffe2718.devkit.actionGroup.InsideToolsMenu"
+                text="Minecraft Command DevKit"
+                popup="true">
+            <add-to-group group-id="ToolsMenu"/>
+        </group>
         <action class="me.jaffe2718.devkit.action.NewMcFunctionFileAction">
             <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFromTemplate"/>
         </action>
@@ -131,12 +137,15 @@
             <keyboard-shortcut keymap="$default"  first-keystroke="control alt M" replace-all="true"/>
             <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta alt M" replace-all="true"/>
             <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="meta alt M" replace-all="true"/>
-            <add-to-group group-id="ToolsMenu"/>
+            <add-to-group group-id="me.jaffe2718.devkit.actionGroup.InsideToolsMenu"/>
         </action>
         <action class="me.jaffe2718.devkit.action.GenDatapackAction">
-            <add-to-group group-id="ToolsMenu"
+            <add-to-group group-id="me.jaffe2718.devkit.actionGroup.InsideToolsMenu"
                           anchor="after"
                           relative-to-action="me.jaffe2718.devkit.action.McCommandConsoleAction"/>
+            <keyboard-shortcut keymap="$default"  first-keystroke="control alt G" replace-all="true"/>
+            <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta alt G" replace-all="true"/>
+            <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="meta alt G" replace-all="true"/>
             <add-to-group group-id="ProjectViewPopupMenu"/>
         </action>
     </actions>

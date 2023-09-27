@@ -52,7 +52,7 @@ public class DatapackWizardStep extends ModuleWizardStep {
             Messages.showErrorDialog("Invalid datapack name: " + prjName, "Invalid Datapack Name");
             throw new RuntimeException("Invalid datapack name: " + prjName);
         }
-        if (prjName.isBlank() || Path.of(parentDir, prjName).getParent().toString().equals(Path.of(parentDir).toString())) {
+        if (prjName.isBlank() || !Path.of(parentDir, prjName).getParent().toString().equals(Path.of(parentDir).toString())) {
             Messages.showErrorDialog("Invalid project name: " + prjName, "Invalid Project Name");
             throw new RuntimeException("Invalid project name: " + prjName);
         } else if (!this.configUI.namespaceTextField.getText().matches("[a-z_][a-z0-9_]*")) {
