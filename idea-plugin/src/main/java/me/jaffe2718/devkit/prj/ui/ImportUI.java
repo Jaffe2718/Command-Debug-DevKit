@@ -67,7 +67,7 @@ public class ImportUI {
                 if (this.validateDatapack(packName)) {
                     textFieldPrjName.setText(Path.of(packName).getFileName().toString().replace(".zip", ""));
                 } else {
-                    labelMsg.setText("Datapack path must be a zip file.");
+                    labelMsg.setText("Datapack path must be a path to a datapack zip file.");
                     labelMsg.setForeground(ERROR_COLOR);
                 }
             } catch (Exception e) {
@@ -77,7 +77,7 @@ public class ImportUI {
         }
     }
 
-    private final class ExtDirAndPrjNameListener implements DocumentListener {
+    private final class ExtDirAndPrjNameListener implements DocumentListener, DatapackImporter {
         @Override
         public void insertUpdate(DocumentEvent e) {
             onUpdated();
@@ -115,7 +115,7 @@ public class ImportUI {
                                 prjDir + "</i> already exists.<br>" +
                                 "Please be cautious when creating a new project here.<p></body><html>");
                         labelMsg.setForeground(WARNING_COLOR);
-                    } else {
+                    } else if (this.validateDatapack(textFieldPckPth.getText())) {
                         labelMsg.setText("<html><body><p align=\"center\">The new project will be created at <br><i>" +
                                 prjDir + "</i><p></body><html>");
                         labelMsg.setForeground(INFO_COLOR);
