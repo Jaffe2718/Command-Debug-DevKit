@@ -5,6 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface McFunctionMacroLine extends PsiElement {
+public interface McFunctionCommandType extends PsiElement {
+
+  @Nullable
+  McFunctionCommand getCommand();
+
+  @Nullable
+  McFunctionMsgCommand getMsgCommand();
 
 }

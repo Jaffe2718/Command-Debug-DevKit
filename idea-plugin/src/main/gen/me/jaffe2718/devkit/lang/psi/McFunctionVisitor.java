@@ -15,6 +15,10 @@ public class McFunctionVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitCommandType(@NotNull McFunctionCommandType o) {
+    visitPsiElement(o);
+  }
+
   public void visitComplexEle(@NotNull McFunctionComplexEle o) {
     visitPsiElement(o);
   }
@@ -28,6 +32,10 @@ public class McFunctionVisitor extends PsiElementVisitor {
   }
 
   public void visitMacroLine(@NotNull McFunctionMacroLine o) {
+    visitPsiElement(o);
+  }
+
+  public void visitMsgCommand(@NotNull McFunctionMsgCommand o) {
     visitPsiElement(o);
   }
 

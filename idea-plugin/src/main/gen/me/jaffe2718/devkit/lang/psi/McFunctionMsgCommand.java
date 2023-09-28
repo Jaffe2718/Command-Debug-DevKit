@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface McFunctionRef extends PsiElement {
+public interface McFunctionMsgCommand extends PsiElement {
 
-  @NotNull
-  List<McFunctionArgument> getArgumentList();
+  @Nullable
+  McFunctionSelector getSelector();
 
 }

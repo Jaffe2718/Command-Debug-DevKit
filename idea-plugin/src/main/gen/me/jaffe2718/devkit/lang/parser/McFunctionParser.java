@@ -99,6 +99,19 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // MSG_COMMAND | COMMAND
+  public static boolean COMMAND_TYPE(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "COMMAND_TYPE")) return false;
+    if (!nextTokenIs(b, COMMAND_NAME)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = MSG_COMMAND(b, l + 1);
+    if (!r) r = COMMAND(b, l + 1);
+    exit_section_(b, m, COMMAND_TYPE, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // (ELEMENT|UUID) ("." (ELEMENT|UUID|NUMBER))+
   public static boolean COMPLEX_ELE(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "COMPLEX_ELE")) return false;
@@ -157,17 +170,32 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // NAMESPACE (COMPLEX_ELE|ELEMENT) NBT? TAG_LIST?
+  // NAMESPACE+ (COMPLEX_ELE|ELEMENT) NBT? TAG_LIST?
   public static boolean IDENTIFIER(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "IDENTIFIER")) return false;
     if (!nextTokenIs(b, NAMESPACE)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, NAMESPACE);
+    r = IDENTIFIER_0(b, l + 1);
     r = r && IDENTIFIER_1(b, l + 1);
     r = r && IDENTIFIER_2(b, l + 1);
     r = r && IDENTIFIER_3(b, l + 1);
     exit_section_(b, m, IDENTIFIER, r);
+    return r;
+  }
+
+  // NAMESPACE+
+  private static boolean IDENTIFIER_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "IDENTIFIER_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, NAMESPACE);
+    while (r) {
+      int c = current_position_(b);
+      if (!consumeToken(b, NAMESPACE)) break;
+      if (!empty_element_parsed_guard_(b, "IDENTIFIER_0", c)) break;
+    }
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -207,7 +235,7 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // MACRO_START (ARGUMENT|CONTINUATION|MACRO)*
+  // MACRO_START (CONTINUATION|MACRO|STATIC_TEXT)*
   public static boolean MACRO_LINE(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "MACRO_LINE")) return false;
     if (!nextTokenIs(b, MACRO_START)) return false;
@@ -219,7 +247,7 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (ARGUMENT|CONTINUATION|MACRO)*
+  // (CONTINUATION|MACRO|STATIC_TEXT)*
   private static boolean MACRO_LINE_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "MACRO_LINE_1")) return false;
     while (true) {
@@ -230,13 +258,43 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // ARGUMENT|CONTINUATION|MACRO
+  // CONTINUATION|MACRO|STATIC_TEXT
   private static boolean MACRO_LINE_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "MACRO_LINE_1_0")) return false;
     boolean r;
-    r = ARGUMENT(b, l + 1);
-    if (!r) r = consumeToken(b, CONTINUATION);
+    r = consumeToken(b, CONTINUATION);
     if (!r) r = consumeToken(b, MACRO);
+    if (!r) r = consumeToken(b, STATIC_TEXT);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // COMMAND_NAME (SELECTOR | ELEMENT)? MESSAGES
+  public static boolean MSG_COMMAND(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MSG_COMMAND")) return false;
+    if (!nextTokenIs(b, COMMAND_NAME)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMAND_NAME);
+    r = r && MSG_COMMAND_1(b, l + 1);
+    r = r && consumeToken(b, MESSAGES);
+    exit_section_(b, m, MSG_COMMAND, r);
+    return r;
+  }
+
+  // (SELECTOR | ELEMENT)?
+  private static boolean MSG_COMMAND_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MSG_COMMAND_1")) return false;
+    MSG_COMMAND_1_0(b, l + 1);
+    return true;
+  }
+
+  // SELECTOR | ELEMENT
+  private static boolean MSG_COMMAND_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MSG_COMMAND_1_0")) return false;
+    boolean r;
+    r = SELECTOR(b, l + 1);
+    if (!r) r = consumeToken(b, ELEMENT);
     return r;
   }
 
@@ -472,11 +530,11 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // COMMAND|MACRO_LINE|COMMENT|CRLF
+  // COMMAND_TYPE|MACRO_LINE|COMMENT|CRLF
   static boolean item_(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "item_")) return false;
     boolean r;
-    r = COMMAND(b, l + 1);
+    r = COMMAND_TYPE(b, l + 1);
     if (!r) r = MACRO_LINE(b, l + 1);
     if (!r) r = consumeToken(b, COMMENT);
     if (!r) r = consumeToken(b, CRLF);

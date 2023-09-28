@@ -11,20 +11,32 @@ import static me.jaffe2718.devkit.lang.psi.McFunctionTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import me.jaffe2718.devkit.lang.psi.*;
 
-public class McFunctionMacroLineImpl extends ASTWrapperPsiElement implements McFunctionMacroLine {
+public class McFunctionCommandTypeImpl extends ASTWrapperPsiElement implements McFunctionCommandType {
 
-  public McFunctionMacroLineImpl(@NotNull ASTNode node) {
+  public McFunctionCommandTypeImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull McFunctionVisitor visitor) {
-    visitor.visitMacroLine(this);
+    visitor.visitCommandType(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof McFunctionVisitor) accept((McFunctionVisitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  @Nullable
+  public McFunctionCommand getCommand() {
+    return findChildByClass(McFunctionCommand.class);
+  }
+
+  @Override
+  @Nullable
+  public McFunctionMsgCommand getMsgCommand() {
+    return findChildByClass(McFunctionMsgCommand.class);
   }
 
 }

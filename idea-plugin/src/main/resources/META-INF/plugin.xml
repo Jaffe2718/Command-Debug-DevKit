@@ -2,8 +2,9 @@
     <id>me.jaffe2718.devkit</id>
 
     <name>Minecraft Command DevKit</name>
-    <version>1.2.0-rc6</version>
+    <version>1.2.0-rc7</version>
     <vendor email="qqyttwqeei@163.com" url="https://github.com/Jaffe2718">Jaffe2718</vendor>
+    <!--  TODO: update the description for 1.2.0 stable version -->
     <description>
         <![CDATA[
             <html>
@@ -36,6 +37,9 @@
                             You can also start the interactive console by starting the tool from <b>Tools -> Minecraft Command Console</b>
                             or by pressing <b>Ctrl + Alt + M</b> (or <b>Command + Alt + M</b> on Mac),
                             then you can send single line commands to the game and get the feedback one by one.
+                        </li>
+                        <li style="list-style-type: decimal">
+                            You can create a project in the format of datapack by configure a new datapack or import from existing datapack.
                         </li>
                     </div>
                     <br>
