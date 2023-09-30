@@ -2,9 +2,9 @@
     <id>me.jaffe2718.devkit</id>
 
     <name>Minecraft Command DevKit</name>
-    <version>1.2.0-rc7</version>
+    <version>1.2.0-rc8</version>
     <vendor email="qqyttwqeei@163.com" url="https://github.com/Jaffe2718">Jaffe2718</vendor>
-    <!--  TODO: update the description for 1.2.0 stable version -->
+    <!--  TODO: update the code highlighting after fix bugs -->
     <description>
         <![CDATA[
             <html>

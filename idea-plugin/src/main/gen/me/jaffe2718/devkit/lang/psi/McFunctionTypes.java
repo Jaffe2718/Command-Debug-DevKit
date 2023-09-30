@@ -10,12 +10,10 @@ public interface McFunctionTypes {
 
   IElementType ARGUMENT = new McFunctionElementType("ARGUMENT");
   IElementType COMMAND = new McFunctionElementType("COMMAND");
-  IElementType COMMAND_TYPE = new McFunctionElementType("COMMAND_TYPE");
   IElementType COMPLEX_ELE = new McFunctionElementType("COMPLEX_ELE");
   IElementType IDENTIFIER = new McFunctionElementType("IDENTIFIER");
   IElementType IDENTIFIER_DOMAIN = new McFunctionElementType("IDENTIFIER_DOMAIN");
   IElementType MACRO_LINE = new McFunctionElementType("MACRO_LINE");
-  IElementType MSG_COMMAND = new McFunctionElementType("MSG_COMMAND");
   IElementType NBT = new McFunctionElementType("NBT");
   IElementType NBT_LIST = new McFunctionElementType("NBT_LIST");
   IElementType NBT_PAIR = new McFunctionElementType("NBT_PAIR");
@@ -53,9 +51,6 @@ public interface McFunctionTypes {
       else if (type == COMMAND) {
         return new McFunctionCommandImpl(node);
       }
-      else if (type == COMMAND_TYPE) {
-        return new McFunctionCommandTypeImpl(node);
-      }
       else if (type == COMPLEX_ELE) {
         return new McFunctionComplexEleImpl(node);
       }
@@ -67,9 +62,6 @@ public interface McFunctionTypes {
       }
       else if (type == MACRO_LINE) {
         return new McFunctionMacroLineImpl(node);
-      }
-      else if (type == MSG_COMMAND) {
-        return new McFunctionMsgCommandImpl(node);
       }
       else if (type == NBT) {
         return new McFunctionNbtImpl(node);
