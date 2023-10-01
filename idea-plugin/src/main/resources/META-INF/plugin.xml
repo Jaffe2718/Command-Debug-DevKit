@@ -72,6 +72,7 @@
                         <li>fix bugs: the `ide-debug-tool` can override the old one when create a Minecraft command console.</li>
                         <li>new features: `ide-debug-tool` can automatically ignore the macros in the Minecraft function file.</li>
                         <li>optimize: use project inner JDK instead of the global JDK to run the `ide-debug-tool`.</li>
+                    </ol>
                 </body>
             </html>
         ]]>
