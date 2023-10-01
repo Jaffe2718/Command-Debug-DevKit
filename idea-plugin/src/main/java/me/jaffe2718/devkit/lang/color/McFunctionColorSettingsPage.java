@@ -24,6 +24,7 @@ public class McFunctionColorSettingsPage implements ColorSettingsPage {
             new AttributesDescriptor("Comment", McFunctionSyntaxHighlighter.MC_FUNCTION_COMMENT),
             new AttributesDescriptor("Continuation", McFunctionSyntaxHighlighter.MC_FUNCTION_CONTINUATION),
             new AttributesDescriptor("Element", McFunctionSyntaxHighlighter.MC_FUNCTION_ELEMENT),
+            new AttributesDescriptor("Messages", McFunctionSyntaxHighlighter.MC_FUNCTION_MESSAGES),
             new AttributesDescriptor("Namespace", McFunctionSyntaxHighlighter.MC_FUNCTION_NAMESPACE),
             new AttributesDescriptor("Number like", McFunctionSyntaxHighlighter.MC_FUNCTION_NUMBER),
             new AttributesDescriptor("Range", McFunctionSyntaxHighlighter.MC_FUNCTION_RANGE),
@@ -50,75 +51,50 @@ public class McFunctionColorSettingsPage implements ColorSettingsPage {
     @Override
     public @NonNls @NotNull String getDemoText() {
         return """
-                # Command name #
-                
+               # 1. This is a comment
+                   # 2. This is a comment
+                   
+               # command name
+                tellraw
+                 title
+                  execute
                 say
-                execute
+                   give
                 summon
+               
+               # selector(with tag) & element & number
+                give @a[tag=foo] command_block 1
+               
+               # namespace & element
+               give @s minecraft:stone 1
+               
+               # nbt & string
+                tellraw @a {"text":"Hello, world!"}
                 
-                # Macro lines example #
+               # uuid & tag name
+                scoreboard players set @e[limit=1,tag=69ae2b89-6de9-42a3-8c37-c34c26a61bb9] a 0
                 
-                $$(foo)
-                $give ${some_player} ${something} ${count}
-                $say This is a macro line, using $(key_1)!
-                $teleport @s ~ ~${key_2} ~
+               # range
+                random value 0..10
+                random value 10..
+                random value -5..
                 
-                # Comment #
-                
-                # This is a comment
-                give @s stone # This is a comment behind a command
-                $(foo) # This is a comment behind a macro
-                
-                # Continuation #
-                
-                give @s \\
-                 minecraft:stone  # This is a command with a continuation so it can continue to the next line
-                            
-                # Element #
-                
-                give @s stone # the `stone` is an element
-                           
-                # Namespace #
-                
-                 minecraft:
-                 mod_name:
-                
-                # Number like #
-                
-                 1.0
-                 ~3
-                 -5
-                
-                # Range #
-                
-                 1..5
-                 ..5
-                 1..
-                
-                # Selector reference #
-                
-                 @s
-                 @a
-                 @e
-                
-                # String #
-                
-                 "Hello, world!"
-                
-                # Tag name #
-                
-                 type=
-                 tag=
-                 name=
-                
-                UUID:
-                 00000000-0000-0000-0000-000000000000
-                
-                # Extended syntax #
-                
-                ^^^^^
-                # other symbols or words or etc.
-                """;
+               # messages
+                say Hello, world!
+                tell @a Hello, world!
+               
+               # macro line
+                $give $(someone) minecraft:stone ${count}
+               
+               # continuation
+                $give $(someone) \\
+                 minecraft:stone ${count}
+                say \\
+                 Hello,\\
+                  world!
+                time query \\
+                 daytime
+               """;
     }
 
     @Override

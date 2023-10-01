@@ -19,7 +19,7 @@ public class McFunctionSyntaxHighlighter extends SyntaxHighlighterBase {
                     DefaultLanguageHighlighterColors.LINE_COMMENT);
     public static final TextAttributesKey MC_FUNCTION_CONTINUATION =
             TextAttributesKey.createTextAttributesKey("MC_FUNCTION_CONTINUATION",
-                    DefaultLanguageHighlighterColors.LINE_COMMENT);
+                    DefaultLanguageHighlighterColors.KEYWORD);
     public static final TextAttributesKey MC_FUNCTION_STRING =
             TextAttributesKey.createTextAttributesKey("MC_FUNCTION_STRING",
                     DefaultLanguageHighlighterColors.STRING);
@@ -37,7 +37,7 @@ public class McFunctionSyntaxHighlighter extends SyntaxHighlighterBase {
                     DefaultLanguageHighlighterColors.STATIC_FIELD);
     public static final TextAttributesKey MC_FUNCTION_SELECTOR =
             TextAttributesKey.createTextAttributesKey("MC_FUNCTION_REF",
-                    DefaultLanguageHighlighterColors.KEYWORD);
+                    DefaultLanguageHighlighterColors.METADATA);
     public static final TextAttributesKey MC_FUNCTION_NAMESPACE =
             TextAttributesKey.createTextAttributesKey("MC_FUNCTION_NAMESPACE",
                     DefaultLanguageHighlighterColors.FUNCTION_DECLARATION);
@@ -45,9 +45,13 @@ public class McFunctionSyntaxHighlighter extends SyntaxHighlighterBase {
             TextAttributesKey.createTextAttributesKey("MC_FUNCTION_ELEMENT",
                     DefaultLanguageHighlighterColors.FUNCTION_CALL);
 
+    public static final TextAttributesKey MC_FUNCTION_MESSAGES =
+            TextAttributesKey.createTextAttributesKey("MC_FUNCTION_MESSAGES",
+                    DefaultLanguageHighlighterColors.DOC_COMMENT);
+
     public static final TextAttributesKey MC_FUNCTION_TAG =
             TextAttributesKey.createTextAttributesKey("MC_FUNCTION_TAG"
-                    , DefaultLanguageHighlighterColors.METADATA);
+                    , DefaultLanguageHighlighterColors.MARKUP_ATTRIBUTE);
 
     public static final TextAttributesKey MC_FUNCTION_OPERATOR =
             TextAttributesKey.createTextAttributesKey("MC_FUNCTION_OPERATOR",
@@ -71,6 +75,7 @@ public class McFunctionSyntaxHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] SELECTOR_KEYS = new TextAttributesKey[]{MC_FUNCTION_SELECTOR};
     private static final TextAttributesKey[] NAMESPACE_KEYS = new TextAttributesKey[]{MC_FUNCTION_NAMESPACE};
     private static final TextAttributesKey[] ELEMENT_KEYS = new TextAttributesKey[]{MC_FUNCTION_ELEMENT};
+    private static final TextAttributesKey[] MESSAGES_KEYS = new TextAttributesKey[]{MC_FUNCTION_MESSAGES};
     private static final TextAttributesKey[] TAG_KEYS = new TextAttributesKey[]{MC_FUNCTION_TAG};
     private static final TextAttributesKey[] OPERATOR_KEYS = new TextAttributesKey[]{MC_FUNCTION_OPERATOR};
     private static final TextAttributesKey[] UUID_KEYS = new TextAttributesKey[]{MC_FUNCTION_UUID};
@@ -122,6 +127,8 @@ public class McFunctionSyntaxHighlighter extends SyntaxHighlighterBase {
             return NAMESPACE_KEYS;
         } else if (tokenType.equals(McFunctionTypes.ELEMENT)) {
             return ELEMENT_KEYS;
+        } else if (tokenType.equals(McFunctionTypes.MESSAGES)) {
+            return MESSAGES_KEYS;
         } else if (tokenType.equals(McFunctionTypes.TAG)) {
             return TAG_KEYS;
         } else if (tokenType.equals(McFunctionTypes.OPERATOR)) {

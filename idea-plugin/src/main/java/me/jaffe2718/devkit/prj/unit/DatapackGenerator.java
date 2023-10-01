@@ -12,7 +12,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class DatapackGenerator {
-    private Project project;
+    private final Project project;
 
     public DatapackGenerator(Project project) {
         this.project = project;
@@ -31,6 +31,7 @@ public class DatapackGenerator {
             return CheckState.INVALID;
         } else {
             buildDirPath.toFile().mkdirs();
+            buildDirPath.resolve(pkName).toFile().delete();
             try (FileOutputStream fos = new FileOutputStream(buildDirPath.resolve(pkName).toFile());
                  ZipOutputStream zos = new ZipOutputStream(fos)) {
                 // add pack.mcmeta
@@ -38,11 +39,15 @@ public class DatapackGenerator {
                 this.addDirToZip(dataDirPath, "data", zos);
                 if (!packPngPath.exists()) {
                     zos.flush();
+                    zos.finish();
+                    zos.close();
                     return CheckState.VALID_WITH_WARNINGS;
                 }
                 else {
                     this.addFileToZip(packPngPath, "pack.png", zos);
                     zos.flush();
+                    zos.finish();
+                    zos.close();
                     return CheckState.VALID;
                 }
             } catch (IOException e) {
