@@ -27,6 +27,10 @@ intellij {
     plugins = [] as List
 }
 
+dependencies {
+    implementation 'net.lingala.zip4j:zip4j:2.11.5'
+}
+
 tasks {
 
     tasks.findAll { it instanceof JavaCompile } .each {
