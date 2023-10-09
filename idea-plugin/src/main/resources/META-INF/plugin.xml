@@ -2,7 +2,7 @@
     <id>me.jaffe2718.devkit</id>
 
     <name>Minecraft Command DevKit</name>
-    <version>1.2.1</version>
+    <version>1.2.2-rc1</version>
     <vendor email="qqyttwqeei@163.com" url="https://github.com/Jaffe2718">Jaffe2718</vendor>
     <description>
         <![CDATA[
@@ -65,13 +65,16 @@
                 <body>
                     <h2>Changelog</h2>
                     <ol>
-                        <li>fix bug: the datapack zip file created by the plugin cannot be loaded by the game</li>
+                        <li>fix bug: IDE will not report the error when loading the pack.mcmeta file</li>
+                        <li>fix bug: only support the IDEs with the capability of Java</li>
                     </ol>
                 </body>
             </html>
         ]]>
     </change-notes>
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.java</depends>
+<!--    <depends>com.intellij.modules.java-capable</depends>-->
     <extensions defaultExtensionNs="com.intellij">
         <moduleBuilder
                 builderClass="me.jaffe2718.devkit.prj.DatapackModuleBuilder"
@@ -97,10 +100,10 @@
                 extensions="mcfunction"
         />
         <fileType
-                name="pack.mcmeta"
+                name="pack.mcmeta JSON"
                 implementationClass="me.jaffe2718.devkit.filetype.PackMcMetaFileType"
                 fieldName="INSTANCE"
-                language="JSON5"
+                language="JSON"
                 extensions="mcmeta"
         />
         <colorSettingsPage
