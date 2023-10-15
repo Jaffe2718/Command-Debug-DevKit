@@ -74,7 +74,6 @@
     </change-notes>
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.java</depends>
-<!--    <depends>com.intellij.modules.java-capable</depends>-->
     <extensions defaultExtensionNs="com.intellij">
         <moduleBuilder
                 builderClass="me.jaffe2718.devkit.prj.DatapackModuleBuilder"
