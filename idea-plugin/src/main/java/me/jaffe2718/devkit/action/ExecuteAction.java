@@ -61,11 +61,8 @@ public class ExecuteAction extends AnAction {
             String mcfunc = targetEditor.getFile().getPath();
             assert execSocket.get() != null && execSocket.get().isConnected() && project != null;
             String hostPort = execSocket.get().getInetAddress().getHostAddress() + ":" + execSocket.get().getPort();
-            Sdk sdk = ProjectRootManager.getInstance(Objects.requireNonNull(project)).getProjectSdk();
-            if (sdk == null) {
-                throw new ExecutionException("No Java SDK is configured for this project.");
-            }
-            String javaExe = Path.of(Objects.requireNonNull(sdk.getHomePath()), "bin", "java.exe").toString();
+            Sdk sdk = ProjectRootManager.getInstance(project).getProjectSdk();
+            String javaExe = sdk != null ? Path.of(Objects.requireNonNull(sdk.getHomePath()), "bin", "java.exe").toString() : "java";
             GeneralCommandLine commandLine = new GeneralCommandLine(javaExe, "-jar", toolJar.getAbsolutePath(), hostPort, mcfunc);
             OSProcessHandler processHandler = ProcessHandlerFactory.getInstance().createColoredProcessHandler(commandLine);
             ProcessTerminatedListener.attach(processHandler);
@@ -83,7 +80,7 @@ public class ExecuteAction extends AnAction {
 
     private File extractTool() {
         File libs = Path.of(System.getenv("HOMEPATH"), ".mcfuncdev").toAbsolutePath().toFile();
-        if (libs.exists() && libs.isDirectory()) {
+        if (libs.isDirectory()) {
             // check if ide-debug-tool-<version>.jar is present
             for (File jarfile : Objects.requireNonNull(libs.listFiles())) {
                 if (jarfile.getName().startsWith("ide-debug-tool-") && jarfile.getName().endsWith(".jar")) {

@@ -58,6 +58,6 @@ public class McFunctionFileEditorProvider implements FileEditorProvider {
      */
     @Override
     public @NotNull FileEditorPolicy getPolicy() {
-        return FileEditorPolicy.HIDE_DEFAULT_EDITOR;
+        return FileEditorPolicy.HIDE_OTHER_EDITORS;
     }
 }

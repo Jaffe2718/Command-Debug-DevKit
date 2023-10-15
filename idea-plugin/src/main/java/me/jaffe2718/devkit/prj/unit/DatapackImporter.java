@@ -53,7 +53,7 @@ public interface DatapackImporter {
      * */
     default boolean validateDatapack(String packPth) {
         File packFile = new File(packPth);
-        if (!packFile.getName().endsWith(".zip") || !packFile.exists() || !packFile.isFile()) {
+        if (!packFile.getName().endsWith(".zip") || !packFile.isFile()) {
             // 1. check if the packPth is a valid zip file
             return false;
         } else {

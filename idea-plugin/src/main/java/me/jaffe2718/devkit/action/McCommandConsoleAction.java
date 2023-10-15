@@ -42,8 +42,8 @@ public class McCommandConsoleAction extends AnAction {
             // try to check if %HOMEPATH%\.mcfuncdev\ide-debug-tool-<version>.jar exists
             try {
                 this.executeInIDE(e, this.extractIDEDebugTool(), hostport);
-            } catch (ExecutionException ignored) {
-                Messages.showErrorDialog("No Java SDK is configured for this project.", "Error");
+            } catch (ExecutionException ee) {
+                Messages.showErrorDialog(ee.getMessage(), "Error");
             }
         }
     }
@@ -53,11 +53,8 @@ public class McCommandConsoleAction extends AnAction {
                               String hostPort)
             throws ExecutionException {
         Sdk sdk = ProjectRootManager.getInstance(Objects.requireNonNull(e.getProject())).getProjectSdk();
-        if (sdk == null) {
-            throw new ExecutionException("No SDK is configured for this project.");
-        }
         GeneralCommandLine commandLine = new GeneralCommandLine(
-                Path.of(Objects.requireNonNull(sdk.getHomePath()), "bin", "java.exe").toString(),
+                sdk != null ? Path.of(Objects.requireNonNull(sdk.getHomePath()), "bin", "java.exe").toString() : "java",
                 "-jar",
                 jarfile.getAbsolutePath(),
                 hostPort);
@@ -72,7 +69,7 @@ public class McCommandConsoleAction extends AnAction {
 
     private @NotNull File extractIDEDebugTool() {
         File libs = Path.of(System.getenv("HOMEPATH"), ".mcfuncdev").toFile();
-        if (libs.exists() && libs.isDirectory()) {
+        if (libs.isDirectory()) {
             // check if ide-debug-tool-<version>.jar is present
             for (File jarfile : Objects.requireNonNull(libs.listFiles())) {
                 if (jarfile.getName().startsWith("ide-debug-tool-") && jarfile.getName().endsWith(".jar")) {

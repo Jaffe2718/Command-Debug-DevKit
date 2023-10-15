@@ -23,14 +23,14 @@ public class DatapackGenerator {
         Path buildDirPath = prjRoot.resolve("build");                  // find `build` dir
         String pkName = this.project.getName() + ".zip";                     // the name of the zip file
 
-        if (!packMetaPath.exists() || !dataDirPath.exists()) {
+        if (!packMetaPath.isFile() || !dataDirPath.isDirectory()) {
             return CheckState.INVALID;
         }
         try {
             ZipFile datapack = new ZipFile(buildDirPath.resolve(pkName).toFile());
             datapack.addFile(packMetaPath);
             datapack.addFolder(dataDirPath);
-            if (packPngPath.exists()) {
+            if (packPngPath.isFile()) {
                 datapack.addFile(packPngPath);
             } else {
                 datapack.close();
