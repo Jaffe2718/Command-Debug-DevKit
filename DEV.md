@@ -1,4 +1,5 @@
 # Developer Documentation🛠️
+
 ![author](https://img.shields.io/badge/by-Jaffe2718-cyan.svg)
 
 ## Categories📃
@@ -6,57 +7,72 @@
 - [Overview](#overview)
 - [Concepts](#concepts)
 - [Working Principles](#working-principles)
-  - [Abstract](#abstract)
-  - [Single Player Game](#single-player-game)
-  - [Multiplayer Game](#multiplayer-game)
+    - [Abstract](#abstract)
+    - [Single Player Game](#single-player-game)
+    - [Multiplayer Game](#multiplayer-game)
 - [Usage](#usage)
-  - [Code Completion](#code-completion)
-  - [Command Execution](#command-execution)
+    - [Code Completion](#code-completion)
+    - [Command Execution](#command-execution)
 - [Examples](#examples)
 
 ## Overview️‍👁️‍🗨️
+
 This is the developer documentation.
 In this document, you will know how to develop external tools for the mods in this repository.
-**It is unnecessary to clone this repository to develop external tools, just install the suitable mod from this repository
-in your Minecraft client.** The programing language is not limited, the only requirement is make your tool have the ability
+**It is unnecessary to clone this repository to develop external tools, just install the suitable mod from this
+repository
+in your Minecraft client.** The programing language is not limited, the only requirement is make your tool have the
+ability
 to connect to the socket server and interact with it.
 
 ## Concepts✨
-- For 2.x version, the mod will create two socket servers, one for code completion and one for code execution, whatever the mod is for `Fabric` or `Quilt`.
 
-  |     Server      |     Type      |                  Description                  |             Accepted Message              |   Returned Message   |
-  |:---------------:|:-------------:|:---------------------------------------------:|:-----------------------------------------:|:--------------------:|
-  | Code Completion | Socket Server |        The server for code completion         | single line command or unfinished command | multiple line result |
-  | Code Execution  | Socket Server | The server for command execution in Minecraft |            single line command            | execution feedbacks  |
+- For 3.x version, the mod will create two socket servers, one for code completion and one for code execution, whatever
+  the mod is for `Fabric` or `Quilt`.
 
-> Tips: the message sent is a single line of text, you should add `\n` at the end of the message or auto flush the buffer to send the message to the server.
- 
+  |      Server      |     Type      |                  Description                  |                                     Accepted Message                                      |   Returned Message   |
+  |:----------------:|:-------------:|:---------------------------------------------:|:-----------------------------------------------------------------------------------------:|:--------------------:|
+  | Code Completion  | Socket Server |        The server for code completion         |                         single line command or unfinished command                         | multiple line result |
+  |  Code Execution  | Socket Server | The server for command execution in Minecraft |                                    single line command                                    | execution feedbacks  |
+  | Datapack Receive | Socket Server |  The server for receive datapack from client  | json string without `\n` like `{ "name": "[name].zip", "data": "[base64 encoded data]" }` |         None         |
+
+> Tips: the message sent is a single line of text, you should add `\n` at the end of the message or auto flush the
+> buffer to send the message to the server.
+
 ## Working Principles📖
 
 ### Abstract
-The mod newer than `2.0.0` will create two socket servers, one for code completion and one for code execution, whatever the mod is for `Fabric` or `Quilt`.
+
+The mod newer than `2.0.0` will create two socket servers, one for code completion and one for code execution, whatever
+the mod is for `Fabric` or `Quilt`.
 The socket server instances will be created when the game is loading, and the port of the socket server is random,
-when you enter the world, the mod will print the port of the socket server in the game log, you can use this port to connect to the socket server.
-The mod can run both in the single player game and multiplayer game, but not multiplayer server, because the server will not load the logical client of the mod.
+when you enter the world, the mod will print the port of the socket server in the game log, you can use this port to
+connect to the socket server.
+The mod can run both in the single player game and multiplayer game, but not multiplayer server, because the server will
+not load the logical client of the mod.
 > Tips: for security reasons, the event handler of the socket server was designed to run only in the logical client, to
 > avoid SQL injection and other security problems. So the socket server will not work in the multiplayer server. But the
 > only way to run the mod in multiplayer game is connect and play with your friends in the same LAN, because the owner
 > of the game world has a logical client on his/her device, so the socket server will work in this situation.
 
 ### Single Player Game
-In the single player game, the socket servers will be created in the logical client, so you can connect to the socket server
+
+In the single player game, the socket servers will be created in the logical client, so you can connect to the socket
+server
 at `localhost`. The port of the socket server will be printed in the game log when you enter the world.
 
-- When you connect to the command execution socket server, you can send a single line command to the server, and the server
-will execute the command in the game, and return the execution feedbacks to you.
+- When you connect to the command execution socket server, you can send a single line command to the server, and the
+  server
+  will execute the command in the game, and return the execution feedbacks to you.
 
 <div style="text-align: center">
   <img src=".doc/dev/d0.png" alt="Executing" align="center"/>
   <p>Fig. 1 working principles of executing command in the single player game</p>
 </div>
 
-- When you connect to the command completion socket server, you can send a single line command or unfinished command to the
-server, and the server will return the multiple line result to you.
+- When you connect to the command completion socket server, you can send a single line command or unfinished command to
+  the
+  server, and the server will return the multiple line result to you.
 
 <div style="text-align: center">
   <img src=".doc/dev/d1.png" alt="Complete" align="center"/>
@@ -64,14 +80,17 @@ server, and the server will return the multiple line result to you.
 </div>
 
 ### Multiplayer Game
+
 In the multiplayer game, the socket servers will be created in the logical client of the physical server, so only
 the players in the same LAN and play together can connect to the socket server in the game world owner's device. If
-the logical client is not exist, the socket server will not work. There are two cases in the multiplayer game, 
+the logical client is not exist, the socket server will not work. There are two cases in the multiplayer game,
 these are the two cases:
 
-- CASE 1: You are playing in your friend's game world, and your friend is the owner of the game world, so the socket server is
-created in the logical client of your friend's device. In this case, you will use **YOUR FRIEND'S IDENTITY** to execute the
-command in the game, and the execution feedbacks will be returned to you.
+- CASE 1: You are playing in your friend's game world, and your friend is the owner of the game world, so the socket
+  server is
+  created in the logical client of your friend's device. In this case, you will use **YOUR FRIEND'S IDENTITY** to
+  execute the
+  command in the game, and the execution feedbacks will be returned to you.
 
 <div style="text-align: center">
   <img src=".doc/dev/d2.png" alt="Executing" align="center"/>
@@ -79,7 +98,8 @@ command in the game, and the execution feedbacks will be returned to you.
 </div>
 
 - CASE 2: You are playing in your friend's game world, and you are connect to the socket server in your device,
-so you will use **YOUR IDENTITY** to execute the command in the game, and the execution feedbacks will be returned to you.
+  so you will use **YOUR IDENTITY** to execute the command in the game, and the execution feedbacks will be returned to
+  you.
 
 <div style="text-align: center">
   <img src=".doc/dev/d3.png" alt="Executing" align="center"/>
@@ -129,9 +149,11 @@ so you will use **YOUR IDENTITY** to execute the command in the game, and the ex
    s.close()
    ```
 
-  Start your Minecraft game, and enter the world, then you will see the port of the code completion socket server in the game log,
+  Start your Minecraft game, and enter the world, then you will see the port of the code completion socket server in the
+  game log,
   let's assume the code completion socket is `localhost:12345`.
-  If your code is at `path/to/your/code_completion.py`, you can run it by `python path/to/your/code.py` in your terminal.
+  If your code is at `path/to/your/code_completion.py`, you can run it by `python path/to/your/code.py` in your
+  terminal.
   Then you will get the result like this:
 
    ```console
@@ -154,6 +176,7 @@ so you will use **YOUR IDENTITY** to execute the command in the game, and the ex
    ```
 
 ### Command Execution
+
 - In this use case, we will show you how to use the code execution service.
 
    ```python
@@ -173,8 +196,9 @@ so you will use **YOUR IDENTITY** to execute the command in the game, and the ex
    
    s.close()
    ```
-  
-  Start your Minecraft game, and enter the world, then you will see the port of the code execution socket server in the game log,
+
+  Start your Minecraft game, and enter the world, then you will see the port of the code execution socket server in the
+  game log,
   let's assume the code execution socket is `localhost:54321`.
   If your code is at `path/to/your/code_execution.py`, you can run it by `python path/to/your/code.py` in your terminal.
   Then you will get the result like this:
@@ -185,3 +209,42 @@ so you will use **YOUR IDENTITY** to execute the command in the game, and the ex
    Gave 1 [Diamond] to <your name>
    ```
   And you will get a diamond in your inventory in the game.
+
+### Datapack Receive
+
+```python
+# datapack_receive.py
+import socket
+import json
+import base64
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect(('localhost', int(input('port: '))))
+
+# open the datapack file
+with open('path/to/your/datapack.zip', 'rb') as f:
+    # read the file content
+    data = f.read()
+    # encode the file content with base64
+    data = base64.b64encode(data)
+    # decode the file content with utf-8
+    data = data.decode('utf-8')
+    # create the json string
+    data = json.dumps({'name': 'your_datapack_name.zip', 'data': data})
+    # send the json string to the server
+    s.send(data.encode('utf-8'))
+    s.send(b'\n')
+
+s.close()
+```
+
+Start your Minecraft game, and enter the world, then you will see the port of the datapack receive socket server in the
+game log, let's assume the datapack receive socket is `localhost:54321`.
+If your code is at `datapack_receive.py`, you can run it by `python datapack_receive.py` in your
+terminal.
+Then you will get the result in the game log like this:
+
+```console
+Datapack `your_datapack_name.zip` received!
+reloaded!
+```
