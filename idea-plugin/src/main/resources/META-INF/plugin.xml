@@ -2,7 +2,7 @@
     <id>me.jaffe2718.devkit</id>
 
     <name>Minecraft Command DevKit</name>
-    <version>1.2.3</version>
+    <version>1.3.0-rc.1</version>
     <vendor email="qqyttwqeei@163.com" url="https://github.com/Jaffe2718">Jaffe2718</vendor>
     <description>
         <![CDATA[
@@ -65,8 +65,7 @@
                 <body>
                     <h2>Changelog</h2>
                     <ol>
-                        <li>fix bug: IDE will not report the error when loading the pack.mcmeta file</li>
-                        <li>fix bug: only support the IDEs with the capability of Java</li>
+                        <li>new feature: build and copy datapack to the game by socket server</li>
                     </ol>
                 </body>
             </html>
@@ -146,6 +145,13 @@
             <keyboard-shortcut keymap="$default"  first-keystroke="control alt G" replace-all="true"/>
             <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta alt G" replace-all="true"/>
             <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="meta alt G" replace-all="true"/>
+            <add-to-group group-id="ProjectViewPopupMenu"/>
+        </action>
+        <action class="me.jaffe2718.devkit.action.GenAndCopyDpack2McAction"
+                id="me.jaffe2718.devkit.action.GenAndCopyDpack2McAction">
+            <keyboard-shortcut keymap="$default"  first-keystroke="control shift alt G" replace-all="true"/>
+            <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta shift alt G" replace-all="true"/>
+            <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="meta shift alt G" replace-all="true"/>
             <add-to-group group-id="ProjectViewPopupMenu"/>
         </action>
     </actions>

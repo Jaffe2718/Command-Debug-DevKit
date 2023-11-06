@@ -14,6 +14,8 @@ import com.intellij.openapi.util.Key;
 import me.jaffe2718.devkit.editor.McFunctionFileEditor;
 import org.jetbrains.annotations.NotNull;
 
+import static me.jaffe2718.devkit.McFunctionStaticRes.PLUGIN_ICON;
+
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -48,7 +50,7 @@ public class ConnectCompletionAction extends AnAction {
         String hostPort = Messages.showInputDialog(
                 "Please input the host and port of the Minecraft instance to get code completion service.",
                 "Connect to Completion Service",
-                Messages.getQuestionIcon(), "localhost:", null);
+                PLUGIN_ICON, "localhost:", null);
         try {
             // split the host and port
             Editor editor = this.targetEditor.getEditor();
@@ -62,16 +64,14 @@ public class ConnectCompletionAction extends AnAction {
             );
             editor.putUserData(k_completionList, new ArrayList<>());
             this.targetEditor.buildCompletionListenerThread().start();
-            ApplicationManager.getApplication().invokeLater(() -> {
-                Notifications.Bus.notify(
-                        new Notification(
-                                "me.jaffe2718.devkit.notification",
-                                "Minecraft Command DevKit",
-                                "Successfully connected to the Minecraft instance code completion service at " + hostPort + ".",
-                                NotificationType.INFORMATION
-                        )
-                );
-            });
+            ApplicationManager.getApplication().invokeLater(() -> Notifications.Bus.notify(
+                    new Notification(
+                            "me.jaffe2718.devkit.notification",
+                            "Minecraft Command DevKit",
+                            "Successfully connected to the Minecraft instance code completion service at " + hostPort + ".",
+                            NotificationType.INFORMATION
+                    )
+            ));
         } catch (AssertionError ignored) {} catch (Exception ignored) {
             Messages.showErrorDialog("Failed to connect to the Minecraft instance.", "Connection Failed");
         }

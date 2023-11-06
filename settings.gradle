@@ -5,6 +5,10 @@ pluginManagement {
             url = 'https://maven.quiltmc.org/repository/release'
         }
         maven {
+            name = 'Quilt Snapshots'
+            url = 'https://maven.quiltmc.org/repository/snapshot'
+        }
+        maven {
             name = 'Fabric'
             url = 'https://maven.fabricmc.net/'
         }
@@ -16,7 +20,7 @@ pluginManagement {
 include('fabric')
 include('idea-plugin')
 include('ide-debug-tool')
-include('quilt')
+//include('quilt')
 
 rootProject.name = 'Command-Debug-DevKit'
 
