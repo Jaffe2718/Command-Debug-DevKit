@@ -28,8 +28,7 @@ to connect to the socket server and interact with it.
 
 ## Concepts✨
 
-- For 3.x version, the mod will create two socket servers, one for code completion and one for code execution, whatever
-  the mod is for `Fabric` or `Quilt`.
+- For 3.x version, the mod will create 3 socket servers, there are used for code completion, command execution and datapack management.
 
   |      Server      |     Type      |                  Description                  |                                              Accepted Message                                               |   Returned Message   |
   |:----------------:|:-------------:|:---------------------------------------------:|:-----------------------------------------------------------------------------------------------------------:|:--------------------:|
