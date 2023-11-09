@@ -247,7 +247,7 @@ Programing language is not limited, you can use any language you like,
 the only thing you need to do is make your tool has the ability to connect to the socket server and interact with it.
 
 ### Concepts
-- For 2.x version, the mod will create two socket servers, one for code completion and one for code execution, whatever the mod is for `Fabric` or `Quilt`.
+- For `3.x` version, the mod will create two socket servers, one for code completion and one for code execution, whatever the mod is for `Fabric` or `Quilt`.
 
     |      Server      |     Type      |                  Description                  |                                              Accepted Message                                               |   Returned Message   |
     |:----------------:|:-------------:|:---------------------------------------------:|:-----------------------------------------------------------------------------------------------------------:|:--------------------:|
