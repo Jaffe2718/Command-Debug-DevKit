@@ -200,7 +200,7 @@ or [![Quilted Fabric API](https://img.shields.io/badge/Quilted%20Fabric%20API-00
 #### Generate Minecraft Datapack
 
 1. There are two ways to start the task to generate a datapack:
-   - Right click the project view and click `Generate Minecraft Datapack` in the context menu.
+   - Right click the project view and click `Minecraft Command DevKit` -> `Generate Minecraft Datapack` in the context menu.
       <details>
          <summary></summary>
          <img src=".doc/plugin/i4000.png" alt="generate datapack"/>
@@ -220,13 +220,60 @@ or [![Quilted Fabric API](https://img.shields.io/badge/Quilted%20Fabric%20API-00
       <img src=".doc/plugin/i4002.png" alt="generate datapack"/>
       <center>Click <code>Generate</code> to start the task</center>
    </details>
+    
+   > Tips: `Generate and Import/Link Datapact to Minecraft` are similar to `Generate Minecraft Datapack`, 
+   > but they require the user to fill in the host and port of the `Datapack Management Service` socket server.
+   > For `Import`, the generated datapack will be copied to the current world's datapack folder,
+   > and for `Link`, the generated datapack will be linked to the current world's datapack folder and expired when the world is closed.
+
+#### Datapack Management
+
+1. There are two ways to start the task to manage the datapack:
+    - Click `Tools` -> `Minecraft Command DecKit` -> `Datapack Management` from the main menu bar:
+       <details>
+          <summary></summary>
+          <img src=".doc/plugin/i5000.png" alt="manage datapack"/>
+          <center>Click <code>Manage Datapack</code> from the main menu bar</center>
+       </details>
+      
+   - Right click the project view and click `Minecraft Command DevKit` -> `Datapack Managment` in the context menu.
+      <details>
+         <summary></summary>
+         <img src=".doc/plugin/i5001.png" alt="manage datapack"/>
+         <center>Right click the project view and click <code>Manage Datapack</code> in the context menu</center>
+      </details>
+    
+2. Input the host and port of `Datapack Management Service` socket server shown in the Minecraft game.
+   <details>
+      <summary></summary>
+      <img src=".doc/plugin/i5002.png" alt="manage datapack"/>
+      <center>Input the host and port of <code>Datapack Management Service</code> socket server</center>
+   </details>
+
+3. Do your operations.
+   1. Right-click the item in `Datapacks` -> `Status` -> `Enabled` and click `Disable` to disable the datapack.
+   2. Right-click the item in `Datapacks` -> `Status` -> `Available` and click `Enable` to enable the datapack.
+   3. Right-click `Datapacks` -> `Type` -> `Common` and click `Import...` to import a datapack.
+   4. Right-click `Datapacks` -> `Type` -> `Common` and click `Link...` to link a datapack.
+   
+   <details>
+      <summary></summary>
+      <img src=".doc/plugin/i5003.png" alt="manage datapack"/>
+      <center>Datapack Management View</center>
+   </details>
+
+   > Tips: <br>
+   > &nbsp;&nbsp;&nbsp;&nbsp;This feature is with the requirement `3.x` version of the mod.<br>
+   > &nbsp;&nbsp;&nbsp;&nbsp;Only the world is opened, the `Datapack Management Service` socket server will be valid.<br>
+   > &nbsp;&nbsp;&nbsp;&nbsp;The linked datapack will be expired when the world is closed, and the imported datapack will be copied to the world's datapack folder. <br>
+   > * For more info, please visit [DEV.md](DEV.md#concepts).
 
 ### Command Line Tool
 
 * You can also use the [IDE Debug Tool](#ide-debug-tool) to connect to the socket server and execute the code.
    <details>
       <summary></summary>
-      <img src=".doc/cmd/i5001.png" alt="command line tool"/>
+      <img src=".doc/cmd/c0001.png" alt="command line tool"/>
       <center>Command Line Tool</center>
    </details>
 
@@ -249,11 +296,11 @@ the only thing you need to do is make your tool has the ability to connect to th
 ### Concepts
 - For `3.x` version, the mod will create two socket servers, one for code completion and one for code execution, whatever the mod is for `Fabric` or `Quilt`.
 
-    |      Server      |     Type      |                  Description                  |                                              Accepted Message                                               |   Returned Message   |
-    |:----------------:|:-------------:|:---------------------------------------------:|:-----------------------------------------------------------------------------------------------------------:|:--------------------:|
-    | Code Completion  | Socket Server |        The server for code completion         |                                  single line command or unfinished command                                  | multiple line result |
-    |  Code Execution  | Socket Server | The server for command execution in Minecraft |                                             single line command                                             | execution feedbacks  |
-    | Datapack Receive | Socket Server |  The server for receive datapack from client  | json string without `\n` like `{ "name": "[name].zip", "data": "[base64 encoded data]", "flag": "import" }` |         None         |
+    |       Server        |     Type      |                  Description                  |                                              Accepted Message                                               |   Returned Message   |
+    |:-------------------:|:-------------:|:---------------------------------------------:|:-----------------------------------------------------------------------------------------------------------:|:--------------------:|
+    |   Code Completion   | Socket Server |        The server for code completion         |                                  single line command or unfinished command                                  | multiple line result |
+    |   Code Execution    | Socket Server | The server for command execution in Minecraft |                                             single line command                                             | execution feedbacks  |
+    | Datapack Management | Socket Server |  The server for receive datapack from client  | json string without `\n` like `{ "name": "[name].zip", "data": "[base64 encoded data]", "flag": "import" }` |         None         |
 - Tips: the message sent is a single line of text, you should add `\n` at the end of the message or auto flush the buffer to send the message to the server.
 
 ### More Information
