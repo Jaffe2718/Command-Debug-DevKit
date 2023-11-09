@@ -13,6 +13,7 @@
 - [Usage](#usage)
     - [Code Completion](#code-completion)
     - [Command Execution](#command-execution)
+    - [Datapack Management](#datapack-management)
 - [Examples](#examples)
 
 ## Overview️‍👁️‍🗨️
@@ -156,6 +157,11 @@ these are the two cases:
 3. Send a single line command to the server one time.
 4. The server will execute the command in the game, and return the execution feedbacks to you.
 5. You can see the execution feedbacks in your external tool.
+
+### Datapack Management
+1. Develop your external tool, which can connect to the socket server and interact with it.
+2. Connect to the datapack management socket server.
+3. Send a single line json string to the server one time, see [Concepts](#concepts) for more details.
 
 ## Examples📚
 
