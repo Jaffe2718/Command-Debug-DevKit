@@ -43,9 +43,14 @@ public class CommandDebugDevKit implements ModInitializer {
             executeCmdSocket = new ServerSocket(0);
             suggestCmdSocket = new ServerSocket(0);
             receiveDatapackSocket = new ServerSocket(0);
-            LOGGER.info("Server socket created on localhost:" + executeCmdSocket.getLocalPort());
         } catch (Exception e) {
             LOGGER.error("Failed to create server socket: " + e.getMessage());
         }
+//        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
+//            dispatcher.register(literal("link")
+//                    .then(literal("datapack")
+//                            .then(argument("path", greedyString())
+//                                    .executes(context -> TempDatapackManager.linkDatapack(context.getArgument("path", String.class))))));
+//        });
     }
 }

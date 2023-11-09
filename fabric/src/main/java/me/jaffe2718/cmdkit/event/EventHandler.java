@@ -1,13 +1,12 @@
 package me.jaffe2718.cmdkit.event;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import me.jaffe2718.cmdkit.CommandDebugDevKit;
 import me.jaffe2718.cmdkit.client.CommandDebugDevKitClient;
 import me.jaffe2718.cmdkit.mixins.ChatScreenMixin;
+import me.jaffe2718.cmdkit.unit.TempDatapackManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
-import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatInputSuggestor;
 import net.minecraft.client.gui.screen.ChatScreen;
@@ -18,9 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.net.Socket;
-import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 public abstract class EventHandler {
@@ -108,46 +105,6 @@ public abstract class EventHandler {
     });
 
     /**
-     * The thread that receives the datapack file in json format from the client socket.
-     * { "name": "[datapack name].zip", "data": "[base64 encoded zip file]" }
-     */
-    private static final Thread receiveDatapackSocketThread = new Thread(() -> {
-        // get the java runtime directory
-        final Path minecraftDir = FabricLoader.getInstance().getGameDir();
-        // get the datapack directory in current world
-
-        while (true) {
-            if (MinecraftClient.getInstance().getServer() != null) {
-                Path datapackDir = minecraftDir.resolve("saves").resolve(MinecraftClient.getInstance().getServer().getSaveProperties().getLevelName()).resolve("datapacks");
-                try {
-                    Socket clientSocket = CommandDebugDevKit.receiveDatapackSocket.accept();
-                    CommandDebugDevKit.LOGGER.info("Client socket accepted on localhost:" + clientSocket.getLocalPort());
-                    BufferedReader br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                    String jsonStr = br.readLine();
-                    // parse the json
-                    JsonObject jsonObject = new Gson().fromJson(jsonStr, JsonObject.class);
-                    String datapackName = jsonObject.get("name").getAsString();
-                    String base64EncodedZip = jsonObject.get("data").getAsString();
-                    // write the base64 as file
-                    File datapackFile = datapackDir.resolve(datapackName).toFile();
-                    assert (!datapackFile.exists() || datapackFile.delete()) && datapackFile.createNewFile();
-                    FileOutputStream fos = new FileOutputStream(datapackFile);
-                    byte [] byteData = Base64.getDecoder().decode(base64EncodedZip);
-                    fos.write(byteData);
-                    fos.flush();
-                    fos.close();
-                    clientSocket.close();
-                    assert MinecraftClient.getInstance().player != null;
-                    MinecraftClient.getInstance().player.networkHandler.sendChatCommand("reload");
-                    MinecraftClient.getInstance().player.sendMessage(Text.of("Datapack `" + datapackName + "` is received!"));
-                } catch (IOException e) {
-                    CommandDebugDevKit.LOGGER.error("Failed to receive datapack: " + e.getMessage());
-                }
-            }
-        }
-    });
-
-    /**
      * Registers the event handler.
      * 1. Creates a thread that gets and listens to the client socket then resolves the message from client socket.
      * 2. Registers the event handler for the client tick event: show client socket info and warning when player joins a world.
@@ -157,10 +114,11 @@ public abstract class EventHandler {
         acceptExecuteSocketThread.start();
         acceptSuggestSocketThread.start();
         checkClientSocketThread.start();
-        receiveDatapackSocketThread.start();
+        TempDatapackManager.datapackManagementSocketThread.start();
         ClientTickEvents.START_CLIENT_TICK.register(EventHandler::getSuggestor);
         ClientTickEvents.END_CLIENT_TICK.register(EventHandler::showWarning);
         ClientReceiveMessageEvents.GAME.register(EventHandler::sendLogToClientSocket);
+        ServerWorldEvents.UNLOAD.register(TempDatapackManager::delateTempDatapacks);
     }
 
     /**
@@ -254,7 +212,7 @@ public abstract class EventHandler {
             client.player.sendMessage(Text.of("§dFor Command Suggestion Service"), false);
             client.player.sendMessage(Text.of("  §dlocalhost:" + CommandDebugDevKit.suggestCmdSocket.getLocalPort()), false);
 
-            client.player.sendMessage(Text.of("§bFor Datapack Receive Service"), false);
+            client.player.sendMessage(Text.of("§bFor Datapack Management Service"), false);
             client.player.sendMessage(Text.of("  §blocalhost:" + CommandDebugDevKit.receiveDatapackSocket.getLocalPort()), false);
 
             client.player.sendMessage(Text.of("Connect to this server with a socket client to send commands to the server or get command suggestions."), false);

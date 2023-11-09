@@ -15,11 +15,11 @@ import java.util.Base64;
 
 import static me.jaffe2718.devkit.McFunctionStaticRes.PLUGIN_ICON;
 
-public class GenAndCopyDpack2McAction extends AnAction {
+public class GenAndLinkToMcAction extends AnAction {
 
-    public GenAndCopyDpack2McAction() {
-        super("Generate and Copy Datapack to Minecraft",
-                "Generate a Minecraft datapack from current project and copy it to Minecraft datapack folder.",
+    public GenAndLinkToMcAction() {
+        super("Generate and Link Datapack to Minecraft",
+                "Generate a Minecraft datapack from current project and copy it to Minecraft datapack folder, which will be deleted when Minecraft exits.",
                 PLUGIN_ICON);
     }
 
@@ -34,8 +34,8 @@ public class GenAndCopyDpack2McAction extends AnAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         String hostport = Messages.showInputDialog(
-                        "Please input the host and port for `Datapack Receive Service` in Minecraft instance.",
-                "Generate & Copy Datapack to Minecraft", PLUGIN_ICON, "localhost:", null);
+                "Please input the host and port for `Datapack Management Service` in Minecraft instance.",
+                "Generate & Link Datapack to Minecraft", PLUGIN_ICON, "localhost:", null);
         if (hostport == null) {
             return;
         }
@@ -73,7 +73,7 @@ public class GenAndCopyDpack2McAction extends AnAction {
             }
         }
         // send datapack
-        sendDatapack(host, port, e);
+        this.sendDatapack(host, port, e);
     }
 
     /**
@@ -97,16 +97,16 @@ public class GenAndCopyDpack2McAction extends AnAction {
             // generate json
             String json = "{\"name\": \"" + datapackName + "\", \"data\": \"" +
                     Base64.getEncoder().encodeToString(Files.readAllBytes(datapackPath))
-                    + "\"}";
+                    + "\", \"flag\": \"link\"}";
             PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
             printWriter.println(json);
         } catch (Exception ex) {
             Messages.showErrorDialog("Failed to send datapack to Minecraft instance.", "Error");
         } finally {
-            Messages.showWarningDialog("Datapack sent to `" + host + ":" + port + "` Successfully!\n" +
-                    "Warning: if the player does not enter the world, the datapack will be ignored.",
+            Messages.showWarningDialog("Datapack sent to `" + host + ":" + port + "` Successfully!\n\n" +
+                            "Warning:\n    1. if the player does not enter the world, the datapack will be ignored;" +
+                            "\n    2. the linked datapack will be automatically unlinked and deleted after player exit the world.",
                     "Success with Warning");
         }
     }
-
 }
