@@ -30,11 +30,44 @@ to connect to the socket server and interact with it.
 - For 3.x version, the mod will create two socket servers, one for code completion and one for code execution, whatever
   the mod is for `Fabric` or `Quilt`.
 
-  |      Server      |     Type      |                  Description                  |                                     Accepted Message                                      |   Returned Message   |
-  |:----------------:|:-------------:|:---------------------------------------------:|:-----------------------------------------------------------------------------------------:|:--------------------:|
-  | Code Completion  | Socket Server |        The server for code completion         |                         single line command or unfinished command                         | multiple line result |
-  |  Code Execution  | Socket Server | The server for command execution in Minecraft |                                    single line command                                    | execution feedbacks  |
-  | Datapack Receive | Socket Server |  The server for receive datapack from client  | json string without `\n` like `{ "name": "[name].zip", "data": "[base64 encoded data]" }` |         None         |
+  |      Server      |     Type      |                  Description                  |                                              Accepted Message                                               |   Returned Message   |
+  |:----------------:|:-------------:|:---------------------------------------------:|:-----------------------------------------------------------------------------------------------------------:|:--------------------:|
+  | Code Completion  | Socket Server |        The server for code completion         |                                  single line command or unfinished command                                  | multiple line result |
+  |  Code Execution  | Socket Server | The server for command execution in Minecraft |                                             single line command                                             | execution feedbacks  |
+  | Datapack Receive | Socket Server |  The server for receive datapack from client  | json string without `\n` like `{ "name": "[name].zip", "data": "[base64 encoded data]", "flag": "import" }` |         None         |
+
+- In the 3.x version of the datapack management feature, you should send single line of json **WITHOUT** `\n` to invoke the datapack
+  management service. <br>
+  There are two types of datapack: `Common` and `Linked`, the `Common` datapacks are in line with the vanilla Minecraft, `Linked` datapacks modify game data in exactly the same way as `Common` datapacks, but is similar to temporary or virtual files that expire when the player exits the current world. <br>
+  There are the fields of the json string:
+
+  | Field  |  Type  |  Attribute   |                                                               Description                                                                |
+  |:------:|:------:|:------------:|:----------------------------------------------------------------------------------------------------------------------------------------:|
+  | `flag` | String | **REQUIRED** |                     The flag of the message, in {`delete`, `disable`, `enable`, `import`, `link`, `query`, `unlink`}                     |
+  | `name` | String | **OPTIONAL** | Name of the datapack like `example.zip`, except the flag is `query` that you can ignore this field, otherwise this field is **REQUIRED** |
+  | `data` | String | **OPTIONAL** |     The base64 encoded data of the datapack file, only `import` and `link` flag need this field, otherwise please ignore this field      |
+
+  and these are the meanings of the flags:
+
+  |   Flag    |                                                                         Description                                                                         |
+  |:---------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------:|
+  | `delete`  | Delete the datapack with the file name in the `name` field, and the mod will delete the file in `[YOUR_MINECRAFT_DIR]/saves/[CURRENT_WORLD_NAME]/datapacks` |
+  | `disable` |                                                 Disable the datapack with the file name in the `name` field                                                 |
+  | `enable`  |                                                 Enable the datapack with the file name in the `name` field                                                  |
+  | `import`  |  Import the datapack with the file name (not path) in the `name` field, base64 encoded data in the `data` field should be the content of the datapack file  |
+  |  `link`   |   Link the datapack with the file name (not path) in the `name` field, base64 encoded data in the `data` field should be the content of the datapack file   |
+  |  `query`  |          Query the datapacks info, the `Datapack Management Service` socket server will return the json string of the datapacks info to the client          |
+  |  `unlink` |                            Unlink the datapack with the file name in the `name` field, and the virtual datapack will be deleted                             |
+
+  examples:
+
+    - `{ "flag": "delete", "name": "demo0.zip"}`
+    - `{ "flag": "disable", "name": "demo1.zip"}`
+    - `{ "flag": "enable", "name": "demo2.zip"}`
+    - `{ "flag": "import", "name": "demo3.zip", "data": "UEsDBAoAAAAAAOq5......" }`
+    - `{ "flag": "link", "name": "demo4.zip", "data": "UEsDBAoAAAAAAOq5......" }`
+    - `{ "flag": "query" }`
+    - `{ "flag": "unlink", "name": "demo5.zip"}`
 
 > Tips: the message sent is a single line of text, you should add `\n` at the end of the message or auto flush the
 > buffer to send the message to the server.
@@ -43,8 +76,8 @@ to connect to the socket server and interact with it.
 
 ### Abstract
 
-The mod newer than `2.0.0` will create two socket servers, one for code completion and one for code execution, whatever
-the mod is for `Fabric` or `Quilt`.
+The mod `3.x` will create 3 socket servers, the first is code completion service socket, the second is for code execution, 
+the third is datapack management service.
 The socket server instances will be created when the game is loading, and the port of the socket server is random,
 when you enter the world, the mod will print the port of the socket server in the game log, you can use this port to
 connect to the socket server.
@@ -86,7 +119,7 @@ the players in the same LAN and play together can connect to the socket server i
 the logical client is not exist, the socket server will not work. There are two cases in the multiplayer game,
 these are the two cases:
 
-- CASE 1: You are playing in your friend's game world, and your friend is the owner of the game world, so the socket
+- **CASE 1**: You are playing in your friend's game world, and your friend is the owner of the game world, so the socket
   server is
   created in the logical client of your friend's device. In this case, you will use **YOUR FRIEND'S IDENTITY** to
   execute the
@@ -97,7 +130,7 @@ these are the two cases:
   <p>Fig. 3 working principles of executing command in the multiplayer game (1)</p>
 </div>
 
-- CASE 2: You are playing in your friend's game world, and you are connect to the socket server in your device,
+- **CASE 2**: You are playing in your friend's game world, and you are connect to the socket server in your device,
   so you will use **YOUR IDENTITY** to execute the command in the game, and the execution feedbacks will be returned to
   you.
 
@@ -210,7 +243,7 @@ these are the two cases:
    ```
   And you will get a diamond in your inventory in the game.
 
-### Datapack Receive
+### Datapack Management
 
 ```python
 # datapack_receive.py
@@ -230,7 +263,7 @@ with open('path/to/your/datapack.zip', 'rb') as f:
     # decode the file content with utf-8
     data = data.decode('utf-8')
     # create the json string
-    data = json.dumps({'name': 'your_datapack_name.zip', 'data': data})
+    data = json.dumps({'name': 'your_datapack_name.zip', 'data': data, 'flag': 'import'})
     # send the json string to the server
     s.send(data.encode('utf-8'))
     s.send(b'\n')

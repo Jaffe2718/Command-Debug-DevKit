@@ -249,11 +249,11 @@ the only thing you need to do is make your tool has the ability to connect to th
 ### Concepts
 - For 2.x version, the mod will create two socket servers, one for code completion and one for code execution, whatever the mod is for `Fabric` or `Quilt`.
 
-    |      Server      |     Type      |                  Description                  |                                     Accepted Message                                      |   Returned Message   |
-    |:----------------:|:-------------:|:---------------------------------------------:|:-----------------------------------------------------------------------------------------:|:--------------------:|
-    | Code Completion  | Socket Server |        The server for code completion         |                         single line command or unfinished command                         | multiple line result |
-    |  Code Execution  | Socket Server | The server for command execution in Minecraft |                                    single line command                                    | execution feedbacks  |
-    | Datapack Receive | Socket Server |  The server for receive datapack from client  | json string without `\n` like `{ "name": "[name].zip", "data": "[base64 encoded data]" }` |         None         |
+    |      Server      |     Type      |                  Description                  |                                              Accepted Message                                               |   Returned Message   |
+    |:----------------:|:-------------:|:---------------------------------------------:|:-----------------------------------------------------------------------------------------------------------:|:--------------------:|
+    | Code Completion  | Socket Server |        The server for code completion         |                                  single line command or unfinished command                                  | multiple line result |
+    |  Code Execution  | Socket Server | The server for command execution in Minecraft |                                             single line command                                             | execution feedbacks  |
+    | Datapack Receive | Socket Server |  The server for receive datapack from client  | json string without `\n` like `{ "name": "[name].zip", "data": "[base64 encoded data]", "flag": "import" }` |         None         |
 - Tips: the message sent is a single line of text, you should add `\n` at the end of the message or auto flush the buffer to send the message to the server.
 
 ### More Information
