@@ -30,11 +30,11 @@ to connect to the socket server and interact with it.
 
 - For 3.x version, the mod will create 3 socket servers, there are used for code completion, command execution and datapack management.
 
-  |      Server      |     Type      |                  Description                  |                                              Accepted Message                                               |   Returned Message   |
-  |:----------------:|:-------------:|:---------------------------------------------:|:-----------------------------------------------------------------------------------------------------------:|:--------------------:|
-  | Code Completion  | Socket Server |        The server for code completion         |                                  single line command or unfinished command                                  | multiple line result |
-  |  Code Execution  | Socket Server | The server for command execution in Minecraft |                                             single line command                                             | execution feedbacks  |
-  | Datapack Receive | Socket Server |  The server for receive datapack from client  | json string without `\n` like `{ "name": "[name].zip", "data": "[base64 encoded data]", "flag": "import" }` |         None         |
+  |       Server        |     Type      |                  Description                  |                                              Accepted Message                                               |   Returned Message   |
+  |:-------------------:|:-------------:|:---------------------------------------------:|:-----------------------------------------------------------------------------------------------------------:|:--------------------:|
+  |   Code Completion   | Socket Server |        The server for code completion         |                                  single line command or unfinished command                                  | multiple line result |
+  |   Code Execution    | Socket Server | The server for command execution in Minecraft |                                             single line command                                             | execution feedbacks  |
+  | Datapack Management | Socket Server |  The server for receive datapack from client  | json string without `\n` like `{ "name": "[name].zip", "data": "[base64 encoded data]", "flag": "import" }` |         None         |
 
 - In the 3.x version of the datapack management feature, you should send single line of json **WITHOUT** `\n` to invoke the datapack
   management service. <br>
