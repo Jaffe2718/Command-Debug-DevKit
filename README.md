@@ -10,10 +10,9 @@ by Jaffe2718
 
 ## Introduction 📖
 This project is written for debugging Minecraft commands. In this project, there are serveral subprojects:
-- `fabric`: The mod for fabric, used to be a connection kit for IDE. It can create two socket server to provide code completion and code execution service.
+- `fabric`: The mod for Fabric and Quilt, used to be a connection kit for IDE. It can create two socket server to provide code completion and code execution service.
 - `ide-debug-tool`: This is a command line tool which can connect to the socket server opened by the mod. It can send code to the server and get the result. It can be a debug tool for IDE or a command line tool to execute *.mcfunction file directly.
 - `idea-plugin`: This is a plugin for IntelliJ IDEA. It can connect to the socket server opened by the mod. It provides code completion and code execution service for IDE. The plugin contains a compiled `ide-debug-tool` so you don't need to install it manually.
-- `quilt`: The mod for quilt, used to be a connection kit for IDE. It can create two socket server to provide code completion and code execution service.
 
 ## Setup 🛠️
 
@@ -53,10 +52,10 @@ or [![Quilted Fabric API](https://img.shields.io/badge/Quilted%20Fabric%20API-00
 
 > **Note**: The Author's most recommended way to use this mod is to use the plugin.
 
-### Mods
+### Mod
 
-* The mods only create 2 socket servers to provide code completion and code execution service.
-* The mods should work with other tools like [IDE Debug Tool](#ide-debug-tool) or [IDEA Plugin](#idea-plugin) or [other tools](DEV.md) you write by yourself.
+* The mod creates 3 socket servers to provide code completion, code execution service and datapack management service.
+* The mod should work with other tools like [IDE Debug Tool](#ide-debug-tool) or [IDEA Plugin](#idea-plugin) or [other tools](DEV.md) you write by yourself.
 
 ### IDEA Plugin
 
@@ -294,7 +293,7 @@ Programing language is not limited, you can use any language you like,
 the only thing you need to do is make your tool has the ability to connect to the socket server and interact with it.
 
 ### Concepts
-- For `3.x` version, the mod will create two socket servers, one for code completion and one for code execution, whatever the mod is for `Fabric` or `Quilt`.
+- For `3.x` version, the mod will create 3 socket servers, for code completion, code execution and datapack management.
 
     |       Server        |     Type      |                  Description                  |                                              Accepted Message                                               |   Returned Message   |
     |:-------------------:|:-------------:|:---------------------------------------------:|:-----------------------------------------------------------------------------------------------------------:|:--------------------:|
