@@ -65,8 +65,7 @@
                 <body>
                     <h2>Changelog</h2>
                     <ol>
-                        <li>new feature: build and import/link datapack to minecraft instance.</li>
-                        <li>new feature: add a datapack management tool in `Tools` -> `Minecraft Command DevKit` -> `Datapack Management`.</li>
+                        <li>Add help page.</li>
                     </ol>
                 </body>
             </html>
