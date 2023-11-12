@@ -24,7 +24,7 @@ sourceSets {
 intellij {
     version = '2023.2'
     type = 'IC'
-    plugins = [] as List
+    plugins = ['com.intellij.java'] as List
 }
 
 dependencies {

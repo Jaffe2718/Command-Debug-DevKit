@@ -5,7 +5,9 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.TextEditor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import me.jaffe2718.devkit.action.*;
+import me.jaffe2718.devkit.action.help.HelpAction;
+import me.jaffe2718.devkit.action.mcfunction.editor.*;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,7 +36,7 @@ public class McFunctionFileEditor extends AdvancedTextEditor {
         return "McFunction Editor";
     }
 
-    private ActionToolbar createMcFunctionEditorToolbar() {
+    private @NotNull ActionToolbar createMcFunctionEditorToolbar() {
         ActionToolbar toolbar = ActionManager.getInstance().createActionToolbar(
                 ActionPlaces.EDITOR_TOOLBAR, this.createActionGroup(), true);
         toolbar.setTargetComponent(textEditor.getEditor().getContentComponent());
@@ -42,7 +44,8 @@ public class McFunctionFileEditor extends AdvancedTextEditor {
         // return new ActionToolbarImpl()
     }
 
-    private ActionGroup createActionGroup() {
+    @Contract(" -> new")
+    private @NotNull ActionGroup createActionGroup() {
         List<AnAction> actions = new ArrayList<>();
         actions.add(new ConnectExecutionAction(this));
         actions.add(new ConnectCompletionAction(this));

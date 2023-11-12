@@ -1,4 +1,4 @@
-package me.jaffe2718.devkit.action;
+package me.jaffe2718.devkit.action.console;
 
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.RunContentExecutor;
@@ -11,6 +11,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.ui.Messages;
+import me.jaffe2718.devkit.action.mcfunction.editor.ExecuteAction;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;

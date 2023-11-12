@@ -7,7 +7,7 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.icons.ExpUiIcons;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.util.ProcessingContext;
-import me.jaffe2718.devkit.action.ConnectCompletionAction;
+import me.jaffe2718.devkit.action.mcfunction.editor.ConnectCompletionAction;
 import me.jaffe2718.devkit.lang.psi.McFunctionTypes;
 import org.jetbrains.annotations.NotNull;
 

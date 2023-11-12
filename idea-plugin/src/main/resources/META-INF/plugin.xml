@@ -2,7 +2,7 @@
     <id>me.jaffe2718.devkit</id>
 
     <name>Minecraft Command DevKit</name>
-    <version>1.3.0</version>
+    <version>1.3.1</version>
     <vendor email="qqyttwqeei@163.com" url="https://github.com/Jaffe2718">Jaffe2718</vendor>
     <description>
         <![CDATA[
@@ -135,41 +135,45 @@
                 popup="true">
             <add-to-group group-id="ProjectViewPopupMenu"/>
         </group>
-        <action class="me.jaffe2718.devkit.action.NewMcFunctionFileAction">
+        <action class="me.jaffe2718.devkit.action.mcfunction.NewMcFunctionFileAction">
             <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFromTemplate"/>
         </action>
-        <action class="me.jaffe2718.devkit.action.McCommandConsoleAction"
-                id="me.jaffe2718.devkit.action.McCommandConsoleAction">
+        <action class="me.jaffe2718.devkit.action.console.McCommandConsoleAction"
+                id="me.jaffe2718.devkit.action.console.McCommandConsoleAction">
             <keyboard-shortcut keymap="$default"  first-keystroke="control alt M" replace-all="true"/>
             <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta alt M" replace-all="true"/>
             <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="meta alt M" replace-all="true"/>
             <add-to-group group-id="me.jaffe2718.devkit.actionGroup.InsideToolsMenu"/>
         </action>
         <action
-                class="me.jaffe2718.devkit.action.DatapackManagementAction"
-                id="me.jaffe2718.devkit.action.DatapackManagementAction">
+                class="me.jaffe2718.devkit.action.datapack.DatapackManagementAction"
+                id="me.jaffe2718.devkit.action.datapack.DatapackManagementAction">
             <add-to-group group-id="me.jaffe2718.devkit.actionGroup.InsideToolsMenu"/>
             <add-to-group group-id="me.jaffe2718.devkit.actionGroup.InsideProjectViewPopupMenu"/>
         </action>
-        <action class="me.jaffe2718.devkit.action.GenDatapackAction">
+        <action class="me.jaffe2718.devkit.action.datapack.GenDatapackAction">
             <keyboard-shortcut keymap="$default"  first-keystroke="control alt G" replace-all="true"/>
             <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta alt G" replace-all="true"/>
             <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="meta alt G" replace-all="true"/>
             <add-to-group group-id="me.jaffe2718.devkit.actionGroup.InsideToolsMenu"/>
             <add-to-group group-id="me.jaffe2718.devkit.actionGroup.InsideProjectViewPopupMenu"/>
         </action>
-        <action class="me.jaffe2718.devkit.action.GenAndImportToMcAction"
-                id="me.jaffe2718.devkit.action.GenAndImportToMcAction">
+        <action class="me.jaffe2718.devkit.action.datapack.GenAndImportToMcAction"
+                id="me.jaffe2718.devkit.action.datapack.GenAndImportToMcAction">
             <keyboard-shortcut keymap="$default"  first-keystroke="control shift alt G" replace-all="true"/>
             <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta shift alt G" replace-all="true"/>
             <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="meta shift alt G" replace-all="true"/>
             <add-to-group group-id="me.jaffe2718.devkit.actionGroup.InsideToolsMenu"/>
             <add-to-group group-id="me.jaffe2718.devkit.actionGroup.InsideProjectViewPopupMenu"/>
         </action>
-        <action class="me.jaffe2718.devkit.action.GenAndLinkToMcAction"
-                id="me.jaffe2718.devkit.action.GenAndLinkToMcAction">
+        <action class="me.jaffe2718.devkit.action.datapack.GenAndLinkToMcAction"
+                id="me.jaffe2718.devkit.action.datapack.GenAndLinkToMcAction">
             <add-to-group group-id="me.jaffe2718.devkit.actionGroup.InsideToolsMenu"/>
             <add-to-group group-id="me.jaffe2718.devkit.actionGroup.InsideProjectViewPopupMenu"/>
+        </action>
+        <action class="me.jaffe2718.devkit.action.help.HelpAction"
+                id="me.jaffe2718.devkit.action.help.HelpAction">
+            <add-to-group group-id="me.jaffe2718.devkit.actionGroup.InsideToolsMenu"/>
         </action>
     </actions>
 </idea-plugin>

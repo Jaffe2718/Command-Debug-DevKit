@@ -1,11 +1,11 @@
-package me.jaffe2718.devkit.action.ui;
+package me.jaffe2718.devkit.action.datapack.ui;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import me.jaffe2718.devkit.action.ui.node.DirTreeNode;
-import me.jaffe2718.devkit.action.ui.node.ItemTreeNode;
+import me.jaffe2718.devkit.action.datapack.ui.node.DirTreeNode;
+import me.jaffe2718.devkit.action.datapack.ui.node.ItemTreeNode;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;

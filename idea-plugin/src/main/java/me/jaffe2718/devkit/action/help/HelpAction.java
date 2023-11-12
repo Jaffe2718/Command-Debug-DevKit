@@ -1,12 +1,11 @@
-package me.jaffe2718.devkit.action;
+package me.jaffe2718.devkit.action.help;
 
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataContext;
+import me.jaffe2718.devkit.action.help.ui.HelpDialogWrapper;
 import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
 
 public class HelpAction extends AnAction {
 
@@ -24,10 +23,11 @@ public class HelpAction extends AnAction {
      */
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
-        try {
-            java.awt.Desktop.getDesktop().browse(java.net.URI.create("https://github.com/Jaffe2718/Command-Debug-DevKit#command-debug-devkit"));
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        new HelpDialogWrapper().show();
+//        try {
+//            java.awt.Desktop.getDesktop().browse(java.net.URI.create("https://github.com/Jaffe2718/Command-Debug-DevKit#command-debug-devkit"));
+//        } catch (IOException ex) {
+//            throw new RuntimeException(ex);
+//        }
     }
 }

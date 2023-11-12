@@ -1,11 +1,11 @@
-package me.jaffe2718.devkit.action;
+package me.jaffe2718.devkit.action.datapack;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.ui.DialogBuilder;
 import com.intellij.openapi.ui.Messages;
-import me.jaffe2718.devkit.action.ui.DatapackManagementUI;
+import me.jaffe2718.devkit.action.datapack.ui.DatapackManagementUI;
 import org.jetbrains.annotations.NotNull;
 
 import static me.jaffe2718.devkit.McFunctionStaticRes.PLUGIN_ICON;

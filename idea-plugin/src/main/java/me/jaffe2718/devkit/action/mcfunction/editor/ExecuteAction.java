@@ -1,4 +1,4 @@
-package me.jaffe2718.devkit.action;
+package me.jaffe2718.devkit.action.mcfunction.editor;
 
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.RunContentExecutor;

@@ -1,4 +1,4 @@
-package me.jaffe2718.devkit.action.ui.node;
+package me.jaffe2718.devkit.action.datapack.ui.node;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 

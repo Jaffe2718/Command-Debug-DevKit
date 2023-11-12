@@ -1,4 +1,4 @@
-package me.jaffe2718.devkit.action;
+package me.jaffe2718.devkit.action.mcfunction.editor;
 
 import com.intellij.icons.ExpUiIcons;
 import com.intellij.notification.Notification;

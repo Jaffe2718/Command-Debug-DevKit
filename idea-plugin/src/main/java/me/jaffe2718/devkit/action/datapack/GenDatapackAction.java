@@ -1,4 +1,4 @@
-package me.jaffe2718.devkit.action;
+package me.jaffe2718.devkit.action.datapack;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;

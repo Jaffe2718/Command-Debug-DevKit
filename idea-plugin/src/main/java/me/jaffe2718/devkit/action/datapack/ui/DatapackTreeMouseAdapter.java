@@ -1,13 +1,12 @@
-package me.jaffe2718.devkit.action.ui;
+package me.jaffe2718.devkit.action.datapack.ui;
 
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.vfs.VirtualFile;
-import me.jaffe2718.devkit.action.ui.node.*;
+import me.jaffe2718.devkit.action.datapack.ui.node.*;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

@@ -5,7 +5,7 @@ import com.intellij.codeInsight.editorActions.TypedHandlerDelegate;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
-import me.jaffe2718.devkit.action.ConnectCompletionAction;
+import me.jaffe2718.devkit.action.mcfunction.editor.ConnectCompletionAction;
 import me.jaffe2718.devkit.filetype.McFunctionFileType;
 import me.jaffe2718.devkit.lang.unit.McFunctionScriptFactory;
 import org.jetbrains.annotations.NotNull;

@@ -1,4 +1,4 @@
-package me.jaffe2718.devkit.action;
+package me.jaffe2718.devkit.action.mcfunction;
 
 import com.intellij.ide.actions.CreateFileAction;
 import com.intellij.ide.ui.newItemPopup.NewItemPopupUtil;

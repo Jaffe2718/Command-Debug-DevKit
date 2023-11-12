@@ -206,7 +206,7 @@ public abstract class EventHandler {
         } else if (!shown) {
             client.player.sendMessage(Text.of("§a§l[Command Debug Service] §r§aThe Socket Server is running"), false);
 
-            client.player.sendMessage(Text.of("§6For Command Execution"), false);
+            client.player.sendMessage(Text.of("§6For Command Execution Service"), false);
             client.player.sendMessage(Text.of("  §6localhost:" + CommandDebugDevKit.executeCmdSocket.getLocalPort()), false);
             // purple
             client.player.sendMessage(Text.of("§dFor Command Suggestion Service"), false);
