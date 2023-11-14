@@ -8,9 +8,10 @@
         "Jaffe2718"
     ],
     "contact": {
-        "homepage": "https://github.com/Jaffe2718",
+        "homepage": "https://modrinth.com/mod/command-debug-service",
         "issues": "https://github.com/Jaffe2718/Command-Debug-DevKit/issues",
-        "sources": "https://github.com/Jaffe2718/Command-Debug-DevKit"
+        "sources": "https://github.com/Jaffe2718/Command-Debug-DevKit",
+        "email": "qqyttwqeei@163.com"
     },
     "license": "MIT",
     "icon": "assets/cmdkit/icon.png",
@@ -26,6 +27,6 @@
         "fabricloader": ">=0.14.16",
         "fabric-lifecycle-events-v1": "*",
         "fabric-message-api-v1": "*",
-        "minecraft": "${minecraft_version}"
+        "minecraft": "${compatible_minecraft_versions}"
     }
 }

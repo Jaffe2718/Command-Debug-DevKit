@@ -26,13 +26,14 @@ dependencies {
 
 processResources {
     inputs.property "version", project.version
-    inputs.property "minecraft_version", project.minecraft_version
+    // inputs.property "minecraft_version", project.minecraft_version
     // inputs.property "loader_version", project.loader_version
+    inputs.property "compatible_minecraft_versions", project.compatible_minecraft_versions
     filteringCharset "UTF-8"
 
     filesMatching("fabric.mod.json") {
         expand "version": project.version,
-                "minecraft_version": project.minecraft_version
+                "compatible_minecraft_versions": project.compatible_minecraft_versions
                 // "loader_version": project.loader_version
     }
 }
