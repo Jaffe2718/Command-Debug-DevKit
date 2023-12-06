@@ -167,7 +167,7 @@ public abstract class EventHandler {
             ChatScreen chatScreen = new ChatScreen("");
             Screen currentScreen = client.currentScreen;
             client.setScreen(chatScreen);
-            suggestor = ((ChatScreenMixin)chatScreen).getChatInputSuggestor();
+            suggestor = ((ChatScreenMixin) chatScreen).getChatInputSuggestor();
             suggestor.refresh();
             if (!lastInput.startsWith("/")) {
                 ((ChatScreenMixin) chatScreen).getChatField().write("/"); // + lastCommand);
@@ -215,7 +215,6 @@ public abstract class EventHandler {
             client.player.sendMessage(Text.of("§bFor Datapack Management Service"), false);
             client.player.sendMessage(Text.of("  §blocalhost:" + CommandDebugDevKit.receiveDatapackSocket.getLocalPort()), false);
 
-            client.player.sendMessage(Text.of("Connect to this server with a socket client to send commands to the server or get command suggestions."), false);
             client.player.sendMessage(Text.of("§c§lWARNING: §r§cDo not share this host and port with untrusted clients!"), false);
             shown = true;
         }

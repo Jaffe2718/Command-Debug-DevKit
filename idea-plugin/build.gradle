@@ -1,9 +1,8 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
+// import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
-    id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.8.22'
-    id 'org.jetbrains.intellij' version '1.14.1'
+    id "java"
+    // id "org.jetbrains.kotlin:kotlin-gradle-plugin" version '1.9.21'
+    id "org.jetbrains.intellij" version "1.16.1"
 }
 
 group = 'me.jaffe2718'
@@ -22,7 +21,7 @@ sourceSets {
 }
 
 intellij {
-    version = '2023.2'
+    version = '2023.3'
     type = 'IC'
     plugins = ['com.intellij.java'] as List
 }
@@ -38,13 +37,13 @@ tasks {
         it.targetCompatibility = '17'
     }
 
-    tasks.findAll { it instanceof KotlinCompile } .each {
-        it.kotlinOptions.jvmTarget = '17'
-    }
+//    tasks.findAll { it instanceof KotlinCompile } .each {
+//        it.kotlinOptions.jvmTarget = '17'
+//    }
 
     patchPluginXml {
-        sinceBuild = '232.0'
-        untilBuild = '232.*'
+        sinceBuild = '233.0'
+        untilBuild = '233.*'
     }
 
     signPlugin {
