@@ -24,7 +24,7 @@
         "cmdkit.mixins.json"
     ],
     "depends": {
-        "fabricloader": ">=0.14.16",
+        "fabricloader": ">=0.15.0",
         "fabric-lifecycle-events-v1": "*",
         "fabric-message-api-v1": "*",
         "minecraft": "${compatible_minecraft_versions}"

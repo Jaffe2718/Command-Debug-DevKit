@@ -20,7 +20,7 @@ import java.util.function.Consumer;
 
 public class NewMcFunctionFileAction extends CreateFileAction {
     public NewMcFunctionFileAction() {
-        super("Minecraft Function File", "Creates a new McFunction file", McFunctionStaticRes.MC_ICON);
+        super(() -> "Minecraft Function File", () -> "Creates a new McFunction file", () -> McFunctionStaticRes.MC_ICON);
     }
 
     @Override

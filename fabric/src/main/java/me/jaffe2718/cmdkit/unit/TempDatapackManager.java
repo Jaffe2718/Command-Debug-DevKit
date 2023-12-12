@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import me.jaffe2718.cmdkit.CommandDebugDevKit;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.command.CommandException;
+//import net.minecraft.command.CommandException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
@@ -162,7 +162,7 @@ public abstract class TempDatapackManager {
             try {
                 Files.delete(datapackPath);
             } catch (Exception e) {
-                throw new CommandException(Text.of("Fail to delete datapack: " + e.getClass() + " "+ e.getMessage()));
+                throw new RuntimeException("Fail to delete datapack: " + e.getClass() + " "+ e.getMessage());
             }
         }
     }
