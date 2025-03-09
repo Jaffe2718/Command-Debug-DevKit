@@ -4,7 +4,7 @@ import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
-import com.intellij.icons.ExpUiIcons;
+import com.intellij.icons.AllIcons;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.util.ProcessingContext;
 import me.jaffe2718.devkit.action.mcfunction.editor.ConnectCompletionAction;
@@ -35,7 +35,7 @@ public class McFunctionCompletionProvider extends CompletionProvider<CompletionP
     private @NotNull LookupElementBuilder createLookupElement(@NotNull CompletionParameters parameters, @NotNull String completion) {
         if (completion.contains(" ")) {  // position is the element
             return LookupElementBuilder.create(completion)
-                    .withIcon(ExpUiIcons.Nodes.Parameter)
+                    .withIcon(AllIcons.Nodes.Parameter)
                     .withInsertHandler((context, item) -> {
                         // get the string of context from beginning to the cursor
                         String text = context.getDocument().getText().substring(0, context.getTailOffset() - completion.length());
@@ -61,9 +61,9 @@ public class McFunctionCompletionProvider extends CompletionProvider<CompletionP
                             parameters.getPosition().getParent().getTextOffset(),
                             context.getTailOffset(),
                             completion));
-            return completion.contains(":") ? builder.withIcon(ExpUiIcons.Nodes.Interface) : builder.withIcon(ExpUiIcons.Nodes.Parameter);
+            return completion.contains(":") ? builder.withIcon(AllIcons.Nodes.Interface) : builder.withIcon(AllIcons.Nodes.Parameter);
         } else if (completion.contains(":")) {
-            return LookupElementBuilder.create(completion).withIcon(ExpUiIcons.Nodes.Interface);
+            return LookupElementBuilder.create(completion).withIcon(AllIcons.Nodes.Interface);
         } else if (completion.startsWith("@")) {
             return LookupElementBuilder.create(completion).withInsertHandler(
                     (context, item) -> {
@@ -71,11 +71,11 @@ public class McFunctionCompletionProvider extends CompletionProvider<CompletionP
                             context.getDocument().deleteString(context.getTailOffset()-2, context.getTailOffset()-1);
                         }
                     }
-            ).withIcon(ExpUiIcons.Nodes.Annotation);
+            ).withIcon(AllIcons.Nodes.Annotationtype);
         } else if (parameters.getPosition().getNode().getElementType().equals(McFunctionTypes.COMMAND_NAME)) {
-            return LookupElementBuilder.create(completion).withIcon(ExpUiIcons.Nodes.Function);
+            return LookupElementBuilder.create(completion).withIcon(AllIcons.Nodes.Function);
         } else {
-            return LookupElementBuilder.create(completion).withIcon(ExpUiIcons.Nodes.Parameter);
+            return LookupElementBuilder.create(completion).withIcon(AllIcons.Nodes.Parameter);
         }
     }
 }

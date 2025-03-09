@@ -28,5 +28,13 @@
         "fabric-lifecycle-events-v1": "*",
         "fabric-message-api-v1": "*",
         "minecraft": "${compatible_minecraft_versions}"
+    },
+        "custom": {
+        "modmenu": {
+            "links": {
+                "cmdkit.modrinth": "https://modrinth.com/mod/command-debug-service"
+            },
+            "update_checker": true
+        }
     }
 }

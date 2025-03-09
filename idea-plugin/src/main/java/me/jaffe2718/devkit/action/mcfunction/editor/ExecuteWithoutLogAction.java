@@ -1,6 +1,6 @@
 package me.jaffe2718.devkit.action.mcfunction.editor;
 
-import com.intellij.icons.ExpUiIcons;
+import com.intellij.icons.AllIcons;
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationType;
 import com.intellij.notification.Notifications;
@@ -27,7 +27,7 @@ public class ExecuteWithoutLogAction extends AnAction {
     public ExecuteWithoutLogAction(McFunctionFileEditor target) {
         super("Execute Without Log",
                 "Send the commands in current file to the Minecraft instance to execute without logging.",
-                ExpUiIcons.Toolwindow.Run);
+                AllIcons.Actions.Execute);
         this.targetEditor = target;
     }
 
@@ -37,7 +37,7 @@ public class ExecuteWithoutLogAction extends AnAction {
      * It is called on the UI thread with all data in the provided {@link DataContext} instance.
      *
      * @param e the event which occurred (passed to {@link AnAction#update(AnActionEvent)}).
-     * @see #beforeActionPerformedUpdate(AnActionEvent)
+     * @see #actionPerformed(AnActionEvent)
      */
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
@@ -61,9 +61,11 @@ public class ExecuteWithoutLogAction extends AnAction {
                 McFunctionScriptFactory scriptFactory = new McFunctionScriptFactory(rawText);
                 if (scriptFactory.hasMacro()) {
                     ApplicationManager.getApplication().invokeLater(() ->
-                            Messages.showWarningDialog("Macros cannot be executed directly in current IDE,\n" +
-                                            "macro lines will be ignored!\n" +
-                                            "Please pack the file into a datapack and execute\n it in Minecraft if you want to use macros.",
+                            Messages.showWarningDialog("""
+                                            Macros cannot be executed directly in current IDE,
+                                            macro lines will be ignored!
+                                            Please pack the file into a datapack and execute
+                                             it in Minecraft if you want to use macros.""",
                                     "Macro Detected")
                     );
                 }

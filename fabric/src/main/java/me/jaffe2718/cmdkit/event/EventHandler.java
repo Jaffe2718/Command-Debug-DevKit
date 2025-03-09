@@ -213,30 +213,30 @@ public abstract class EventHandler {
         if (client.player == null) {
             shown = false;
         } else if (!shown) {
-            client.player.sendMessage(Text.translatable("message.cmdkit.run"));
+            client.player.sendMessage(Text.translatable("message.cmdkit.run"), false);
 
-            client.player.sendMessage(Text.translatable("message.cmdkit.service.execution"));
+            client.player.sendMessage(Text.translatable("message.cmdkit.service.execution"), false);
             client.player.sendMessage(clickToCopy(
                     2,
                     String.format("%s:%d", CommandDebugDevKit.ipv4, CommandDebugDevKit.executeCmdSocket.getLocalPort()),
-                    ColorHelper.Argb.getArgb(255, 170, 0)
-            ));
+                    ColorHelper.getArgb(255, 170, 0)
+            ), false);
 
-            client.player.sendMessage(Text.translatable("message.cmdkit.service.suggestion"));
+            client.player.sendMessage(Text.translatable("message.cmdkit.service.suggestion"), false);
             client.player.sendMessage(clickToCopy(
                     2,
                     String.format("%s:%d", CommandDebugDevKit.ipv4, CommandDebugDevKit.suggestCmdSocket.getLocalPort()),
-                    ColorHelper.Argb.getArgb(255, 85, 255)
-            ));
+                    ColorHelper.getArgb(255, 85, 255)
+            ), false);
 
-            client.player.sendMessage(Text.translatable("message.cmdkit.service.datapackManagement"));
+            client.player.sendMessage(Text.translatable("message.cmdkit.service.datapackManagement"), false);
             client.player.sendMessage(clickToCopy(
                     2,
                     String.format("%s:%d", CommandDebugDevKit.ipv4, CommandDebugDevKit.manageDatapackSocket.getLocalPort()),
-                    ColorHelper.Argb.getArgb(85, 255, 255)
-            ));
+                    ColorHelper.getArgb(85, 255, 255)
+            ), false);
 
-            client.player.sendMessage(Text.translatable("message.cmdkit.warining"));
+            client.player.sendMessage(Text.translatable("message.cmdkit.warining"), false);
             shown = true;
         }
     }
@@ -245,7 +245,7 @@ public abstract class EventHandler {
      * Creates a clickable text, click to copy the text.
      * @param tab The tab count.
      * @param text The text.
-     * @param color The color, use {@link ColorHelper.Argb#getArgb(int, int, int)} to get the color.
+     * @param color The color, use {@link ColorHelper#getArgb(int, int, int)} to get the color.
      * @return The clickable text.
      */
     private static Text clickToCopy(int tab, String text, int color) {

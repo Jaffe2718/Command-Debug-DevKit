@@ -2,7 +2,8 @@
 plugins {
     id "java"
     // id "org.jetbrains.kotlin:kotlin-gradle-plugin" version '1.9.21'
-    id "org.jetbrains.intellij" version "1.17.4"
+//    id "org.jetbrains.intellij" version "1.17.4"
+    id "org.jetbrains.intellij.platform" version "2.3.0"
 }
 
 group = 'me.jaffe2718'
@@ -10,6 +11,11 @@ version = rootProject.version
 
 repositories {
     mavenCentral()
+
+    intellijPlatform {
+        defaultRepositories()
+        jetbrainsRuntime()
+    }
 }
 
 sourceSets {
@@ -20,39 +26,32 @@ sourceSets {
     }
 }
 
-intellij {
-    version = '2023.3'
-    type = 'IC'
-    plugins = ['com.intellij.java'] as List
-}
 
 dependencies {
     implementation 'net.lingala.zip4j:zip4j:2.11.5'
+
+    intellijPlatform {
+        intellijIdeaCommunity project.properties['intellij_version']
+        bundledPlugin 'com.intellij.java'
+        bundledPlugin 'com.intellij.modules.json'
+    }
 }
 
-tasks {
+intellijPlatform {
+    pluginConfiguration {
+        id = 'me.jaffe2718.devkit'
+        name = 'Minecraft Command DevKit'
+        version = project.getProperty('plugin_version')
 
-    tasks.findAll { it instanceof JavaCompile } .each {
-        it.sourceCompatibility = '17'
-        it.targetCompatibility = '17'
-    }
+        ideaVersion {
+            sinceBuild = project.properties['idea_since_build']
+            untilBuild = project.properties['idea_until_build']
+        }
 
-//    tasks.findAll { it instanceof KotlinCompile } .each {
-//        it.kotlinOptions.jvmTarget = '17'
-//    }
-
-    patchPluginXml {
-        sinceBuild = '233.0'
-        untilBuild = '241.*'
-    }
-
-    signPlugin {
-        certificateChain = System.getenv('CERTIFICATE_CHAIN')
-        privateKey = System.getenv('PRIVATE_KEY')
-        password = System.getenv('PRIVATE_KEY_PASSWORD')
-    }
-
-    publishPlugin {
-        token = System.getenv('PUBLISH_TOKEN')
+        vendor {
+            name = 'Jaffe2718'
+            email = 'qqyttwqeei@163.com'
+            url = 'https://github.com/Jaffe2718'
+        }
     }
 }
