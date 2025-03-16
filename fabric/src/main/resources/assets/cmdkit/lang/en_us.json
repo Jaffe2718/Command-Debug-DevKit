@@ -1,4 +1,13 @@
 {
+    "cmdkit.midnightconfig.enum.TrustMode.ALL_ALLOWED": "All Allowed",
+    "cmdkit.midnightconfig.enum.TrustMode.WHITE_LIST": "White List",
+    "cmdkit.midnightconfig.title": "Command Debug Service Config",
+    "cmdkit.midnightconfig.shouldShowSocketInfo": "Show Socket Info",
+    "cmdkit.midnightconfig.shouldShowSocketInfo.tooltip": "Show the server socket info in the message field for the trusted clients.",
+    "cmdkit.midnightconfig.trustMode": "Trust Mode",
+    "cmdkit.midnightconfig.trustMode.tooltip": "The client socket trust mode for the Command Debug Service.",
+    "cmdkit.midnightconfig.trustedIPv4Addresses": "Trusted IPv4 Addresses",
+    "cmdkit.midnightconfig.trustedIPv4Addresses.tooltip": "The white list for the Command Debug Service. Only clients recorded in this list are allowed to connect in WHITE_LIST mode.",
     "message.cmdkit.run": "§a§l[Command Debug Service] §r§aThe Socket Server is running",
     "message.cmdkit.service.execution": "§6For Command Execution Service",
     "message.cmdkit.service.suggestion": "§dFor Command Suggestion Service",

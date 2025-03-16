@@ -29,7 +29,6 @@ public class GenAndImportToMcAction extends AnAction {
      * It is called on the UI thread with all data in the provided {@link DataContext} instance.
      *
      * @param e Carries information on the invocation place
-     * @see #beforeActionPerformedUpdate(AnActionEvent)
      */
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
@@ -80,7 +79,7 @@ public class GenAndImportToMcAction extends AnAction {
      * Send datapack to Minecraft instance.
      * datapack is located at `[project root]/build/[project name].zip`.
      * send datapack to Minecraft instance Datapack Receive Service at `host:port`.
-     * send in base64 encoding json format:  {"name": "[datapack name].zip", "data": "[base64 encoded datapack]"}
+     * send in base64 encoding json format:  {"name": "[datapack name].zip", "data": "[base64 encoded datapack]", "flag": "import"}
      *
      * @param host Host of the Minecraft instance.
      * @param port Port of the Minecraft instance.

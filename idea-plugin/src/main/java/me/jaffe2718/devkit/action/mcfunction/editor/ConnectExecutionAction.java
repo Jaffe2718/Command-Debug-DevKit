@@ -40,7 +40,6 @@ public class ConnectExecutionAction extends AnAction {
      * It is called on the UI thread with all data in the provided {@link DataContext} instance.
      *
      * @param e the event which occurred (passed to {@link AnAction#update(AnActionEvent)}).
-     * @see #beforeActionPerformedUpdate(AnActionEvent)
      */
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {

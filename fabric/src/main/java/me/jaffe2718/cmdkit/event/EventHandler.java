@@ -1,91 +1,90 @@
 package me.jaffe2718.cmdkit.event;
 
+import com.mojang.brigadier.ParseResults;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.suggestion.Suggestions;
+import io.netty.channel.local.LocalAddress;
 import me.jaffe2718.cmdkit.CommandDebugDevKit;
-import me.jaffe2718.cmdkit.client.CommandDebugDevKitClient;
-import me.jaffe2718.cmdkit.mixins.ChatScreenMixin;
-import me.jaffe2718.cmdkit.unit.TempDatapackManager;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
+import me.jaffe2718.cmdkit.util.ClientSocketConnectionHandler;
+import me.jaffe2718.cmdkit.util.SecurityConfig;
+import me.jaffe2718.cmdkit.util.DatapackManager;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ChatInputSuggestor;
-import net.minecraft.client.gui.screen.ChatScreen;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.text.*;
 import net.minecraft.util.math.ColorHelper;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public abstract class EventHandler {
 
+    public static MinecraftServer serverRef = null;
+
     /**
-     * The command {@link ChatInputSuggestor suggetor}, used to get the command suggestions.
-     * It will be null on the server side.
+     * Synchronized queue for sending messages to the client socket.
      */
-    @Environment(EnvType.CLIENT)
-    public static @Nullable ChatInputSuggestor suggestor = null;
+    public static Queue<String> syncMessageQueue = new ConcurrentLinkedQueue<>();
 
     /**
      * The last command that the player input in the chat screen.
      */
-    @Environment(EnvType.CLIENT)
     public static volatile String lastInput = "";
-
-    /**
-     * The flag that indicates whether the socket injector info has been shown.
-     */
-    private static boolean shown = false;
 
     /**
      * The list of client execute sockets.
      * To manage the client execute sockets.
      */
-    private static final List<Socket> clientExecuteSockets = new ArrayList<>();
-
-    /**
-     * The thread that accepts the new client execute socket.
-     * To accept the client execute socket.
-     */
-    private static final Thread acceptExecuteSocketThread = new Thread(() -> {
-        while (true) {
-            try {
-                Socket clientSocket = CommandDebugDevKit.executeCmdSocket.accept();
-                clientExecuteSockets.add(clientSocket);
-                buildClientSocketThread(clientSocket, true).start();
-                CommandDebugDevKit.LOGGER.info("Client socket accepted on localhost: {}", clientSocket.getLocalPort());
-            } catch (IOException e) {
-                CommandDebugDevKit.LOGGER.error("Failed to accept client socket: {}", e.getMessage());
-            }
-        }
-    });
+    private static final List<Socket> CLIENT_EXECUTE_SOCKETS = new ArrayList<>();
 
     /**
      * The list of client suggest sockets.
      * To manage the client suggest sockets.
      */
-    private static final List<Socket> clientSuggestSockets = new ArrayList<>();
+    private static final List<Socket> CLIENT_SUGGEST_SOCKETS = new ArrayList<>();
+
+    /**
+     * The thread that accepts the new client execute socket.
+     * To accept the client execute socket.
+     */
+    private static final Thread ACCEPT_EXECUTE_SOCKET_THREAD = new Thread(() -> {
+        while (true) {
+            try {
+                Socket clientSocket = ClientSocketConnectionHandler.acceptClientSocket(CommandDebugDevKit.executeCmdSocket);
+                CLIENT_EXECUTE_SOCKETS.add(clientSocket);
+                buildClientSocketThread(clientSocket, true).start();
+                CommandDebugDevKit.LOGGER.info("Client socket accepted on {}: {}", clientSocket.getInetAddress().getHostAddress(), clientSocket.getPort());
+            } catch (Exception e) {
+                CommandDebugDevKit.LOGGER.error("Failed to accept client socket: {} {}",e.getClass(), e.getMessage());
+            }
+        }
+    });
 
     /**
      * The thread that accepts the new client suggest socket.
      * To accept the client suggest socket.
      */
-    private static final Thread acceptSuggestSocketThread = new Thread(() -> {
+    private static final Thread ACCEPT_SUGGEST_SOCKET_THREAD = new Thread(() -> {
         while (true) {
             try {
-                Socket clientSocket = CommandDebugDevKit.suggestCmdSocket.accept();
-                clientSuggestSockets.add(clientSocket);
+                Socket clientSocket = ClientSocketConnectionHandler.acceptClientSocket(CommandDebugDevKit.suggestCmdSocket);
+                CLIENT_SUGGEST_SOCKETS.add(clientSocket);
                 buildClientSocketThread(clientSocket, false).start();
                 CommandDebugDevKit.LOGGER.info("Client socket accepted on localhost: {}", clientSocket.getLocalPort());
-            } catch (IOException e) {
-                CommandDebugDevKit.LOGGER.error("Failed to accept client socket: {}", e.getMessage());
+            } catch (Exception e) {
+                CommandDebugDevKit.LOGGER.error("Failed to accept client socket: {} {}", e.getClass(), e.getMessage());
             }
         }
     });
@@ -93,163 +92,144 @@ public abstract class EventHandler {
     /**
      * The thread that checks the client socket.
      * To check the client socket and remove the closed client socket.
+     * @see EventHandler#CLIENT_EXECUTE_SOCKETS
+     * @see EventHandler#CLIENT_SUGGEST_SOCKETS
+     * @see CommandDebugDevKit#executeCmdSocket
+     * @see CommandDebugDevKit#suggestCmdSocket
      */
-    private static final Thread checkClientSocketThread = new Thread(() -> {
+    private static final Thread MANAGE_CLIENT_SOCKET_THREAD = new Thread(() -> {
         while (true) {
-            for (Socket clientSocket : clientExecuteSockets) {
+            for (Socket clientSocket : CLIENT_EXECUTE_SOCKETS) {
                 if (clientSocket.isClosed() || !clientSocket.isConnected()) {
-                    clientExecuteSockets.remove(clientSocket);
-                    CommandDebugDevKit.LOGGER.info("Client socket removed on localhost:" + clientSocket.getLocalPort());
+                    CLIENT_EXECUTE_SOCKETS.remove(clientSocket);
+                    CommandDebugDevKit.LOGGER.info("Client socket {}:{} is disconnected", clientSocket.getInetAddress().getHostAddress(), clientSocket.getPort());
                 }
             }
-            for (Socket clientSocket : clientSuggestSockets) {
+            for (Socket clientSocket : CLIENT_SUGGEST_SOCKETS) {
                 if (clientSocket.isClosed() || !clientSocket.isConnected()) {
-                    clientSuggestSockets.remove(clientSocket);
-                    CommandDebugDevKit.LOGGER.info("Client socket removed on localhost:" + clientSocket.getLocalPort());
+                    CLIENT_SUGGEST_SOCKETS.remove(clientSocket);
+                    CommandDebugDevKit.LOGGER.info("Client socket {}:{} is disconnected", clientSocket.getInetAddress().getHostAddress(), clientSocket.getPort());
                 }
             }
         }
     });
 
     /**
+     * The thread that sends the message to the client socket.
+     * To send the message to the client socket.
+     * @see EventHandler#syncMessageQueue
+     */
+    private static final Thread SYNC_MESSAGE_THREAD = new Thread(() -> {
+        while (true) {
+            if (!syncMessageQueue.isEmpty()) {
+                String message = syncMessageQueue.poll();
+                try {
+                    for (Socket clientSocket : CLIENT_EXECUTE_SOCKETS) {
+                        PrintWriter pw = new PrintWriter(clientSocket.getOutputStream(), true);
+                        pw.println(message);
+                    }
+                } catch (IOException ignored) {}
+            }
+        }
+    });
+
+
+    /**
      * Registers the event handler.
-     * 1. Creates a thread that gets and listens to the client socket then resolves the message from client socket.
-     * 2. Registers the event handler for the client tick event: show client socket info and warning when player joins a world.
-     * 3. Registers the event handler for the client receive message event: send the chat message to the client socket.
      */
     public static void register() {
-        acceptExecuteSocketThread.start();
-        acceptSuggestSocketThread.start();
-        checkClientSocketThread.start();
-        TempDatapackManager.datapackManagementSocketThread.start();
-        ClientTickEvents.START_CLIENT_TICK.register(EventHandler::getSuggestor);
-        ClientTickEvents.END_CLIENT_TICK.register(EventHandler::showSocketInfo);
-        ClientReceiveMessageEvents.GAME.register(EventHandler::sendLogToClientSocket);
-        ServerWorldEvents.UNLOAD.register(TempDatapackManager::delateTempDatapacks);
+        ACCEPT_EXECUTE_SOCKET_THREAD.start();
+        ACCEPT_SUGGEST_SOCKET_THREAD.start();
+        MANAGE_CLIENT_SOCKET_THREAD.start();
+        SYNC_MESSAGE_THREAD.start();
+        DatapackManager.DATAPACK_MANAGEMENT_SOCKET_THREAD.start();
+        ServerWorldEvents.LOAD.register((server, world) -> serverRef = server);
+        ServerWorldEvents.UNLOAD.register((server, world) -> serverRef = null);
+        ServerWorldEvents.UNLOAD.register(DatapackManager::delateTempDatapacks);
+        ServerPlayConnectionEvents.JOIN.register(EventHandler::showSocketInfo);
     }
 
     /**
      * Builds the thread that gets and listens to the client socket then resolves the message from client socket.
-     * @param clientSocket The client socket
-     *                     The client socket that the thread listens to
+     * @param clientSocket The client socket that the thread listens to
      * @param execute The flag that indicates whether the client socket is for client execute or get suggestions
      */
     @Contract("_, _ -> new")
     private static @NotNull Thread buildClientSocketThread(Socket clientSocket, boolean execute) {
-        return new Thread(() -> {
+        return Thread.ofVirtual().unstarted(() -> {
             while (clientSocket !=null && clientSocket.isConnected() && !clientSocket.isClosed()) {
                 try {
                     assert MinecraftClient.getInstance().player != null;
                     BufferedReader br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                     String cmd = br.readLine().replace("\n", "");
-                    if (execute) {
-                        assert !cmd.isBlank();
-                        MinecraftClient.getInstance().player.networkHandler.sendChatCommand(cmd);
-                    } else {  // get suggestion by read and send suggestion back
-                        List<String> suggestions = CommandDebugDevKitClient.getCommandSuggestions(cmd);
+                    if (execute && EventHandler.serverRef != null && !cmd.isBlank()) {
+                        try {
+                            EventHandler.serverRef.getCommandManager().getDispatcher().execute(cmd, EventHandler.serverRef.getCommandSource());
+                        } catch (CommandSyntaxException cse) {
+                            EventHandler.syncMessageQueue.add(cse.getLocalizedMessage());
+                        }
+                    } else if (EventHandler.serverRef != null) {  // get suggestion by read and send suggestion back
+                        List<String> suggestions = EventHandler.getCommandSuggestions(cmd, serverRef);
                         PrintWriter pw = new PrintWriter(clientSocket.getOutputStream(), true);
                         for (String s : suggestions) {
                             pw.println(s);
                         }
                     }
-                } catch (EOFException eof) {   // Client socket closed
-                    try {
-                        clientSocket.close();
-                        return;
-                    } catch (IOException ignored) {
-                        return;
-                    }
-                } catch (Exception ignored) {
-                }
+                } catch (IOException ignored) {}
             }
         });
     }
 
-    /**
-     * Gets the {@link ChatInputSuggestor EventHandler.suggestor} by using a Render-Thread
-     * @param client The Minecraft client.
-     */
-    @Environment(EnvType.CLIENT)
-    private static void getSuggestor(@NotNull MinecraftClient client) {
-        if (client.player != null && !lastInput.isEmpty()) {
-            ChatScreen chatScreen = new ChatScreen("");
-            ChatScreenMixin chatScreenMixin = (ChatScreenMixin) chatScreen;
-            Screen currentScreen = client.currentScreen;
-            client.setScreen(chatScreen);
-            suggestor = chatScreenMixin.getChatInputSuggestor();
-            suggestor.refresh();
-            if (!lastInput.startsWith("/")) {
-                chatScreenMixin.getChatField().write("/"); // + lastCommand);
-            }
-            // tap the command to the chat field one by one
-            for (int i = 0; i < lastInput.length(); i++) {
-                chatScreenMixin.getChatField().write(String.valueOf(lastInput.charAt(i)));
-            }
-            lastInput = "";                                  // clear the lastCommand
-            client.setScreen(currentScreen);                   // switch back to the screen before
-        }
-    }
 
-    /**
-     * Sends the chat message back to the client socket.
-     * @param chatMsg The chat message.
-     * @param overlay Whether the chat message is an overlay message.
-     */
-    private static void sendLogToClientSocket(@NotNull Text chatMsg, boolean overlay) {
+    public static @NotNull List<String> getCommandSuggestions(@NotNull String cmd, @NotNull MinecraftServer server) {
+        EventHandler.lastInput = cmd;
+        List<String> suggestionList = new ArrayList<>();
         try {
-            for (Socket clientSocket : clientExecuteSockets) {
-                PrintWriter pw = new PrintWriter(clientSocket.getOutputStream(), true);
-                pw.println(chatMsg.getString());
-            }
-        } catch (Exception ignore) {
-        }
+            ParseResults<ServerCommandSource> parseResults = server.getCommandManager().getDispatcher().parse(cmd, server.getCommandSource());
+            CompletableFuture<Suggestions> suggestions = server.getCommandManager().getDispatcher().getCompletionSuggestions(parseResults);
+            suggestions.get().getList().forEach(suggestion -> suggestionList.add(suggestion.getText()));
+        } catch (Exception ignored) {}
+        return suggestionList;
     }
 
     /**
      * Shows the client socket info and warning when the player joins a world.
-     * @param client The Minecraft client.
+     * @param server The server.
      */
-    private static void showSocketInfo(@NotNull MinecraftClient client) {
-        if (client.player == null) {
-            shown = false;
-        } else if (!shown) {
-            client.player.sendMessage(Text.translatable("message.cmdkit.run"), false);
-
-            client.player.sendMessage(Text.translatable("message.cmdkit.service.execution"), false);
-            client.player.sendMessage(clickToCopy(
-                    2,
-                    String.format("%s:%d", CommandDebugDevKit.ipv4, CommandDebugDevKit.executeCmdSocket.getLocalPort()),
-                    ColorHelper.getArgb(255, 170, 0)
-            ), false);
-
-            client.player.sendMessage(Text.translatable("message.cmdkit.service.suggestion"), false);
-            client.player.sendMessage(clickToCopy(
-                    2,
-                    String.format("%s:%d", CommandDebugDevKit.ipv4, CommandDebugDevKit.suggestCmdSocket.getLocalPort()),
-                    ColorHelper.getArgb(255, 85, 255)
-            ), false);
-
-            client.player.sendMessage(Text.translatable("message.cmdkit.service.datapackManagement"), false);
-            client.player.sendMessage(clickToCopy(
-                    2,
-                    String.format("%s:%d", CommandDebugDevKit.ipv4, CommandDebugDevKit.manageDatapackSocket.getLocalPort()),
-                    ColorHelper.getArgb(85, 255, 255)
-            ), false);
-
-            client.player.sendMessage(Text.translatable("message.cmdkit.warining"), false);
-            shown = true;
+    private static void showSocketInfo(ServerPlayNetworkHandler networkHandler, PacketSender packetSender, @NotNull MinecraftServer server) {
+        if (SecurityConfig.shouldShowSocketInfo
+                && (networkHandler.getConnectionAddress() instanceof LocalAddress
+                        || (networkHandler.getConnectionAddress() instanceof InetSocketAddress inetSocketAddress
+                                && SecurityConfig.trustedIPv4Addresses.contains(inetSocketAddress.getAddress().getHostAddress())))) {
+            Text[] texts = {
+                    Text.literal(Text.translatable("message.cmdkit.run").getString()),
+                    Text.literal(Text.translatable("message.cmdkit.service.execution").getString()),
+                    clickToCopy(String.format("%s:%d", CommandDebugDevKit.ipv4, CommandDebugDevKit.executeCmdSocket.getLocalPort()), ColorHelper.getArgb(255, 170, 0)),
+                    Text.literal(Text.translatable("message.cmdkit.service.suggestion").getString()),
+                    clickToCopy(String.format("%s:%d", CommandDebugDevKit.ipv4, CommandDebugDevKit.suggestCmdSocket.getLocalPort()), ColorHelper.getArgb(255, 85, 255)),
+                    Text.literal(Text.translatable("message.cmdkit.service.datapackManagement").getString()),
+                    clickToCopy(String.format("%s:%d", CommandDebugDevKit.ipv4, CommandDebugDevKit.manageDatapackSocket.getLocalPort()), ColorHelper.getArgb(85, 255, 255)),
+                    Text.literal(Text.translatable("message.cmdkit.warining").getString())
+            };
+            Thread.ofVirtual().start(() -> {
+                try {
+                    Thread.sleep(1024);
+                } catch (InterruptedException ignored) {}
+                for (Text msg : texts) {
+                    networkHandler.player.sendMessage(msg);
+                }
+            });
         }
     }
 
     /**
      * Creates a clickable text, click to copy the text.
-     * @param tab The tab count.
      * @param text The text.
      * @param color The color, use {@link ColorHelper#getArgb(int, int, int)} to get the color.
      * @return The clickable text.
      */
-    private static Text clickToCopy(int tab, String text, int color) {
-        String tabStr = "  ".repeat(tab);
+    private static Text clickToCopy(String text, int color) {
+        String tabStr = "    ";
         return Text.literal(tabStr).append(
                 Text.literal(text)
                         .setStyle(
@@ -259,4 +239,5 @@ public abstract class EventHandler {
                         )
         );
     }
+
 }

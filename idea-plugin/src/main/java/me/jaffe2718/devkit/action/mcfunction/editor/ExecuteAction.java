@@ -44,7 +44,6 @@ public class ExecuteAction extends AnAction {
      * It is called on the UI thread with all data in the provided {@link DataContext} instance.
      *
      * @param e the event which occurred (passed to {@link AnAction#update(AnActionEvent)}).
-     * @see #beforeActionPerformedUpdate(AnActionEvent)
      */
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
@@ -78,7 +77,7 @@ public class ExecuteAction extends AnAction {
         } catch (Exception ignored) {}
     }
 
-    private File extractTool() {
+    private @NotNull File extractTool() {
         File libs = Path.of(System.getenv("HOMEPATH"), ".mcfuncdev").toAbsolutePath().toFile();
         if (libs.isDirectory()) {
             // check if ide-debug-tool-<version>.jar is present

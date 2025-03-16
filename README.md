@@ -293,7 +293,7 @@ Programing language is not limited, you can use any language you like,
 the only thing you need to do is make your tool has the ability to connect to the socket server and interact with it.
 
 ### Concepts
-- For `3.x` version, the mod will create 3 socket servers, for code completion, code execution and datapack management.
+- For `4.x` version, the mod will create 3 socket servers, for code completion, code execution and datapack management.
 
     |       Server        |     Type      |                  Description                  |                                              Accepted Message                                               |   Returned Message   |
     |:-------------------:|:-------------:|:---------------------------------------------:|:-----------------------------------------------------------------------------------------------------------:|:--------------------:|

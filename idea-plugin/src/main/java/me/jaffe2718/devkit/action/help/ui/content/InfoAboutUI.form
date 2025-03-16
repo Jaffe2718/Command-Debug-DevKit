@@ -127,7 +127,7 @@
               <editable value="false"/>
               <font size="16"/>
               <margin top="20" left="20" bottom="20" right="20"/>
-              <text value="Production Name: Minecraft Command DevKit&#10;&#10;Version: 1.3.0&#10;&#10;Author: Jaffe2718&#10;&#10;Email: qqyttwqeeu@163.com&#10;&#10;Repository: https://github.com/Jaffe2718/Command-Debug-DevKit/&#10;&#10;Issue Tracker: https://github.com/Jaffe2718/Command-Debug-DevKit/&#10;&#10;License: MIT"/>
+              <text value="Production Name: Minecraft Command DevKit&#10;&#10;Author: Jaffe2718&#10;&#10;Email: qqyttwqeeu@163.com&#10;&#10;Repository: https://github.com/Jaffe2718/Command-Debug-DevKit/&#10;&#10;Issue Tracker: https://github.com/Jaffe2718/Command-Debug-DevKit/&#10;&#10;License: MIT"/>
             </properties>
           </component>
         </children>

@@ -1,4 +1,13 @@
 {
+    "cmdkit.midnightconfig.enum.TrustMode.ALL_ALLOWED": "全部允许",
+    "cmdkit.midnightconfig.enum.TrustMode.WHITE_LIST": "白名单",
+    "cmdkit.midnightconfig.title": "Command Debug Service 设置",
+    "cmdkit.midnightconfig.shouldShowSocketInfo": "显示Socket信息",
+    "cmdkit.midnightconfig.shouldShowSocketInfo.tooltip": "是否在受信任的客户端消息列表中显示Socket信息",
+    "cmdkit.midnightconfig.trustMode": "信任模式",
+    "cmdkit.midnightconfig.trustMode.tooltip": "Command Debug Service的客户端Socket信任模式",
+    "cmdkit.midnightconfig.trustedIPv4Addresses": "信任的IPv4地址",
+    "cmdkit.midnightconfig.trustedIPv4Addresses.tooltip": "Command Debug Service的白名单。在白名单模式下仅白名单中的客户端可以连接。",
     "message.cmdkit.run": "§a§l[Command Debug Service] §r§aSocket服务器正在运行",
     "message.cmdkit.service.execution": "§6对于命令执行服务",
     "message.cmdkit.service.suggestion": "§d对于命令建议服务",

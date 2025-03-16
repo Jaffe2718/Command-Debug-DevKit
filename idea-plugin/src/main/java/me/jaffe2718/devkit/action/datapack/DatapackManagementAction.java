@@ -24,7 +24,6 @@ public class DatapackManagementAction extends AnAction {
      * It is called on the UI thread with all data in the provided {@link DataContext} instance.
      *
      * @param e Carries information on the invocation place
-     * @see #beforeActionPerformedUpdate(AnActionEvent)
      */
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {

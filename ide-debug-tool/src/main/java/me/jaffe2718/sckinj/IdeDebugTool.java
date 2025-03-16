@@ -56,7 +56,7 @@ public class IdeDebugTool {
                 while (socket.isConnected()) {
                     String msg;
                     while ((msg = reader.readLine()) != null) {
-                        System.out.println("[Server] " + msg);
+                        System.out.printf("[%s] %s%n", hostPort, msg);
                     }
                 }
             } catch (IOException e) {
@@ -115,7 +115,7 @@ public class IdeDebugTool {
                 while (socket.isConnected()) {
                     String msg;
                     while ((msg = reader.readLine()) != null) {
-                        System.out.println("[Server] " + msg);
+                        System.out.printf("[%s] %s%n", hostPort, msg);
                     }
                 }
             } catch (IOException e) {
