@@ -22,13 +22,13 @@ This is the developer documentation.
 In this document, you will know how to develop external tools for the mods in this repository.
 **It is unnecessary to clone this repository to develop external tools, just install the suitable mod from this
 repository
-in your Minecraft client.** The programing language is not limited, the only requirement is make your tool have the
+in your Minecraft instance.** The programing language is not limited, the only requirement is make your tool have the
 ability
 to connect to the socket server and interact with it.
 
 ## Concepts✨
 
-- For 3.x version, the mod will create 3 socket servers, there are used for code completion, command execution and datapack management.
+- For `4.x` version, the mod will create 3 socket servers, there are used for code completion, command execution and datapack management.
 
   |       Server        |     Type      |                  Description                  |                                              Accepted Message                                               |   Returned Message   |
   |:-------------------:|:-------------:|:---------------------------------------------:|:-----------------------------------------------------------------------------------------------------------:|:--------------------:|
@@ -36,7 +36,7 @@ to connect to the socket server and interact with it.
   |   Code Execution    | Socket Server | The server for command execution in Minecraft |                                             single line command                                             | execution feedbacks  |
   | Datapack Management | Socket Server |  The server for receive datapack from client  | json string without `\n` like `{ "name": "[name].zip", "data": "[base64 encoded data]", "flag": "import" }` |         None         |
 
-- In the 3.x version of the datapack management feature, you should send single line of json **WITHOUT** `\n` to invoke the datapack
+- In the `4.x` version of the datapack management feature, you should send single line of json **WITHOUT** `\n` to invoke the datapack
   management service. <br>
   There are two types of datapack: `Common` and `Linked`, the `Common` datapacks are in line with the vanilla Minecraft, `Linked` datapacks modify game data in exactly the same way as `Common` datapacks, but is similar to temporary or virtual files that expire when the player exits the current world. <br>
   There are the fields of the json string:
@@ -76,70 +76,159 @@ to connect to the socket server and interact with it.
 
 ### Abstract
 
-The mod `3.x` will create 3 socket servers, the first is code completion service socket, the second is for code execution, 
+The mod `4.x` will create 3 socket servers, the first is code completion service socket, the second is for code execution, 
 the third is datapack management service.
-The socket server instances will be created when the game is loading, and the port of the socket server is random,
-when you enter the world, the mod will print the port of the socket server in the game log, you can use this port to
-connect to the socket server.
-The mod can run both in the single player game and multiplayer game, but not multiplayer server, because the server will
-not load the logical client of the mod.
-> Tips: for security reasons, the event handler of the socket server was designed to run only in the logical client, to
-> avoid SQL injection and other security problems. So the socket server will not work in the multiplayer server. But the
-> only way to run the mod in multiplayer game is connect and play with your friends in the same LAN, because the owner
-> of the game world has a logical client on his/her device, so the socket server will work in this situation.
+The socket server instances will be created when the game is loading.
 
-### Single Player Game
+The mod `4.x` is rely on `MidnightLib` as the configuration library.
 
-In the single player game, the socket servers will be created in the logical client, so you can connect to the socket
-server
-at `localhost`. The port of the socket server will be printed in the game log when you enter the world.
+The mod can run both in the single player game and multiplayer game, but a logical server is always required.
 
-- When you connect to the command execution socket server, you can send a single line command to the server, and the
-  server
-  will execute the command in the game, and return the execution feedbacks to you.
+### Command Execution Service
 
-<div style="text-align: center">
-  <img src=".doc/dev/d0.png" alt="Executing" align="center"/>
-  <p>Fig. 1 working principles of executing command in the single player game</p>
-</div>
+First, the client attempts to create a connection with the Command Execution Server Socket. If the client is trusted, the server socket records the client information; otherwise, it closes the connection. Once the connection is established, as long as the connection remains alive, the client can send commands to the server socket. The server socket then forwards these commands to the Minecraft Logical Server for execution. After the server executes the commands, it returns feedback to the server socket, which in turn sends the feedback back to the client. Finally, when the client decides to close the connection, the server socket removes the client information.
 
-- When you connect to the command completion socket server, you can send a single line command or unfinished command to
-  the
-  server, and the server will return the multiple line result to you.
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant CESS as Command Execution Server Socket
+    participant MC as Minecraft Logical Server
+    critical create connection (hidden TCP connection details)
+      C ->> CESS: create connection
+      alt Client is Trusted
+        CESS ->> CESS: record client info
+      else Client is Not Trusted
+        CESS ->> CESS: close connection
+      end
+    end
 
-<div style="text-align: center">
-  <img src=".doc/dev/d1.png" alt="Complete" align="center"/>
-  <p>Fig. 2 working principles of get command completion in the single player game</p>
-</div>
+    loop execute command while connection is alive (hidden TCP transmission details)
+        C ->> CESS: send command
+        CESS ->> MC: execute command
+        MC ->> CESS: return feedbacks
+        CESS ->> C: return feedbacks
+    end
 
-### Multiplayer Game
+    critical close connection (hidden TCP disconnection details)
+      C ->> CESS: close connection
+      CESS ->> CESS: remove client info
+    end
+```
 
-In the multiplayer game, the socket servers will be created in the logical client of the physical server, so only
-the players in the same LAN and play together can connect to the socket server in the game world owner's device. If
-the logical client is not exist, the socket server will not work. There are two cases in the multiplayer game,
-these are the two cases:
+### Command Suggestion Service
 
-- **CASE 1**: You are playing in your friend's game world, and your friend is the owner of the game world, so the socket
-  server is
-  created in the logical client of your friend's device. In this case, you will use **YOUR FRIEND'S IDENTITY** to
-  execute the
-  command in the game, and the execution feedbacks will be returned to you.
+The client starts by creating a connection with the Command Suggestion Server Socket. If the client is verified as trusted, the server socket records the client's details; if not, the connection is terminated. During the period when the connection is active, the client sends commands to the server socket. The server socket then passes these commands to the Minecraft Logical Server. The server generates command suggestions and sends them back to the server socket, which then returns the suggestions to the client. When the client closes the connection, the server socket deletes the client information.
 
-<div style="text-align: center">
-  <img src=".doc/dev/d2.png" alt="Executing" align="center"/>
-  <p>Fig. 3 working principles of executing command in the multiplayer game (1)</p>
-</div>
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant CSSS as Command Suggestion Server Socket
+    participant MC as Minecraft Logical Server
+    critical create connection (hidden TCP connection details)
+      C ->> CSSS: create connection
+      alt Client is Trusted
+        CSSS ->> CSSS: record client info
+      else Client is Not Trusted
+        CSSS ->> CSSS: close connection
+      end
+    end
+    loop execute command while connection is alive (hidden TCP transmission details)
+        C ->> CSSS: send command
+        CSSS ->> MC: send command
+        MC ->> CSSS: send suggestions
+        CSSS ->> C: return suggestions
+    end
+    critical close connection (hidden TCP disconnection details)
+      C ->> CSSS: close connection
+      CSSS ->> CSSS: remove client info
+    end
+```
 
-- **CASE 2**: You are playing in your friend's game world, and you are connect to the socket server in your device,
-  so you will use **YOUR IDENTITY** to execute the command in the game, and the execution feedbacks will be returned to
-  you.
+### Datapack Management Service
 
-<div style="text-align: center">
-  <img src=".doc/dev/d3.png" alt="Executing" align="center"/>
-  <p>Fig. 4 working principles of executing command in the multiplayer game (2)</p>
-</div>
+The client initiates the process by creating a connection with the Datapack Management Server Socket. Based on whether the client is trusted, the server socket either records the client information or closes the connection. While the connection is open, the client can send different types of JSON - formatted commands. These commands can be used to query datapack information, import, link, unlink, delete, or enable/disable a datapack. For each type of valid command, the server socket forwards the request to the Minecraft Logical Server. The server processes the request and sends feedback to the server socket, which then returns the feedback to the client. If an unknown command is sent, the server socket sends an error message to the client. When the client closes the connection, the server socket removes the client's recorded information.
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant DMS as Datapack Management Server Socket
+    participant MC as Minecraft Logical Server
+    critical create connection (hidden TCP connection details)
+      C ->> DMS: create connection
+      alt Client is Trusted
+        DMS ->> DMS: record client info
+      else Client is Not Trusted
+        DMS ->> DMS: close connection
+      end
+    end
+    loop execute command while connection is alive (hidden TCP transmission details)
+        alt query datapack info
+            C ->> DMS: send { "flag": "query" } json
+            DMS ->> MC: query datapack info
+            MC ->> DMS: send datapack info 
+            DMS ->> C: return datapack info
+        else import datapack
+            C ->> DMS: send { "flag": "import", "name": "<datapack_name>.zip", "data": "<base64 encoded data>" } json
+            DMS ->> MC: import datapack
+            MC ->> DMS: send feedbacks
+            DMS ->> C: return feedbacks
+        else link datapack
+            C ->> DMS: send { "flag": "link", "name": "<datapack_name>.zip", "data": "<base64 encoded data>" } json
+            DMS ->> MC: link datapack
+            MC ->> MC: record linked datapack (will be deleted when the game is closed)
+            MC ->> DMS: send feedbacks
+            DMS ->> C: return feedbacks
+        else unlink datapack
+            C ->> DMS: send { "flag": "unlink", "name": "<datapack_name>.zip" } json
+            DMS ->> MC: unlink datapack
+            MC ->> MC: delete linked datapack
+            MC ->> DMS: send feedbacks
+            DMS ->> C: return feedbacks
+        else delete datapack
+            C ->> DMS: send { "flag": "delete", "name": "<datapack_name>.zip" } json
+            DMS ->> MC: delete datapack
+            MC ->> DMS: send feedbacks
+            DMS ->> C: return feedbacks
+        else enable/disable datapack
+            C ->> DMS: send { "flag": "enable/disable", "name": "<datapack_name>.zip" } json
+            DMS ->> MC: enable/disable datapack
+            MC ->> DMS: send feedbacks
+            DMS ->> C: return feedbacks
+        else unknown command
+            C ->> DMS: send unknown command
+            DMS ->> C: error message
+        end
+    end
+    critical close connection (hidden TCP disconnection details)
+      C ->> DMS: close connection
+      DMS ->> DMS: remove client info
+    end
+```
 
 ## Usage🎇
+
+![d0](.doc/dev/d0.svg)
+
+### Security Configuration
+
+#### Ports
+
+- **Command Execution Socket Port**: The port for the command execution service socket binding. The default value is `0`, which means the service will be disabled. If you modify this value, it will be applied when the program restarts.
+
+#### Show Socket Info
+
+Boolean value, if true, the server socket info will be shown in the message field for the trusted clients.
+
+#### Trust Mode
+
+The client socket trust mode for the Command Debug Service.
+- **ALL_ALLOWED**: All clients are allowed to connect.
+- **WHITE_LIST**: Only clients recorded in the `Trusted IPv4 Addresses` are allowed to connect.
+
+#### Trusted IPv4 Addresses
+The white list for the Command Debug Service. Only clients recorded in this list are allowed to connect in `WHITE_LIST` mode, otherwise, all clients are trusted.
+
+> for more details, see [me.jaffe2718.cmdkit.util.SecurityConfig](fabric/src/main/java/me/jaffe2718/cmdkit/util/SecurityConfig.java)
 
 ### Code Completion
 
