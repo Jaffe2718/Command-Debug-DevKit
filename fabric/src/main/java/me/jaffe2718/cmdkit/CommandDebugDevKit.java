@@ -47,9 +47,9 @@ public class CommandDebugDevKit implements ModInitializer {
     public void onInitialize() {
         MidnightConfig.init(CommandDebugDevKit.MOD_ID, SecurityConfig.class);
         try {
-            executeCmdSocket = new ServerSocket(0);
-            suggestCmdSocket = new ServerSocket(0);
-            manageDatapackSocket = new ServerSocket(0);
+            executeCmdSocket = new ServerSocket(SecurityConfig.executeCmdSocketPort);
+            suggestCmdSocket = new ServerSocket(SecurityConfig.suggestCmdSocketPort);
+            manageDatapackSocket = new ServerSocket(SecurityConfig.manageDatapackSocketPort);
             // Get the local IP address
             Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
             while (networkInterfaces.hasMoreElements()) {

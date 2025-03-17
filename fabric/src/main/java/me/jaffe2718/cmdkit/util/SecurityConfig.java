@@ -27,6 +27,33 @@ public class SecurityConfig extends MidnightConfig {
     }
 
     /**
+     * The port for the command debug service. The default value is 0, which means the port will be randomly assigned.
+     * If you modify this value, it will be applied when the program restarts.
+     * @see me.jaffe2718.cmdkit.CommandDebugDevKit#executeCmdSocket
+     * @see me.jaffe2718.cmdkit.CommandDebugDevKit#onInitialize()
+     */
+    @Entry(min = 0, max = 65535)
+    public static int executeCmdSocketPort = 0;
+
+    /**
+     * The port for the command suggestion service. The default value is 0, which means the port will be randomly assigned.
+     * If you modify this value, it will be applied when the program restarts.
+     * @see me.jaffe2718.cmdkit.CommandDebugDevKit#suggestCmdSocket
+     * @see me.jaffe2718.cmdkit.CommandDebugDevKit#onInitialize()
+     */
+    @Entry(min = 0, max = 65535)
+    public static int suggestCmdSocketPort = 0;
+
+    /**
+     * The port for the datapack management service. The default value is 0, which means the port will be randomly assigned.
+     * If you modify this value, it will be applied when the program restarts.
+     * @see me.jaffe2718.cmdkit.CommandDebugDevKit#manageDatapackSocket
+     * @see me.jaffe2718.cmdkit.CommandDebugDevKit#onInitialize()
+     */
+    @Entry(min = 0, max = 65535)
+    public static int manageDatapackSocketPort = 0;
+
+    /**
      * Whether to show the socket info in the command debug service.
      * @see me.jaffe2718.cmdkit.event.EventHandler#showSocketInfo(ServerPlayNetworkHandler, PacketSender, MinecraftServer)
      */
