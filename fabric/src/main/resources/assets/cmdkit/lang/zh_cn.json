@@ -24,5 +24,7 @@
     "message.cmdkit.word.imported": "已导入",
     "message.cmdkit.word.linked": "已链接",
     "message.cmdkit.word.unlinked": "已取消链接",
-    "message.cmdkit.warining": "§c§l警告: §r§c不要与不受信任的客户端共享此主机和端口!"
+    "message.cmdkit.warining": "§c§l警告: §r§c不要与不受信任的客户端共享此主机和端口!",
+    "modmenu.nameTranslation.cmdkit": "指令调试服务",
+    "modmenu.descriptionTranslation.cmdkit": "本模组通过建立Minecraft与外部程序间的Socket连接，提供了一种执行和调试游戏命令的方案，可作为两者之间的命令调试连接套件。"
 }

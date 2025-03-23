@@ -24,5 +24,7 @@
     "message.cmdkit.word.imported": "imported",
     "message.cmdkit.word.linked": "linked",
     "message.cmdkit.word.unlinked": "unlinked",
-    "message.cmdkit.warining": "§c§lWARNING: §r§cDo not share this host and port with untrusted clients!"
+    "message.cmdkit.warining": "§c§lWARNING: §r§cDo not share this host and port with untrusted clients!",
+    "modmenu.nameTranslation.cmdkit": "Command Debug Service",
+    "modmenu.descriptionTranslation.cmdkit": "This is a mod that provides a method to execute and debug Minecraft commands by creating socket connections between Minecraft and external programs. It is used to be a command debug connect kit between Minecraft and external programs."
 }
