@@ -13,18 +13,7 @@ import java.util.List;
  */
 public class SecurityConfig extends MidnightConfig {
 
-    /**
-     * The trust mode for the command debug service.
-     * <ul>
-     *     <li>ALL_ALLOWED: All clients are allowed to connect.</li>
-     *     <li>WHITE_LIST: Only clients in the white list are allowed to connect.</li>
-     * </ul>
-     * @see SecurityConfig#trustedIPv4Addresses
-     */
-    public enum TrustMode {
-        ALL_ALLOWED,
-        WHITE_LIST,
-    }
+
 
     /**
      * The port for the command debug service. The default value is 0, which means the port will be randomly assigned.
@@ -32,6 +21,7 @@ public class SecurityConfig extends MidnightConfig {
      * @see me.jaffe2718.cmdkit.CommandDebugDevKit#executeCmdSocket
      * @see me.jaffe2718.cmdkit.CommandDebugDevKit#onInitialize()
      */
+    @SuppressWarnings("unused")
     @Entry(min = 0, max = 65535)
     public static int executeCmdSocketPort = 0;
 
@@ -41,6 +31,7 @@ public class SecurityConfig extends MidnightConfig {
      * @see me.jaffe2718.cmdkit.CommandDebugDevKit#suggestCmdSocket
      * @see me.jaffe2718.cmdkit.CommandDebugDevKit#onInitialize()
      */
+    @SuppressWarnings("unused")
     @Entry(min = 0, max = 65535)
     public static int suggestCmdSocketPort = 0;
 
@@ -50,6 +41,7 @@ public class SecurityConfig extends MidnightConfig {
      * @see me.jaffe2718.cmdkit.CommandDebugDevKit#manageDatapackSocket
      * @see me.jaffe2718.cmdkit.CommandDebugDevKit#onInitialize()
      */
+    @SuppressWarnings("unused")
     @Entry(min = 0, max = 65535)
     public static int manageDatapackSocketPort = 0;
 
@@ -57,6 +49,7 @@ public class SecurityConfig extends MidnightConfig {
      * Whether to show the socket info in the command debug service.
      * @see me.jaffe2718.cmdkit.event.EventHandler#showSocketInfo(ServerPlayNetworkHandler, PacketSender, MinecraftServer)
      */
+    @SuppressWarnings("unused")
     @Entry
     public static boolean shouldShowSocketInfo = true;
 
@@ -64,6 +57,7 @@ public class SecurityConfig extends MidnightConfig {
      * The trust mode for the command debug service.
      * @see TrustMode
      */
+    @SuppressWarnings("unused")
     @Entry
     public static TrustMode trustMode = TrustMode.WHITE_LIST;
 
@@ -72,6 +66,7 @@ public class SecurityConfig extends MidnightConfig {
      * @see TrustMode#WHITE_LIST
      * @see SecurityConfig#trustMode
      */
+    @SuppressWarnings("unused")
     @Entry
     public static List<String> trustedIPv4Addresses = Lists.newArrayList();
 }

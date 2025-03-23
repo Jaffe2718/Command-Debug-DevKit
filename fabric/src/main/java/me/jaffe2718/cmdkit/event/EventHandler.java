@@ -1,12 +1,12 @@
 package me.jaffe2718.cmdkit.event;
 
+import com.google.common.collect.Lists;
 import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestions;
 import io.netty.channel.local.LocalAddress;
 import me.jaffe2718.cmdkit.CommandDebugDevKit;
 import me.jaffe2718.cmdkit.util.ClientSocketConnectionHandler;
-import me.jaffe2718.cmdkit.util.SecurityConfig;
 import me.jaffe2718.cmdkit.util.DatapackManager;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
@@ -197,10 +197,16 @@ public abstract class EventHandler {
      * @param server The server.
      */
     private static void showSocketInfo(ServerPlayNetworkHandler networkHandler, PacketSender packetSender, @NotNull MinecraftServer server) {
-        if (SecurityConfig.shouldShowSocketInfo
+        boolean showSocketInfo = true;
+        List<String> trustedIPv4Addresses = Lists.newArrayList();
+        try {
+            showSocketInfo = CommandDebugDevKit.getSecurityConfig("shouldShowSocketInfo");
+            trustedIPv4Addresses = CommandDebugDevKit.getSecurityConfig("trustedIPv4Addresses");
+        } catch (Exception ignored) {}
+        if (showSocketInfo
                 && (networkHandler.getConnectionAddress() instanceof LocalAddress
                         || (networkHandler.getConnectionAddress() instanceof InetSocketAddress inetSocketAddress
-                                && SecurityConfig.trustedIPv4Addresses.contains(inetSocketAddress.getAddress().getHostAddress())))) {
+                                && trustedIPv4Addresses.contains(inetSocketAddress.getAddress().getHostAddress())))) {
             Text[] texts = {
                     Text.literal(Text.translatable("message.cmdkit.run").getString()),
                     Text.literal(Text.translatable("message.cmdkit.service.execution").getString()),

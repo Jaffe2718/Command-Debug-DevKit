@@ -3,7 +3,7 @@
     "id": "cmdkit",
     "version": "${version}",
     "name": "Command Debug Service",
-    "description": "This is a mod that provides a method to execute and debug Minecraft commands by external programs. It is used to be a command debug connect kit between Minecraft and external programs.",
+    "description": "This is a mod that provides a method to execute and debug Minecraft commands by creating socket connections between Minecraft and external programs. It is used to be a command debug connect kit between Minecraft and external programs.",
     "authors": [
         "Jaffe2718"
     ],
@@ -26,10 +26,12 @@
         "fabricloader": ">=0.15.0",
         "fabric-lifecycle-events-v1": "*",
         "fabric-message-api-v1": "*",
-        "minecraft": "${compatible_minecraft_versions}",
-        "midnightlib": "${midnightlib_version}"
+        "minecraft": "${compatible_minecraft_versions}"
     },
-        "custom": {
+    "recommends": {
+        "midnightlib": ">=${midnightlib_version}"
+    },
+    "custom": {
         "modmenu": {
             "links": {
                 "cmdkit.modrinth": "https://modrinth.com/mod/command-debug-service"
