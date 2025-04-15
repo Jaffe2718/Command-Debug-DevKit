@@ -28,7 +28,7 @@ ELE_START=[a-zA-Z_]
 ELE_CHAR={ELE_START}|{NUM}
 REF_C=[aeprs]
 
-TAG_NAME={ELE_START}{ELE_CHAR}*=
+TAG_NAME=({ELE_START}{ELE_CHAR}*:)?{ELE_START}{ELE_CHAR}*=
 NUMBER_LIKE=([~\^]?-?{NUM}+(\.{NUM}+)?) | [~\^] | -?{NUM}+(\.{NUM}+)?[a-z]
 
 NAMESPACE={ELE_START}{ELE_CHAR}*:

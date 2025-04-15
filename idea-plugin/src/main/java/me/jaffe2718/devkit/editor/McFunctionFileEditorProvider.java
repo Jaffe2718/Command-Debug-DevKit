@@ -6,13 +6,14 @@ import com.intellij.openapi.fileEditor.FileEditorProvider;
 import com.intellij.openapi.fileEditor.TextEditor;
 import com.intellij.openapi.fileEditor.impl.text.TextEditorProvider;
 import com.intellij.openapi.fileTypes.FileTypeRegistry;
+import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import me.jaffe2718.devkit.filetype.McFunctionFileType;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
-public class McFunctionFileEditorProvider implements FileEditorProvider {
+public class McFunctionFileEditorProvider implements FileEditorProvider, DumbAware {
     /**
      * The method is expected to run fast.
      *
@@ -58,6 +59,6 @@ public class McFunctionFileEditorProvider implements FileEditorProvider {
      */
     @Override
     public @NotNull FileEditorPolicy getPolicy() {
-        return FileEditorPolicy.HIDE_OTHER_EDITORS;
+        return FileEditorPolicy.HIDE_DEFAULT_EDITOR;
     }
 }

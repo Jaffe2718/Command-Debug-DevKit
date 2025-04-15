@@ -59,7 +59,7 @@ public class SecurityConfig extends MidnightConfig {
      */
     @SuppressWarnings("unused")
     @Entry
-    public static TrustMode trustMode = TrustMode.WHITE_LIST;
+    public static TrustMode trustMode = TrustMode.ALL_ALLOWED;
 
     /**
      * The white list for the command debug service.
@@ -68,5 +68,6 @@ public class SecurityConfig extends MidnightConfig {
      */
     @SuppressWarnings("unused")
     @Entry
+    @Condition(requiredOption = "trustMode", requiredValue = "WHITE_LIST")
     public static List<String> trustedIPv4Addresses = Lists.newArrayList();
 }

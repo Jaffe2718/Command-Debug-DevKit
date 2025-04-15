@@ -29,7 +29,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class McFunctionFileEditor  implements TextEditor  {
+public class McFunctionFileEditor implements TextEditor  {
 
     protected final Project project;
     protected final TextEditor textEditor;

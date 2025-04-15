@@ -314,7 +314,7 @@ The white list for the Command Debug Service. Only clients recorded in this list
    s.connect(('localhost', int(input('port: '))))
    
    # send a message to the server
-   s.send(b'give @s diamond\n')
+   s.send(b'give @p[name=Jaffe2718] minecraft:diamond\n')
    
    # receive the result from the server and print them line by line
    
@@ -333,7 +333,7 @@ The white list for the Command Debug Service. Only clients recorded in this list
    ```console
    $ python "path/to/your/code_execution.py"
    port: 54321
-   Gave 1 [Diamond] to <your name>
+   Gave 1 [Diamond] to Jaffe2718
    ```
   And you will get a diamond in your inventory in the game.
 

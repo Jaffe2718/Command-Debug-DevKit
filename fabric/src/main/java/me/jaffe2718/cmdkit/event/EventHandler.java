@@ -240,7 +240,7 @@ public abstract class EventHandler {
                 Text.literal(text)
                         .setStyle(
                                 Style.EMPTY.withUnderline(true).withClickEvent(
-                                        new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, text)
+                                        new ClickEvent.CopyToClipboard(text)
                                 ).withColor(color)
                         )
         );

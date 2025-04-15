@@ -158,33 +158,28 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // NAMESPACE+ (COMPLEX_ELE|ELEMENT) NBT? TAG_LIST?
+  // NAMESPACE* (COMPLEX_ELE|ELEMENT) NBT? TAG_LIST?
   public static boolean IDENTIFIER(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "IDENTIFIER")) return false;
-    if (!nextTokenIs(b, NAMESPACE)) return false;
     boolean r;
-    Marker m = enter_section_(b);
+    Marker m = enter_section_(b, l, _NONE_, IDENTIFIER, "<identifier>");
     r = IDENTIFIER_0(b, l + 1);
     r = r && IDENTIFIER_1(b, l + 1);
     r = r && IDENTIFIER_2(b, l + 1);
     r = r && IDENTIFIER_3(b, l + 1);
-    exit_section_(b, m, IDENTIFIER, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // NAMESPACE+
+  // NAMESPACE*
   private static boolean IDENTIFIER_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "IDENTIFIER_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, NAMESPACE);
-    while (r) {
+    while (true) {
       int c = current_position_(b);
       if (!consumeToken(b, NAMESPACE)) break;
       if (!empty_element_parsed_guard_(b, "IDENTIFIER_0", c)) break;
     }
-    exit_section_(b, m, null, r);
-    return r;
+    return true;
   }
 
   // COMPLEX_ELE|ELEMENT
@@ -211,15 +206,30 @@ public class McFunctionParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // "#" IDENTIFIER
+  // "!"? "#"? IDENTIFIER
   public static boolean IDENTIFIER_DOMAIN(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "IDENTIFIER_DOMAIN")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, IDENTIFIER_DOMAIN, "<identifier domain>");
-    r = consumeToken(b, "#");
+    r = IDENTIFIER_DOMAIN_0(b, l + 1);
+    r = r && IDENTIFIER_DOMAIN_1(b, l + 1);
     r = r && IDENTIFIER(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
+  }
+
+  // "!"?
+  private static boolean IDENTIFIER_DOMAIN_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "IDENTIFIER_DOMAIN_0")) return false;
+    consumeToken(b, "!");
+    return true;
+  }
+
+  // "#"?
+  private static boolean IDENTIFIER_DOMAIN_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "IDENTIFIER_DOMAIN_1")) return false;
+    consumeToken(b, "#");
+    return true;
   }
 
   /* ********************************************************** */

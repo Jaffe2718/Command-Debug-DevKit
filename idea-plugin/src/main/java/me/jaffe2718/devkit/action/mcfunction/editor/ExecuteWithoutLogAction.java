@@ -27,7 +27,7 @@ public class ExecuteWithoutLogAction extends AnAction {
     public ExecuteWithoutLogAction(McFunctionFileEditor target) {
         super("Execute Without Log",
                 "Send the commands in current file to the Minecraft instance to execute without logging.",
-                AllIcons.Actions.Execute);
+                AllIcons.Toolwindows.ToolWindowRun);
         this.targetEditor = target;
     }
 

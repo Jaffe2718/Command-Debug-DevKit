@@ -3,7 +3,9 @@ package me.jaffe2718.cmdkit;
 import com.google.common.collect.Lists;
 import me.jaffe2718.cmdkit.event.EventHandler;
 import me.jaffe2718.cmdkit.util.TrustMode;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +47,15 @@ public class CommandDebugDevKit implements ModInitializer {
      */
     private static void initSecurityConfig() {
         try {
-            Class<?> midnightConfig = Class.forName("eu.midnightdust.lib.config.MidnightConfig");
+            Class<?> midnightConfig;
+            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER) {
+                midnightConfig = Class.forName(
+                        "eu.midnightdust.lib.config.MidnightConfig",
+                        true,
+                        FabricLoader.class.getClassLoader());
+            } else {
+                midnightConfig = Class.forName("eu.midnightdust.lib.config.MidnightConfig");
+            }
             Class<?> securityConfigClass = Class.forName("me.jaffe2718.cmdkit.util.SecurityConfig");
             midnightConfig.getMethod("init", String.class, Class.class)
                     .invoke(null, CommandDebugDevKit.MOD_ID, securityConfigClass);

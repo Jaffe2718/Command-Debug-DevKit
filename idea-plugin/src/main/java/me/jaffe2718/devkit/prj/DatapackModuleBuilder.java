@@ -50,8 +50,8 @@ public class DatapackModuleBuilder extends ModuleBuilder {
                     "Please ensure that the project directory is writable and empty.", "Error");
             throw new RuntimeException("Failed to create project files.", es);
         }
-        // create the `data/<namespace>/functions/demo.mcfunction` file
-        File demoFunctionFile = new File(prjPth.toString(), "data/" + meta.namespace() + "/functions/demo.mcfunction");
+        // create the `data/<namespace>/function/demo.mcfunction` file (1.21 and later, rename `functions` to `function`)
+        File demoFunctionFile = new File(prjPth.toString(), "data/" + meta.namespace() + "/function/demo.mcfunction");
         try {
             // create the file and write the contents
             assert demoFunctionFile.getParentFile().mkdirs() && demoFunctionFile.createNewFile();
